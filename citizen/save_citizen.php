@@ -9,8 +9,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date_of_birth = $_POST['date_of_birth'];
     $gender = $_POST['gender'];
     $national_id = $_POST['national_id'];
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
+    $phone = !empty($_POST['phone']) ? $_POST['phone'] : null;
+    $address = !empty($_POST['address']) ? $_POST['address'] : null;
 
     $sql = "INSERT INTO citizens
     (full_name, father_name, mother_name, date_of_birth, gender, national_id, phone, address)

@@ -32,7 +32,7 @@
     <br><br>
 
     <label>National ID</label><br>
-    <input type="text" name="national_id"><br><br>
+    <input type="text" name="national_id" required><br><br>
 
     <label>Phone</label><br>
     <input type="text" name="phone"><br><br>
