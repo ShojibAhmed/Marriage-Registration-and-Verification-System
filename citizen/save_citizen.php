@@ -1,4 +1,12 @@
 <?php
+
+session_start();
+
+if (!isset($_SESSION['kazi_id'])) {
+    header("Location: ../kazi/login.php");
+    exit();
+}
+
 include "../database/connection.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

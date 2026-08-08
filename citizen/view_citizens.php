@@ -1,4 +1,17 @@
 <?php
+
+<?php
+
+session_start();
+
+if (!isset($_SESSION['kazi_id'])) {
+    header("Location: ../kazi/login.php");
+    exit();
+}
+
+?>
+
+
 include "../database/connection.php";
 
 $sql = "SELECT * FROM citizens ORDER BY citizen_id DESC";
