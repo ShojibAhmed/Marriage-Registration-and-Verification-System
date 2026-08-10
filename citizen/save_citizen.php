@@ -26,8 +26,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ('$full_name', '$father_name', '$mother_name', '$date_of_birth', '$gender', '$national_id', '$phone', '$address')";
 
     if (mysqli_query($conn, $sql)) {
-        echo "<h2>Citizen Registered Successfully.</h2>";
-        echo "<a href='add_citizen.php'>Add Another Citizen</a>";
+        echo '
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Citizen Registered</title>
+
+        <link rel="stylesheet" href="../Assets/css/style.css">
+    </head>
+
+    <body>
+
+        <div class="success-container">
+
+            <div class="success-box">
+
+                <div class="success-icon">✓</div>
+
+                <h1>Citizen Registered Successfully!</h1>
+
+                <p>The citizen information has been saved successfully.</p>
+
+                <a class="success-button" href="add_citizen.php">
+                    Register Another Citizen
+                </a>
+
+                <br><br>
+
+                <a class="success-button" href="view_citizens.php">
+                    View Citizens
+                </a>
+
+                <br><br>
+
+                <a href="../kazi/dashboard.php">
+                    Back to Dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </body>
+
+    </html>
+    ';
+
     } else {
         echo "Error: " . mysqli_error($conn);
     }
