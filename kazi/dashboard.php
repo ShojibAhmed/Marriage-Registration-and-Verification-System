@@ -23,42 +23,61 @@ if (!isset($_SESSION['kazi_id'])) {
 
 <body>
 
-    <h1>Kazi Dashboard</h1>
+    <div class="dashboard-container">
 
-    <h3>Welcome, <?php echo htmlspecialchars($_SESSION['kazi_name']); ?></h3>
+        <div class="dashboard-box">
 
-    <p>
-        License Number:
-        <?php echo htmlspecialchars($_SESSION['license_no']); ?>
-    </p>
+            <div class="dashboard-header">
 
-    <hr>
+                <h1>Kazi Dashboard</h1>
 
-    <h3>Dashboard</h3>
+                <p class="welcome-text">
+                    Welcome,
+                    <?php echo htmlspecialchars($_SESSION['kazi_name']); ?>
+                </p>
 
-    <p>
-    <a href="../citizen/add_citizen.php">
-        Register Citizen
-    </a>
-</p>
+                <p class="license-text">
+                    License Number:
+                    <?php echo htmlspecialchars($_SESSION['license_no']); ?>
+                </p>
 
-<p>
-    <a href="marriage_registration.php">
-        Register Marriage
-    </a>
-</p>
+            </div>
 
-<p>
-    <a href="search_marriage.php">
-        Search Marriage Status
-    </a>
-</p>
+            <hr class="dashboard-divider">
 
-<p>
-    <a href="download_status.php">
-        Download Status
-    </a>
-</p>
+            <h2>Dashboard Menu</h2>
+
+            <div class="dashboard-menu">
+
+                <a class="dashboard-card" href="../citizen/add_citizen.php">
+                    <div class="dashboard-icon">👤</div>
+                    <div>Register Citizen</div>
+                    <small>Add a new citizen</small>
+                </a>
+
+                <a class="dashboard-card" href="marriage_registration.php">
+                    <div class="dashboard-icon">💍</div>
+                    <div>Register Marriage</div>
+                    <small>Register a new marriage</small>
+                </a>
+
+                <a class="dashboard-card" href="search_marriage.php">
+                    <div class="dashboard-icon">🔍</div>
+                    <div>Search Marriage Status</div>
+                    <small>Verify marriage information</small>
+                </a>
+
+                <a class="dashboard-card" href="download_status.php">
+                    <div class="dashboard-icon">📄</div>
+                    <div>Download Status</div>
+                    <small>Download verification status</small>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </body>
 
