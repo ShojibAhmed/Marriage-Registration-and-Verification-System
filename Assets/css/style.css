@@ -392,3 +392,119 @@ h1{
     }
 
 }
+
+/* =========================
+   Citizen Registration
+   ========================= */
+
+.citizen-container {
+    min-height: 100vh;
+    background: #F4F7FC;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+.citizen-box {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.citizen-box h1 {
+    color: #1E3A8A;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.form-subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 35px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #2563EB;
+}
+
+.citizen-button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    background: #2563EB;
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.citizen-button:hover {
+    background: #1E3A8A;
+}
+
+.citizen-links {
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+    margin-top: 25px;
+}
+
+.citizen-links a {
+    color: #2563EB;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.citizen-links a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+
+    .citizen-box {
+        padding: 25px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .citizen-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+}

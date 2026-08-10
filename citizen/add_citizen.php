@@ -11,49 +11,164 @@ if (!isset($_SESSION['kazi_id'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Citizen</title>
+
+    <title>Register Citizen</title>
+
+    <link rel="stylesheet" href="../Assets/css/style.css">
 </head>
+
 <body>
 
-<h2>Citizen Registration Form</h2>
+    <div class="citizen-container">
 
-<form action="save_citizen.php" method="POST">
+        <div class="citizen-box">
 
-    <label>Full Name</label><br>
-    <input type="text" name="full_name" required><br><br>
+            <h1>Citizen Registration</h1>
 
-    <label>Father Name</label><br>
-    <input type="text" name="father_name" required><br><br>
+            <p class="form-subtitle">
+                Register a citizen in the Marriage Registration System
+            </p>
 
-    <label>Mother Name</label><br>
-    <input type="text" name="mother_name" required><br><br>
+            <form action="save_citizen.php" method="POST">
 
-    <label>Date of Birth</label><br>
-    <input type="date" name="date_of_birth" required><br><br>
+                <div class="form-row">
 
-    <label>Gender</label><br>
-    <select name="gender" required>
-        <option value="">Select</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-    </select>
-    <br><br>
+                    <div class="form-group">
+                        <label for="full_name">Full Name</label>
 
-    <label>National ID</label><br>
-    <input type="text" name="national_id" required><br><br>
+                        <input
+                            type="text"
+                            id="full_name"
+                            name="full_name"
+                            placeholder="Enter full name"
+                            required
+                        >
+                    </div>
 
-    <label>Phone</label><br>
-    <input type="text" name="phone"><br><br>
+                    <div class="form-group">
+                        <label for="national_id">National ID</label>
 
-    <label>Address</label><br>
-    <textarea name="address"></textarea><br><br>
+                        <input
+                            type="text"
+                            id="national_id"
+                            name="national_id"
+                            placeholder="Enter National ID"
+                            required
+                        >
+                    </div>
 
-    <button type="submit">Register Citizen</button>
+                </div>
 
-</form>
+
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label for="father_name">Father Name</label>
+
+                        <input
+                            type="text"
+                            id="father_name"
+                            name="father_name"
+                            placeholder="Enter father's name"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mother_name">Mother Name</label>
+
+                        <input
+                            type="text"
+                            id="mother_name"
+                            name="mother_name"
+                            placeholder="Enter mother's name"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label for="date_of_birth">Date of Birth</label>
+
+                        <input
+                            type="date"
+                            id="date_of_birth"
+                            name="date_of_birth"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+
+                        <select id="gender" name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+
+                        <input
+                            type="text"
+                            id="phone"
+                            name="phone"
+                            placeholder="Enter phone number"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+
+                        <input
+                            type="text"
+                            id="address"
+                            name="address"
+                            placeholder="Enter address"
+                        >
+                    </div>
+
+                </div>
+
+
+                <button type="submit" class="citizen-button">
+                    Register Citizen
+                </button>
+
+            </form>
+
+
+            <div class="citizen-links">
+
+                <a href="../kazi/dashboard.php">
+                    Back to Dashboard
+                </a>
+
+                <a href="view_citizens.php">
+                    View Citizens
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </body>
+
 </html>
