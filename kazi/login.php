@@ -11,28 +11,49 @@
 
 <body>
 
-    <h2>Kazi Login</h2>
+    <div class="login-container">
 
-    <form action="process_login.php" method="POST">
+        <div class="login-box">
 
-        <label>License Number</label><br>
-        <input type="text" name="license_no" required>
-        <br><br>
+            <h1>Kazi Login</h1>
 
-        <label>Password</label><br>
-        <input type="password" name="password" required>
-        <br><br>
+            <form action="process_login.php" method="POST">
 
-        <button type="submit">Login</button>
+                <label for="license_no">License Number</label>
 
-    </form>
+                <input
+                    type="text"
+                    id="license_no"
+                    name="license_no"
+                    placeholder="Enter your license number"
+                    required
+                >
 
-    <br>
+                <label for="password">Password</label>
 
-    <a href="signup.php">Create Kazi Account</a>
-    <br><br>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                >
 
-    <a href="../index.php">Back to Home</a>
+                <button type="submit">Login</button>
+
+            </form>
+
+            <a class="login-link" href="signup.php">
+                Create Kazi Account
+            </a>
+
+            <a class="login-link" href="../index.php">
+                Back to Home
+            </a>
+
+        </div>
+
+    </div>
 
 </body>
 </html>

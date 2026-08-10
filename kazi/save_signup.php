@@ -77,9 +77,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (mysqli_stmt_execute($stmt)) {
 
-        echo "<h2>Kazi Account Created Successfully!</h2>";
-        echo "<p>Your license has been verified.</p>";
-        echo "<a href='login.php'>Go to Login</a>";
+
+        echo '
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Kazi Account Created</title>
+
+        <link rel="stylesheet" href="../Assets/css/style.css">
+    </head>
+
+    <body>
+
+        <div class="success-container">
+
+            <div class="success-box">
+
+                <div class="success-icon">✓</div>
+
+                <h1>Kazi Account Created Successfully!</h1>
+
+                <p>Your license has been verified.</p>
+
+                <a class="success-button" href="login.php">
+                    Go to Login
+                </a>
+
+            </div>
+
+        </div>
+
+    </body>
+    </html>
+    ';
 
     } else {
 

@@ -66,3 +66,219 @@ h1{
     margin-right:10px;
 
 }
+
+/* =========================
+   Kazi Login Page
+   ========================= */
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #F4F7FC;
+    padding: 20px;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+}
+
+.login-box h1 {
+    text-align: center;
+    color: #1E3A8A;
+    margin-bottom: 30px;
+    font-size: 30px;
+}
+
+.login-box label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 600;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #D1D5DB;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.login-box input:focus {
+    outline: none;
+    border-color: #2563EB;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.login-box button {
+    width: 100%;
+    padding: 12px;
+    background: #2563EB;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.login-box button:hover {
+    background: #1E3A8A;
+}
+
+.login-link {
+    display: block;
+    text-align: center;
+    margin-top: 18px;
+    color: #2563EB;
+    text-decoration: none;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   Success Message Page
+   ========================= */
+
+.success-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #F4F7FC;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.success-box {
+    width: 100%;
+    max-width: 500px;
+    background: white;
+    padding: 45px 35px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+}
+
+.success-icon {
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+.success-box h1 {
+    color: #1E3A8A;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.success-box p {
+    color: #555;
+    font-size: 17px;
+    margin-bottom: 25px;
+}
+
+.success-button {
+    display: inline-block;
+    padding: 12px 25px;
+    background: #2563EB;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.success-button:hover {
+    background: #1E3A8A;
+}
+
+
+/* =========================
+   Kazi Dashboard
+   ========================= */
+
+.dashboard-container {
+    min-height: 100vh;
+    background: #F4F7FC;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.dashboard-box {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.dashboard-box h1 {
+    color: #1E3A8A;
+    font-size: 38px;
+    margin-bottom: 10px;
+}
+
+.welcome-text {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.license-text {
+    font-size: 17px;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.dashboard-divider {
+    border: none;
+    border-top: 1px solid #D1D5DB;
+    margin-bottom: 30px;
+}
+
+.dashboard-box h2 {
+    color: #1E3A8A;
+    margin-bottom: 20px;
+}
+
+.dashboard-menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.dashboard-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    text-decoration: none;
+    color: #1E3A8A;
+    font-size: 18px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-3px);
+    background: #2563EB;
+    color: white;
+}
+
+@media (max-width: 650px) {
+    .dashboard-container {
+        padding: 20px;
+    }
+
+    .dashboard-menu {
+        grid-template-columns: 1fr;
+    }
+}

@@ -3,47 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kazi Sign Up</title>
+
+    <title>Kazi Registration</title>
+
     <link rel="stylesheet" href="../Assets/css/style.css">
 </head>
 
 <body>
 
-    <h2>Kazi Registration</h2>
+    <div class="login-container">
 
-    <form action="save_signup.php" method="POST">
+        <div class="login-box">
 
-        <label>Full Name</label><br>
-        <input type="text" name="full_name" required>
-        <br><br>
+            <h1>Kazi Registration</h1>
 
-        <label>License Number</label><br>
-        <input type="text" name="license_no" required>
-        <br><br>
+            <form action="save_signup.php" method="POST">
 
-        <label>Phone</label><br>
-        <input type="text" name="phone" required>
-        <br><br>
+                <label for="full_name">Full Name</label>
 
-        <label>Email</label><br>
-        <input type="email" name="email" required>
-        <br><br>
+                <input
+                    type="text"
+                    id="full_name"
+                    name="full_name"
+                    placeholder="Enter your full name"
+                    required
+                >
 
-        <label>Password</label><br>
-        <input type="password" name="password" required>
-        <br><br>
+                <label for="license_no">License Number</label>
 
-        <label>Confirm Password</label><br>
-        <input type="password" name="confirm_password" required>
-        <br><br>
+                <input
+                    type="text"
+                    id="license_no"
+                    name="license_no"
+                    placeholder="Enter your license number"
+                    required
+                >
 
-        <button type="submit">Create Account</button>
+                <label for="phone">Phone</label>
 
-    </form>
+                <input
+                    type="text"
+                    id="phone"
+                    name="phone"
+                    placeholder="Enter your phone number"
+                    required
+                >
 
-    <br>
+                <label for="email">Email</label>
 
-    <a href="../index.php">Back to Home</a>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email address"
+                    required
+                >
+
+                <label for="password">Password</label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Create a password"
+                    required
+                >
+
+                <label for="confirm_password">Confirm Password</label>
+
+                <input
+                    type="password"
+                    id="confirm_password"
+                    name="confirm_password"
+                    placeholder="Confirm your password"
+                    required
+                >
+
+                <button type="submit">Create Account</button>
+
+            </form>
+
+            <a class="login-link" href="login.php">
+                Already have an account? Login
+            </a>
+
+            <a class="login-link" href="../index.php">
+                Back to Home
+            </a>
+
+        </div>
+
+    </div>
 
 </body>
 </html>
