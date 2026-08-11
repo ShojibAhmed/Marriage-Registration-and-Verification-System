@@ -205,84 +205,6 @@ h1{
 
 
 /* =========================
-   Kazi Dashboard
-   ========================= */
-
-.dashboard-container {
-    min-height: 100vh;
-    background: #F4F7FC;
-    padding: 40px;
-    box-sizing: border-box;
-}
-
-.dashboard-box {
-    max-width: 1000px;
-    margin: auto;
-}
-
-.dashboard-box h1 {
-    color: #1E3A8A;
-    font-size: 38px;
-    margin-bottom: 10px;
-}
-
-.welcome-text {
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-
-.license-text {
-    font-size: 17px;
-    color: #555;
-    margin-bottom: 30px;
-}
-
-.dashboard-divider {
-    border: none;
-    border-top: 1px solid #D1D5DB;
-    margin-bottom: 30px;
-}
-
-.dashboard-box h2 {
-    color: #1E3A8A;
-    margin-bottom: 20px;
-}
-
-.dashboard-menu {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
-
-.dashboard-card {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    text-decoration: none;
-    color: #1E3A8A;
-    font-size: 18px;
-    font-weight: 600;
-    transition: 0.2s;
-}
-
-.dashboard-card:hover {
-    transform: translateY(-3px);
-    background: #2563EB;
-    color: white;
-}
-
-@media (max-width: 650px) {
-    .dashboard-container {
-        padding: 20px;
-    }
-
-    .dashboard-menu {
-        grid-template-columns: 1fr;
-    }
-}
-/* =========================
    Kazi Dashboard Design
    ========================= */
 
@@ -598,8 +520,6 @@ h1{
     white-space: nowrap;
 }
 
-.edit-button,
-
 
 .edit-button {
     background: #E0ECFF;
@@ -736,4 +656,235 @@ footer {
     .welcome-box {
         padding: 25px;
     }
+}
+
+/* =========================================
+   MARRIAGE REGISTRATION PAGE
+   ========================================= */
+
+body:has(form[action="marriage_registration.php"]) {
+    background: #F4F7FC;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 40px 20px;
+}
+
+body:has(form[action="marriage_registration.php"]) h1 {
+    max-width: 700px;
+    margin: 0 auto 10px;
+    text-align: center;
+    color: #1E3A8A;
+}
+
+body:has(form[action="marriage_registration.php"]) > p {
+    max-width: 700px;
+    margin: 0 auto 20px;
+    text-align: center;
+    color: #555;
+}
+
+body:has(form[action="marriage_registration.php"]) hr {
+    max-width: 700px;
+    border: none;
+    border-top: 1px solid #E5E7EB;
+    margin: 25px auto;
+}
+
+body:has(form[action="marriage_registration.php"]) form {
+    max-width: 700px;
+    margin: 30px auto;
+    background: #FFFFFF;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+}
+
+body:has(form[action="marriage_registration.php"]) label {
+    display: block;
+    font-weight: 600;
+    color: #1F2937;
+    margin-bottom: 8px;
+}
+
+body:has(form[action="marriage_registration.php"]) input {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: 0.2s;
+}
+
+body:has(form[action="marriage_registration.php"]) input:focus {
+    outline: none;
+    border-color: #2563EB;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+body:has(form[action="marriage_registration.php"]) button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: #2563EB;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+body:has(form[action="marriage_registration.php"]) button:hover {
+    background: #1E3A8A;
+}
+
+body:has(form[action="marriage_registration.php"]) a {
+    display: block;
+    width: fit-content;
+    margin: 20px auto;
+    color: #2563EB;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+body:has(form[action="marriage_registration.php"]) a:hover {
+    text-decoration: underline;
+}
+
+/* =========================================
+   SEARCH MARRIAGE STATUS PAGE
+   ========================================= */
+
+body:has(form[action="search_marriage.php"]) {
+    background: #F4F7FC;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 40px 20px;
+}
+
+body:has(form[action="search_marriage.php"]) .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #FFFFFF;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+}
+
+body:has(form[action="search_marriage.php"]) h1 {
+    text-align: center;
+    color: #1E3A8A;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+body:has(form[action="search_marriage.php"]) .container > p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+body:has(form[action="search_marriage.php"]) hr {
+    border: none;
+    border-top: 1px solid #E5E7EB;
+    margin: 25px 0;
+}
+
+body:has(form[action="search_marriage.php"]) label {
+    display: block;
+    font-weight: 600;
+    color: #1F2937;
+    margin-bottom: 8px;
+}
+
+body:has(form[action="search_marriage.php"]) input[type="text"] {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+body:has(form[action="search_marriage.php"]) input[type="text"]:focus {
+    outline: none;
+    border-color: #2563EB;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+body:has(form[action="search_marriage.php"]) button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: #2563EB;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+body:has(form[action="search_marriage.php"]) button:hover {
+    background: #1E3A8A;
+}
+
+body:has(form[action="search_marriage.php"]) h3 {
+    padding: 14px 18px;
+    background: #FEF2F2;
+    color: #B91C1C;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+body:has(form[action="search_marriage.php"]) h2 {
+    color: #1E3A8A;
+    margin-bottom: 20px;
+}
+
+body:has(form[action="search_marriage.php"]) .container p {
+    color: #374151;
+    line-height: 1.6;
+}
+
+body:has(form[action="search_marriage.php"]) .container p strong {
+    color: #1E3A8A;
+}
+
+body:has(form[action="search_marriage.php"]) a {
+    color: #2563EB;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+body:has(form[action="search_marriage.php"]) a:hover {
+    text-decoration: underline;
+}
+
+body:has(form[action="search_marriage.php"]) a[href*="download_marriage.php"] {
+    display: inline-block;
+    padding: 12px 20px;
+    margin-top: 10px;
+    background: #2563EB;
+    color: #FFFFFF;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+body:has(form[action="search_marriage.php"]) a[href*="download_marriage.php"]:hover {
+    background: #1E3A8A;
+}
+
+@media (max-width: 700px) {
+
+    body:has(form[action="search_marriage.php"]) {
+        padding: 20px 12px;
+    }
+
+    body:has(form[action="search_marriage.php"]) .container {
+        padding: 25px 20px;
+    }
+
 }
