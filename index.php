@@ -2,70 +2,479 @@
 session_start();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marriage Registration &amp; Verification System | Academic Prototype</title>
+    <title>বিবাহ নিবন্ধন ও যাচাইকরণ ব্যবস্থা | একাডেমিক প্রকল্প</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="Assets/css/style.css">
+    <!-- Google Fonts: Hind Siliguri (Bengali) + Poppins (English) -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; color: #1e293b; }
-        .hero-section { background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%); color: #ffffff; padding: 65px 0 75px 0; }
-        .hero-search-box { background: #ffffff; border-radius: 16px; padding: 28px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); color: #1e293b; margin-top: 20px; }
-        .portal-card { background: #ffffff; border-radius: 16px; padding: 30px 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; transition: all 0.25s ease-in-out; height: 100%; text-align: center; }
-        .portal-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(37,99,235,0.12); border-color: #2563eb; }
-        .portal-icon { width: 68px; height: 68px; border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 18px; }
-        .feature-box { background: #ffffff; border-radius: 12px; padding: 22px; border: 1px solid #e2e8f0; height: 100%; }
-        .feature-icon { font-size: 1.7rem; color: #2563eb; margin-bottom: 10px; }
+        /* ==========================================
+           CSS CUSTOM PROPERTIES — BD palette
+        ========================================== */
+        :root {
+            --bd-green:   #006A4E;  /* Bangladesh flag green */
+            --bd-red:     #C8102E;  /* Bangladesh flag red  */
+            --bd-green-d: #004d38;  /* dark green hover */
+            --bd-red-d:   #a00d25;
+            --bd-green-l: #e6f5f1;
+            --navy:       #1e3a8a;
+            --navy-d:     #162e6e;
+            --white:      #ffffff;
+            --light-bg:   #f8f9fa;
+            --text-dark:  #1a1a2e;
+            --text-muted: #6c757d;
+            --border:     #dee2e6;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+            background: var(--white);
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        /* ==========================================
+           TOP INFO BAR
+        ========================================== */
+        .top-bar {
+            background: var(--navy);
+            color: rgba(255,255,255,0.75);
+            font-size: 0.78rem;
+            padding: 5px 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        .top-bar a { color: rgba(255,255,255,0.75); text-decoration: none; }
+        .top-bar a:hover { color: #fff; }
+
+        /* ==========================================
+           MAIN NAVBAR
+        ========================================== */
+        .main-navbar {
+            background: var(--bd-green);
+            padding: 0;
+        }
+        .main-navbar .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff !important;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 10px 0;
+        }
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .brand-logo img { width: 32px; height: 32px; object-fit: contain; }
+        .brand-text { line-height: 1.25; }
+        .brand-title { font-size: 0.95rem; font-weight: 700; display: block; }
+        .brand-subtitle { font-size: 0.7rem; opacity: 0.8; display: block; }
+
+        .main-navbar .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 500;
+            padding: 14px 16px !important;
+            font-size: 0.88rem;
+            border-radius: 0;
+            transition: background 0.2s;
+        }
+        .main-navbar .nav-link:hover,
+        .main-navbar .nav-link.active {
+            background: var(--bd-green-d);
+            color: #fff !important;
+        }
+        .main-navbar .nav-link.active-home {
+            background: var(--bd-red);
+        }
+        .btn-nav-kazi-login {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.7);
+            color: #fff !important;
+            border-radius: 6px;
+            padding: 7px 18px !important;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .btn-nav-kazi-login:hover { background: #fff; color: var(--bd-green) !important; }
+        .btn-nav-kazi-signup {
+            background: var(--bd-red);
+            border: 2px solid var(--bd-red);
+            color: #fff !important;
+            border-radius: 6px;
+            padding: 7px 18px !important;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .btn-nav-kazi-signup:hover { background: var(--bd-red-d); border-color: var(--bd-red-d); }
+
+        /* ==========================================
+           HERO / SLIDER SECTION
+        ========================================== */
+        .hero-section {
+            position: relative;
+            background: linear-gradient(135deg, var(--bd-green) 0%, var(--bd-green-d) 50%, var(--navy-d) 100%);
+            color: #fff;
+            overflow: hidden;
+            min-height: 420px;
+        }
+        .hero-bg-overlay {
+            position: absolute;
+            inset: 0;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/National_Martyrs%27_Memorial%2C_Savar%2C_Bangladesh_%284%29.jpg/1280px-National_Martyrs%27_Memorial%2C_Savar%2C_Bangladesh_%284%29.jpg') center/cover no-repeat;
+            opacity: 0.18;
+            z-index: 0;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            padding: 55px 0 50px;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: var(--bd-red);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 15px;
+        }
+        .hero-title span { color: #f8d66c; }
+        .hero-desc {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 30px;
+            max-width: 520px;
+            line-height: 1.7;
+        }
+        .hero-cta-wrap { display: flex; gap: 14px; flex-wrap: wrap; }
+        .btn-hero-primary {
+            background: var(--bd-red);
+            color: #fff;
+            font-weight: 700;
+            padding: 13px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            border: 2px solid var(--bd-red);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.92rem;
+            transition: all 0.2s;
+        }
+        .btn-hero-primary:hover { background: var(--bd-red-d); border-color: var(--bd-red-d); color: #fff; }
+        .btn-hero-outline {
+            background: transparent;
+            color: #fff;
+            font-weight: 600;
+            padding: 13px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            border: 2px solid rgba(255,255,255,0.6);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.92rem;
+            transition: all 0.2s;
+        }
+        .btn-hero-outline:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+        /* Hero side text panel */
+        .hero-side-panel {
+            background: rgba(0,0,0,0.35);
+            border-radius: 14px;
+            padding: 22px 20px;
+            text-align: center;
+            backdrop-filter: blur(4px);
+        }
+        .hero-side-panel p {
+            color: #f8d66c;
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* ==========================================
+           SERVICES SECTION
+        ========================================== */
+        .section-title-bar {
+            background: var(--bd-green);
+            color: #fff;
+            text-align: center;
+            padding: 12px 0;
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .services-section {
+            background: var(--light-bg);
+            padding: 40px 0;
+        }
+        .service-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px 22px;
+            height: 100%;
+            transition: box-shadow 0.22s, transform 0.22s;
+            display: flex;
+            flex-direction: column;
+        }
+        .service-card:hover {
+            box-shadow: 0 8px 28px rgba(0,0,0,0.11);
+            transform: translateY(-4px);
+        }
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+            flex-shrink: 0;
+        }
+        .service-icon.green  { background: var(--bd-green-l); color: var(--bd-green); }
+        .service-icon.red    { background: #fdecea; color: var(--bd-red); }
+        .service-icon.navy   { background: #e8edf8; color: var(--navy); }
+        .service-card h5 { font-weight: 700; font-size: 1rem; margin-bottom: 8px; }
+        .service-card p { font-size: 0.85rem; color: var(--text-muted); flex: 1; margin-bottom: 14px; line-height: 1.65; }
+        .service-link {
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: var(--bd-green);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .service-link:hover { color: var(--bd-green-d); text-decoration: underline; }
+        .service-link.red-link { color: var(--bd-red); }
+        .service-link.red-link:hover { color: var(--bd-red-d); }
+        .service-link.navy-link { color: var(--navy); }
+        .service-link.navy-link:hover { color: var(--navy-d); }
+
+        /* ==========================================
+           IMPORTANCE SECTION (split layout)
+        ========================================== */
+        .importance-section { padding: 50px 0; background: #fff; }
+        .importance-img-wrap {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+        .importance-img-wrap img { width: 100%; height: 260px; object-fit: cover; display: block; }
+        .importance-text h3 { font-size: 1.4rem; font-weight: 700; color: var(--navy); margin-bottom: 14px; }
+        .importance-text p { color: #555; font-size: 0.93rem; line-height: 1.75; margin-bottom: 14px; }
+        .btn-importance {
+            background: var(--bd-green);
+            color: #fff;
+            font-weight: 600;
+            padding: 11px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.88rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: background 0.2s;
+        }
+        .btn-importance:hover { background: var(--bd-green-d); color: #fff; }
+
+        /* Laws panel */
+        .laws-panel { background: var(--light-bg); border-radius: 14px; padding: 26px; height: 100%; }
+        .laws-panel h5 { font-weight: 700; font-size: 1rem; color: var(--navy); margin-bottom: 16px; }
+        .law-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 0.88rem;
+            color: var(--text-dark);
+            line-height: 1.55;
+        }
+        .law-dot {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--bd-green);
+            color: #fff;
+            font-size: 0.65rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* ==========================================
+           NOTICE SECTION
+        ========================================== */
+        .notice-section {
+            background: var(--bd-green);
+            padding: 14px 0;
+        }
+        .notice-section .notice-label {
+            background: var(--bd-red);
+            color: #fff;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            white-space: nowrap;
+            font-family: 'Poppins', sans-serif;
+        }
+        .notice-section .notice-text {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.9);
+        }
+        .notice-section .notice-disclaimer {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.65);
+        }
+
+        /* ==========================================
+           FOOTER
+        ========================================== */
+        .main-footer {
+            background: #0d1b2a;
+            color: rgba(255,255,255,0.75);
+            padding: 45px 0 20px;
+        }
+        .footer-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+        .footer-brand-logo {
+            width: 44px; height: 44px; border-radius: 50%; background: #fff;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .footer-brand-logo img { width: 34px; }
+        .footer-brand h6 { color: #fff; font-weight: 700; margin: 0; font-size: 0.9rem; }
+        .footer-brand small { display: block; font-size: 0.72rem; opacity: 0.65; }
+        .main-footer p { font-size: 0.83rem; line-height: 1.7; }
+        .footer-section h6 { color: #fff; font-weight: 700; font-size: 0.88rem; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
+        .footer-links { list-style: none; padding: 0; margin: 0; }
+        .footer-links li { margin-bottom: 8px; }
+        .footer-links a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.83rem; transition: color 0.2s; }
+        .footer-links a:hover { color: #f8d66c; }
+        .footer-contact-item { display: flex; align-items: flex-start; gap: 8px; font-size: 0.82rem; margin-bottom: 8px; }
+        .footer-contact-item i { color: var(--bd-green); font-size: 0.75rem; margin-top: 3px; flex-shrink: 0; }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 30px;
+            padding-top: 18px;
+            text-align: center;
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.5);
+        }
+        .footer-side-text { text-align: right; }
+        .footer-side-text p { color: #f8d66c; font-size: 0.85rem; font-weight: 600; line-height: 1.55; }
+
+        /* ==========================================
+           RESPONSIVE
+        ========================================== */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 1.7rem; }
+            .hero-side-panel { margin-top: 24px; }
+            .section-title-bar { font-size: 1rem; }
+            .footer-side-text { text-align: left; margin-top: 20px; }
+        }
     </style>
 </head>
 <body>
 
-<!-- Top Academic Bar -->
-<div class="bg-dark text-white-50 py-1 px-3 small border-bottom border-secondary">
-    <div class="container d-flex justify-content-between align-items-center">
-        <span><i class="fa-solid fa-graduation-cap text-warning me-1"></i> Academic Prototype Demonstration &bull; Final Year Project (CSE)</span>
-        <div>
-            <a href="Database/setup.php" class="text-white-50 text-decoration-none me-3"><i class="fa-solid fa-database me-1"></i>Database Setup</a>
-            <a href="kazi/login.php" class="text-white-50 text-decoration-none"><i class="fa-solid fa-lock me-1"></i>Kazi Login</a>
+<!-- =======================================
+     TOP INFO BAR
+======================================= -->
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-1">
+        <span><i class="fa-solid fa-graduation-cap text-warning me-1"></i> একাডেমিক প্রোটোটাইপ | চূড়ান্ত বর্ষ প্রকল্প — CSE</span>
+        <div class="d-flex gap-3">
+            <a href="#">মূলপাতা</a>
+            <a href="#">সিটিজেনশিপ</a>
+            <a href="#">ডিজিটাল বাংলাদেশ</a>
         </div>
     </div>
 </div>
 
-<!-- Main Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow-sm">
+<!-- =======================================
+     MAIN NAVBAR
+======================================= -->
+<nav class="main-navbar navbar navbar-expand-lg">
     <div class="container">
-        <a class="navbar-brand fw-bold d-flex align-items-center" href="index.php">
-            <i class="fa-solid fa-stamp fa-lg me-2 text-warning"></i>
-            <div>
-                <span class="fs-5 d-block leading-tight">Marriage System</span>
-                <small class="text-white-50" style="font-size: 0.72rem;">Registration &amp; Verification</small>
+        <a class="navbar-brand" href="index.php">
+            <div class="brand-logo">
+                <!-- Bangladesh emblem SVG placeholder -->
+                <svg viewBox="0 0 100 100" width="30" height="30">
+                    <circle cx="50" cy="50" r="45" fill="#006A4E"/>
+                    <circle cx="50" cy="50" r="28" fill="#C8102E"/>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <span class="brand-title">বিবাহ নিবন্ধন ও যাচাইকরণ ব্যবস্থা</span>
+                <span class="brand-subtitle">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (একাডেমিক প্রকল্প)</span>
             </div>
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-            <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation">
+            <i class="fa-solid fa-bars text-white"></i>
         </button>
 
         <div class="collapse navbar-collapse" id="mainNav">
-            <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
-                <li class="nav-item"><a class="nav-link active fw-medium" href="index.php">Home</a></li>
-                <li class="nav-item"><a class="nav-link fw-medium" href="verify.php"><i class="fa-solid fa-magnifying-glass text-warning me-1"></i> Verify Record</a></li>
-                <li class="nav-item"><a class="nav-link fw-medium" href="dashboard.php">Portal Hub</a></li>
-                <li class="nav-item ms-lg-2">
-                    <a href="kazi/login.php" class="btn btn-light btn-sm rounded-pill px-3 fw-semibold text-primary">
-                        <i class="fa-solid fa-user-tie me-1"></i> Kazi Login
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+                <li class="nav-item">
+                    <a class="nav-link active-home" href="index.php">
+                        <i class="fa-solid fa-house me-1"></i> হোম
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="kazi/signup.php" class="btn btn-outline-light btn-sm rounded-pill px-3">
-                        <i class="fa-solid fa-user-plus me-1"></i> New Kazi
+                    <a class="nav-link" href="#">
+                        <i class="fa-solid fa-list me-1"></i> সেবা সমূহ
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fa-solid fa-circle-question me-1"></i> সহায়তা
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fa-solid fa-phone me-1"></i> যোগাযোগ
+                    </a>
+                </li>
+                <li class="nav-item ms-lg-2">
+                    <a href="kazi/login.php" class="nav-link btn-nav-kazi-login">
+                        <i class="fa-solid fa-right-to-bracket me-1"></i> কাজী লগইন
+                    </a>
+                </li>
+                <li class="nav-item ms-1">
+                    <a href="kazi/signup.php" class="nav-link btn-nav-kazi-signup">
+                        <i class="fa-solid fa-user-plus me-1"></i> কাজী নিবন্ধন
                     </a>
                 </li>
             </ul>
@@ -73,212 +482,304 @@ session_start();
     </div>
 </nav>
 
-<!-- Hero Section -->
+<!-- =======================================
+     HERO SECTION
+======================================= -->
 <header class="hero-section">
-    <div class="container">
+    <div class="hero-bg-overlay"></div>
+    <div class="container hero-content">
         <div class="row align-items-center">
-            <div class="col-lg-7 text-center text-lg-start mb-4 mb-lg-0">
-                <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold mb-3">
-                    <i class="fa-solid fa-shield-halved me-1"></i> Academic Prototype Demonstration System
-                </span>
-                <h1 class="display-5 fw-bold mb-3">Marriage Registration &amp; Verification System</h1>
-                <p class="lead text-white-50 mb-4">
-                    A simple, secure, and structured web application designed for academic testing of digital marriage solemnization, citizen enrollment, divorce notice recording, and marital status verification.
+            <div class="col-lg-7 mb-4 mb-lg-0">
+                <div class="hero-badge">
+                    <i class="fa-solid fa-shield-halved me-1"></i> স্বাগতম
+                </div>
+                <h1 class="hero-title">
+                    বিবাহ নিবন্ধন ও<br>
+                    <span>যাচাইকরণ ব্যবস্থা</span>
+                </h1>
+                <p class="hero-desc">
+                    কাজী সাহেবদের জন্য একটি সহজ ও নিরাপদ ডিজিটাল প্ল্যাটফর্ম,
+                    যেখানে আপনি বিবাহ নিবন্ধন করতে পারবেন এবং
+                    নিবন্ধিত তথ্য যাচাই করতে পারবেন।
                 </p>
-                <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-lg-start">
-                    <a href="kazi/login.php" class="btn btn-warning btn-lg px-4 fw-bold rounded-pill shadow-sm">
-                        <i class="fa-solid fa-right-to-bracket me-1"></i> Kazi Login
+                <div class="hero-cta-wrap">
+                    <a href="kazi/signup.php" class="btn-hero-primary">
+                        <i class="fa-solid fa-user-plus"></i> কাজী নিবন্ধন করুন
                     </a>
-                    <a href="kazi/signup.php" class="btn btn-outline-light btn-lg px-4 rounded-pill">
-                        <i class="fa-solid fa-user-plus me-1"></i> Register New Kazi
-                    </a>
-                    <a href="verify.php" class="btn btn-outline-light btn-lg px-4 rounded-pill">
-                        <i class="fa-solid fa-search me-1"></i> Verify Record
+                    <a href="kazi/login.php" class="btn-hero-outline">
+                        <i class="fa-solid fa-right-to-bracket"></i> কাজী লগইন করুন
                     </a>
                 </div>
             </div>
-
-            <!-- Instant Search Box -->
             <div class="col-lg-5">
-                <div class="hero-search-box">
-                    <div class="d-flex align-items-center mb-2">
-                        <i class="fa-solid fa-magnifying-glass-check text-primary fa-xl me-2"></i>
-                        <h5 class="fw-bold mb-0 text-dark">Quick Marriage Status Search</h5>
-                    </div>
-                    <p class="text-muted small mb-3">Enter Registration Number (e.g. <code>MR-2026-000001</code>) or National ID (NID).</p>
-                    
-                    <form action="verify.php" method="POST">
-                        <div class="mb-3">
-                            <input type="text" name="query_term" class="form-control form-control-lg font-monospace" placeholder="e.g. MR-2026-000001 or NID..." required>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold rounded-3">
-                            <i class="fa-solid fa-check-circle me-1"></i> Verify Status
-                        </button>
-                    </form>
-                    <div class="text-center mt-3">
-                        <small class="text-muted"><i class="fa-solid fa-lock text-success me-1"></i> Academic testing dataset in <code>marriage_project</code></small>
-                    </div>
+                <div class="hero-side-panel">
+                    <p>
+                        সুন্দর<br>
+                        বিবাহিত জীবন<br>
+                        গড়ার পথে<br>
+                        ডিজিটাল সহায়তা
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Portals & Core Modules Section -->
-<section class="py-5">
-    <div class="container my-3">
-        <div class="text-center mb-5">
-            <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-semibold">Application Modules</span>
-            <h2 class="fw-bold mt-2 text-dark">Core Functional Features</h2>
-            <p class="text-muted">Designed for testing and academic demonstration</p>
-        </div>
+<!-- =======================================
+     SERVICES TITLE BAR
+======================================= -->
+<div class="section-title-bar">
+    আমাদের সেবাসমূহ
+</div>
 
+<!-- =======================================
+     SERVICE CARDS SECTION
+======================================= -->
+<section class="services-section">
+    <div class="container">
         <div class="row g-4">
-            <!-- Kazi Registration & Auto License -->
+
+            <!-- Kazi Signup -->
             <div class="col-md-4">
-                <div class="portal-card">
-                    <div class="portal-icon bg-primary bg-opacity-10 text-primary">
-                        <i class="fa-solid fa-id-card"></i>
+                <div class="service-card">
+                    <div class="service-icon green">
+                        <i class="fa-solid fa-user-plus"></i>
                     </div>
-                    <h5 class="fw-bold text-dark">Auto-Generated License</h5>
-                    <p class="text-muted small mb-3">
-                        Kazi registration collects full profile with division, district, and upazila. Automatically generates district-coded unique licenses (e.g. <code>Dha_000001</code>).
-                    </p>
-                    <a href="kazi/signup.php" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold">
-                        Register Kazi Account
+                    <h5>কাজী নিবন্ধন</h5>
+                    <p>নতুন কাজী হিসেবে নিবন্ধনের জন্য আবেদন করুন। জেলা-ভিত্তিক অনন্য লাইসেন্স স্বয়ংক্রিয়ভাবে তৈরি হবে।</p>
+                    <a href="kazi/signup.php" class="service-link">
+                        বিস্তারিত দেখুন <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
 
-            <!-- Citizen Management -->
+            <!-- Kazi Login -->
             <div class="col-md-4">
-                <div class="portal-card">
-                    <div class="portal-icon bg-success bg-opacity-10 text-success">
-                        <i class="fa-solid fa-users"></i>
+                <div class="service-card" style="border-color:#fde8e8;">
+                    <div class="service-icon red">
+                        <i class="fa-solid fa-right-to-bracket"></i>
                     </div>
-                    <h5 class="fw-bold text-dark">Bangladeshi &amp; Foreign Citizens</h5>
-                    <p class="text-muted small mb-3">
-                        Separate NID workflow for Bangladeshi citizens and Passport workflow for foreign nationals. Records are strictly immutable and locked after saving.
-                    </p>
-                    <a href="kazi/login.php" class="btn btn-outline-success btn-sm rounded-pill px-3 fw-semibold">
-                        Citizen Registry Access
+                    <h5 style="color:var(--bd-red);">কাজী লগইন</h5>
+                    <p>নিবন্ধিত কাজী হিসেবে লগইন করুন এবং বিবাহ নিবন্ধন, নাগরিক ব্যবস্থাপনা ও তালাক সেবা পরিচালনা করুন।</p>
+                    <a href="kazi/login.php" class="service-link red-link">
+                        বিস্তারিত দেখুন <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
 
-            <!-- Divorce Module -->
+            <!-- Admin -->
             <div class="col-md-4">
-                <div class="portal-card">
-                    <div class="portal-icon bg-danger bg-opacity-10 text-danger">
-                        <i class="fa-solid fa-file-contract"></i>
+                <div class="service-card" style="border-color:#e2e8f0;">
+                    <div class="service-icon navy">
+                        <i class="fa-solid fa-shield-halved"></i>
                     </div>
-                    <h5 class="fw-bold text-dark">Structured Divorce Module</h5>
-                    <p class="text-muted small mb-3">
-                        Record formal notices, mediation stages, and legal decrees linked to marriage records. Supports safe document uploads and status tracking.
-                    </p>
-                    <a href="kazi/login.php" class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-semibold">
-                        Divorce Proceedings
+                    <h5 style="color:var(--navy);">প্রশাসনিক প্রবেশ</h5>
+                    <p>সুপারঅ্যাডমিন ও অনুমোদিত প্রশাসকদের জন্য নিরাপদ প্রবেশ। শুধুমাত্র অনুমোদিত ব্যক্তিদের জন্য প্রযোজ্য।</p>
+                    <a href="admin/login.php" class="service-link navy-link">
+                        বিস্তারিত দেখুন <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
 
-<!-- Prototype Legal & Technical Safeguards -->
-<section class="py-5 bg-white border-top border-bottom">
+<!-- =======================================
+     IMPORTANCE + LAWS SECTION
+======================================= -->
+<section class="importance-section">
     <div class="container">
-        <div class="text-center mb-5">
-            <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold">Prototype Rules &amp; Design</span>
-            <h2 class="fw-bold mt-2 text-dark">System Validation Rules</h2>
-            <p class="text-muted">Implemented with server-side validation and prepared SQL statements</p>
-        </div>
+        <div class="row g-4 align-items-stretch">
 
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-3">
-                <div class="feature-box">
-                    <div class="feature-icon"><i class="fa-solid fa-mobile-screen"></i></div>
-                    <h6 class="fw-bold text-dark">11-Digit Mobile Rule</h6>
-                    <p class="text-muted small mb-0">
-                        Validates that Bangladeshi mobile numbers conform strictly to the prototype's 11-digit format rule on both frontend and backend.
-                    </p>
+            <!-- Importance of Marriage Registration -->
+            <div class="col-lg-7">
+                <div class="row g-0 h-100">
+                    <div class="col-md-5">
+                        <div class="importance-img-wrap h-100">
+                            <img
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Bangladesh_Family_Photo.jpg/640px-Bangladesh_Family_Photo.jpg"
+                                alt="বিবাহ নিবন্ধন"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                            >
+                            <div style="display:none; width:100%; height:260px; background:var(--bd-green-l); align-items:center; justify-content:center; border-radius:16px;">
+                                <i class="fa-solid fa-heart" style="font-size:3rem; color:var(--bd-green);"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7 ps-md-4 pt-4 pt-md-0">
+                        <div class="importance-text h-100 d-flex flex-column justify-content-center">
+                            <h3>বিবাহ নিবন্ধন কেন জরুরি?</h3>
+                            <p>
+                                বিবাহ নিবন্ধন একটি আইনি প্রক্রিয়া, যা দাম্পত্য জীবনের সুরক্ষার জন্য নিশ্চিত করে এবং বিভিন্ন সরকারি ও বেসরকারি সেবার জন্য প্রয়োজনীয়।
+                            </p>
+                            <p>
+                                নিবন্ধিত বিবাহ সন্তানের পরিচয়, সম্পত্তি, উত্তরাধিকার ও ভিসা সংক্রান্ত বিষয়ে আইনগত সুরক্ষা প্রদান করে।
+                            </p>
+                            <a href="kazi/signup.php" class="btn-importance mt-2" style="width:fit-content;">
+                                <i class="fa-solid fa-info-circle"></i> আরও জানুন
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-md-6 col-lg-3">
-                <div class="feature-box">
-                    <div class="feature-icon"><i class="fa-solid fa-calculator"></i></div>
-                    <h6 class="fw-bold text-dark">Configurable Fees</h6>
-                    <p class="text-muted small mb-0">
-                        Denmohor-based Muslim marriage fee (proposed ৳14 per ৳1,000) and fixed fees for Hindu marriages and divorce services in <code>config/fees.php</code>.
-                    </p>
+            <!-- Bangladesh Laws Panel -->
+            <div class="col-lg-5">
+                <div class="laws-panel">
+                    <h5>
+                        <i class="fa-solid fa-book-open me-2" style="color:var(--bd-green);"></i>
+                        বাংলাদেশের বিবাহ ও ডিভোর্স সংক্রান্ত আইন ও ধারা
+                    </h5>
+                    <div class="law-item">
+                        <div class="law-dot"><i class="fa-solid fa-check" style="font-size:0.6rem;"></i></div>
+                        <div>মুসলিম বিবাহ নিবন্ধন আইন, ২০০৪</div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-dot"><i class="fa-solid fa-check" style="font-size:0.6rem;"></i></div>
+                        <div>হিন্দু বিবাহ নিবন্ধন আইন, ২০১২</div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-dot"><i class="fa-solid fa-check" style="font-size:0.6rem;"></i></div>
+                        <div>মুসলিম পারিবারিক আইন (বিবাহ ও তালাক), ১৯৬১</div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-dot"><i class="fa-solid fa-check" style="font-size:0.6rem;"></i></div>
+                        <div>ডিভোর্স আইন, ১৮৬৯</div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-dot"><i class="fa-solid fa-check" style="font-size:0.6rem;"></i></div>
+                        <div>নারী ও শিশু নির্যাতন দমন আইন, ২০০০ (প্রাসঙ্গিক ধারাসমূহ)</div>
+                    </div>
+                    <div class="mt-3 pt-2 border-top" style="font-size:0.78rem; color:var(--text-muted); border-color:var(--border) !important;">
+                        <i class="fa-solid fa-circle-info me-1" style="color:var(--bd-green);"></i>
+                        এটি একটি একাডেমিক প্রকল্প। এখানে প্রদর্শিত আইনের নাম শুধুমাত্র তথ্যমূলক উদ্দেশ্যে। সর্বশেষ আইনগত তথ্যের জন্য সংশ্লিষ্ট কর্তৃপক্ষের সাথে যোগাযোগ করুন।
+                    </div>
                 </div>
             </div>
 
-            <div class="col-md-6 col-lg-3">
-                <div class="feature-box">
-                    <div class="feature-icon"><i class="fa-solid fa-lock"></i></div>
-                    <h6 class="fw-bold text-dark">Immutable Citizens</h6>
-                    <p class="text-muted small mb-0">
-                        Ordinary Kazi users cannot edit or delete citizen records after saving, enforcing regulatory and data integrity safeguards.
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3">
-                <div class="feature-box">
-                    <div class="feature-icon"><i class="fa-solid fa-shield-check"></i></div>
-                    <h6 class="fw-bold text-dark">Anti-Conflict Check</h6>
-                    <p class="text-muted small mb-0">
-                        Prevents concurrent active marriages by checking existing active records for both spouses prior to solemnization.
-                    </p>
-                </div>
-            </div>
         </div>
     </div>
 </section>
 
-<!-- Footer -->
-<footer class="bg-dark text-white pt-5 pb-4">
+<!-- =======================================
+     NOTICE SECTION
+======================================= -->
+<div class="notice-section">
+    <div class="container d-flex align-items-center gap-3 flex-wrap">
+        <span class="notice-label">
+            <i class="fa-solid fa-bullhorn me-1"></i> সাম্প্রতিক তথ্য
+        </span>
+        <div>
+            <div class="notice-text">
+                সিস্টেমটি একটি একাডেমিক প্রজেক্ট হিসেবে তৈরি করা হয়েছে। এটি কোনো সরকারি সেবা নয় এবং এটি ব্যবহার করে কোনো সরকারি পরিষেবা গ্রহণ করা যাবে না।
+            </div>
+            <div class="notice-disclaimer">
+                ডেভেলপার: MD SHOJIB AHMED, CSE বিভাগ &bull; একাডেমিক বর্ষ ২০২৬
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- =======================================
+     FOOTER
+======================================= -->
+<footer class="main-footer">
     <div class="container">
-        <div class="row g-4 mb-4">
-            <div class="col-lg-6">
-                <div class="d-flex align-items-center mb-3">
-                    <i class="fa-solid fa-stamp text-warning fa-2x me-2"></i>
-                    <h5 class="fw-bold text-white mb-0">Marriage Registration &amp; Verification System</h5>
+        <div class="row g-4">
+
+            <!-- Brand -->
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-brand">
+                    <div class="footer-brand-logo">
+                        <svg viewBox="0 0 100 100" width="34" height="34">
+                            <circle cx="50" cy="50" r="45" fill="#006A4E"/>
+                            <circle cx="50" cy="50" r="28" fill="#C8102E"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h6>বিবাহ নিবন্ধন ও যাচাইকরণ ব্যবস্থা</h6>
+                        <small>গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (একাডেমিক প্রকল্প)</small>
+                    </div>
                 </div>
-                <p class="text-white-50 small pe-lg-4">
-                    An academic web application prototype developed for demonstration, testing, and evaluation under the Bachelor of Science in Computer Science and Engineering (CSE) curriculum.
+                <p>
+                    এটি একটি একাডেমিক প্রজেক্ট। প্রকল্পটি CSE বিভাগের চূড়ান্ত বর্ষ প্রজেক্ট হিসেবে প্রদর্শন, পরীক্ষা ও মূল্যায়নের জন্য তৈরি করা হয়েছে।
                 </p>
-                <div class="text-white-50 small">
-                    <strong>Developer:</strong> MD SHOJIB AHMED<br>
-                    <strong>Department:</strong> Computer Science and Engineering (CSE)<br>
-                    <strong>Academic Year:</strong> 2026
+                <p style="font-size:0.8rem;">
+                    <strong style="color:#f8d66c;">ডেভেলপার:</strong> MD SHOJIB AHMED<br>
+                    <strong style="color:#f8d66c;">বিভাগ:</strong> Computer Science &amp; Engineering (CSE)<br>
+                    <strong style="color:#f8d66c;">একাডেমিক বর্ষ:</strong> ২০২৬
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-lg-2 col-md-3 col-6">
+                <div class="footer-section">
+                    <h6>প্রচ্ছদ পাতা</h6>
+                    <ul class="footer-links">
+                        <li><a href="index.php"><i class="fa-solid fa-chevron-right me-1" style="font-size:0.65rem;"></i> হোম</a></li>
+                        <li><a href="#"><i class="fa-solid fa-chevron-right me-1" style="font-size:0.65rem;"></i> সেবা সমূহ</a></li>
+                        <li><a href="#"><i class="fa-solid fa-chevron-right me-1" style="font-size:0.65rem;"></i> সহায়তা</a></li>
+                        <li><a href="#"><i class="fa-solid fa-chevron-right me-1" style="font-size:0.65rem;"></i> সাধারণ প্রশ্ন</a></li>
+                    </ul>
                 </div>
             </div>
 
-            <div class="col-lg-3 col-6">
-                <h6 class="fw-bold text-white mb-3">System Navigation</h6>
-                <ul class="list-unstyled text-white-50 small d-grid gap-2">
-                    <li><a href="index.php" class="text-white-50 text-decoration-none">Homepage</a></li>
-                    <li><a href="verify.php" class="text-white-50 text-decoration-none">Marriage Verification</a></li>
-                    <li><a href="dashboard.php" class="text-white-50 text-decoration-none">Portal Hub</a></li>
-                    <li><a href="Database/setup.php" class="text-white-50 text-decoration-none">Database Setup / Reset</a></li>
-                </ul>
+            <!-- Useful Links -->
+            <div class="col-lg-2 col-md-3 col-6">
+                <div class="footer-section">
+                    <h6>উপযোগী তথ্য</h6>
+                    <ul class="footer-links">
+                        <li><a href="kazi/signup.php"><i class="fa-solid fa-chevron-right me-1" style="font-size:0.65rem;"></i> কাজী নিবন্ধন</a></li>
+                        <li><a href="kazi/login.php"><i class="fa-solid fa-chevron-right me-1" style="font-size:0.65rem;"></i> কাজী লগইন</a></li>
+                        <li><a href="#"><i class="fa-solid fa-chevron-right me-1" style="font-size:0.65rem;"></i> আইন ও বিধিমালা</a></li>
+                        <li><a href="admin/login.php"><i class="fa-solid fa-chevron-right me-1" style="font-size:0.65rem;"></i> প্রশাসক প্রবেশ</a></li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="col-lg-3 col-6">
-                <h6 class="fw-bold text-white mb-3">Kazi Services</h6>
-                <ul class="list-unstyled text-white-50 small d-grid gap-2">
-                    <li><a href="kazi/login.php" class="text-white-50 text-decoration-none"><i class="fa-solid fa-right-to-bracket me-1"></i> Kazi Login</a></li>
-                    <li><a href="kazi/signup.php" class="text-white-50 text-decoration-none"><i class="fa-solid fa-user-plus me-1"></i> Kazi Registration</a></li>
-                    <li><a href="admin/login.php" class="text-white-50 text-decoration-none"><i class="fa-solid fa-lock me-1"></i> System Admin</a></li>
-                </ul>
+            <!-- Contact -->
+            <div class="col-lg-2 col-md-4">
+                <div class="footer-section">
+                    <h6>যোগাযোগ</h6>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>বাংলাদেশ, ঢাকা</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>info@marriage.gov.bd</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-phone"></i>
+                        <span>+880 2 0000000</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-clock"></i>
+                        <span>সকাল ৯টা – বিকাল ৫টা</span>
+                    </div>
+                    <div style="font-size:0.72rem; color:rgba(255,255,255,0.4); margin-top:6px;">
+                        * উপরের তথ্য কাল্পনিক (একাডেমিক প্রকল্প)
+                    </div>
+                </div>
             </div>
+
+            <!-- Right slogan -->
+            <div class="col-lg-2 col-md-4 footer-side-text">
+                <div class="footer-section">
+                    <p>সঠিক তথ্য<br>নিরাপদ জীবন</p>
+                </div>
+            </div>
+
         </div>
 
-        <div class="text-center pt-3 border-top border-secondary text-white-50 small">
-            &copy; <?= date('Y') ?> Marriage Registration &amp; Verification System &bull; Final Year Project by MD SHOJIB AHMED
+        <div class="footer-bottom">
+            <div>
+                &copy; <?= date('Y') ?> বিবাহ নিবন্ধন ও যাচাইকরণ ব্যবস্থা &bull; MD SHOJIB AHMED (CSE) &bull; চূড়ান্ত বর্ষ একাডেমিক প্রকল্প
+            </div>
+            <div class="mt-1">
+                এটি একটি একাডেমিক প্রজেক্ট। প্রকল্পটি বাস্তবে সরকারি পরিষেবার জন্য তৈরি নয় এবং সকল তথ্য প্রদর্শনের জন্য এবং পরীক্ষামূলক।
+            </div>
         </div>
     </div>
 </footer>

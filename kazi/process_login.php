@@ -34,7 +34,23 @@ if (!validate_bd_mobile($mobile_no)) {
     exit();
 }
 
-$sql = "SELECT kazi_id, full_name, mobile_no, email, password, division, district, upazila, license_no, status FROM kazi_users WHERE mobile_no = ? AND license_no = ? LIMIT 1";
+// Detect actual mobile column name defensively
+$mobile_col = null;
+$col_check = mysqli_query($conn, "SHOW COLUMNS FROM `kazi_users`");
+while ($col_row = mysqli_fetch_assoc($col_check)) {
+    $fn = strtolower($col_row['Field']);
+    if (in_array($fn, ['mobile_no', 'mobile', 'phone', 'phone_no', 'contact_no', 'mobile_number'])) {
+        $mobile_col = $col_row['Field'];
+        break;
+    }
+}
+if ($mobile_col === null) {
+    $_SESSION['kazi_login_error'] = "System error: unable to verify credentials. Please contact the administrator.";
+    header("Location: login.php");
+    exit();
+}
+
+$sql = "SELECT kazi_id, full_name, `$mobile_col` AS mobile_no, email, password, division, district, upazila, license_no, status FROM `kazi_users` WHERE `$mobile_col` = ? AND license_no = ? LIMIT 1";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "ss", $mobile_no, $license_no);
 mysqli_stmt_execute($stmt);
