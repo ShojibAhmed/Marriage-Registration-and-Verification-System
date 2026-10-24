@@ -1,253 +1,39 @@
 <?php
-
 session_start();
-
-if (!isset($_SESSION['kazi_id'])) {
-    header("Location: ../kazi/login.php");
-    exit();
-}
-
-include "../Database/connection.php";
-
-$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-
-if ($id <= 0) {
-    die("Invalid citizen ID.");
-}
-
-$sql = "SELECT * FROM citizens WHERE citizen_id = $id";
-$result = mysqli_query($conn, $sql);
-
-if (!$result || mysqli_num_rows($result) == 0) {
-    die("Citizen not found.");
-}
-
-$row = mysqli_fetch_assoc($result);
-
+require_once "../includes/security.php";
+require_kazi_auth();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Edit Citizen</title>
-
-    <link rel="stylesheet" href="../Assets/css/style.css">
-
+    <title>Action Locked | Kazi Portal</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f4f7fc; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .lock-card { max-width: 500px; background: white; border-radius: 16px; padding: 40px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid #e2e8f0; }
+    </style>
 </head>
-
 <body>
 
-    <div class="citizen-container">
-
-        <div class="citizen-box">
-
-            <h1>Edit Citizen Information</h1>
-
-            <p class="form-subtitle">
-                Update the registered citizen's information
-            </p>
-
-            <form action="update_citizen.php" method="POST">
-
-                <input
-                    type="hidden"
-                    name="citizen_id"
-                    value="<?php echo htmlspecialchars($row['citizen_id']); ?>"
-                >
-
-
-                <div class="form-row">
-
-                    <div class="form-group">
-
-                        <label for="full_name">
-                            Full Name
-                        </label>
-
-                        <input
-                            type="text"
-                            id="full_name"
-                            name="full_name"
-                            value="<?php echo htmlspecialchars($row['full_name']); ?>"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="national_id">
-                            National ID
-                        </label>
-
-                        <input
-                            type="text"
-                            id="national_id"
-                            name="national_id"
-                            value="<?php echo htmlspecialchars($row['national_id']); ?>"
-                            required
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-row">
-
-                    <div class="form-group">
-
-                        <label for="father_name">
-                            Father Name
-                        </label>
-
-                        <input
-                            type="text"
-                            id="father_name"
-                            name="father_name"
-                            value="<?php echo htmlspecialchars($row['father_name']); ?>"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="mother_name">
-                            Mother Name
-                        </label>
-
-                        <input
-                            type="text"
-                            id="mother_name"
-                            name="mother_name"
-                            value="<?php echo htmlspecialchars($row['mother_name']); ?>"
-                            required
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-row">
-
-                    <div class="form-group">
-
-                        <label for="date_of_birth">
-                            Date of Birth
-                        </label>
-
-                        <input
-                            type="date"
-                            id="date_of_birth"
-                            name="date_of_birth"
-                            value="<?php echo htmlspecialchars($row['date_of_birth']); ?>"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="gender">
-                            Gender
-                        </label>
-
-                        <select
-                            id="gender"
-                            name="gender"
-                            required
-                        >
-
-                            <option value="Male"
-                                <?php if ($row['gender'] == "Male") echo "selected"; ?>>
-                                Male
-                            </option>
-
-                            <option value="Female"
-                                <?php if ($row['gender'] == "Female") echo "selected"; ?>>
-                                Female
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-row">
-
-                    <div class="form-group">
-
-                        <label for="phone">
-                            Phone
-                        </label>
-
-                        <input
-                            type="text"
-                            id="phone"
-                            name="phone"
-                            value="<?php echo htmlspecialchars($row['phone']); ?>"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="address">
-                            Address
-                        </label>
-
-                        <input
-                            type="text"
-                            id="address"
-                            name="address"
-                            value="<?php echo htmlspecialchars($row['address']); ?>"
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <button
-                    type="submit"
-                    class="citizen-button"
-                >
-                    Update Citizen
-                </button>
-
-            </form>
-
-
-            <div class="citizen-links">
-
-                <a href="view_citizens.php">
-                    ← Back to Citizen List
-                </a>
-
-                <a href="../kazi/dashboard.php">
-                    Back to Dashboard
-                </a>
-
-            </div>
-
-        </div>
-
+<div class="lock-card">
+    <div class="text-warning mb-3" style="font-size: 3.5rem;">
+        <i class="fa-solid fa-lock"></i>
     </div>
+    <h4 class="fw-bold text-dark mb-2">Citizen Modification Disabled</h4>
+    <p class="text-muted small mb-4">
+        Under the project's regulatory rules, ordinary Kazi users are strictly prohibited from editing or modifying citizen identity records once registered.
+    </p>
+    <a href="view_citizens.php" class="btn btn-primary px-4 rounded-pill">
+        <i class="fa-solid fa-arrow-left me-1"></i> Return to Citizen Registry
+    </a>
+</div>
 
 </body>
-
 </html>
