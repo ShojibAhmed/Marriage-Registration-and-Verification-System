@@ -80,13 +80,18 @@ if (!$record = mysqli_fetch_assoc($res)) {
     <a href="index.php" class="btn btn-back">
         <i class="fa-solid fa-arrow-left me-2"></i> All Divorce Records
     </a>
-    <div>
-        <a href="update_status.php?ref=<?= urlencode($record['case_reference']) ?>" class="btn btn-back me-2">
-            <i class="fa-solid fa-pen-to-square me-2"></i> Update Status
+    <div class="d-flex gap-2">
+        <a href="print_notice.php?ref=<?= urlencode($record['case_reference']) ?>" class="btn" style="background:#b45309; color:#fff;" target="_blank">
+            <i class="fa-solid fa-file-invoice me-1"></i> Divorce Notice PDF
         </a>
-        <button onclick="window.print()" class="btn btn-print">
-            <i class="fa-solid fa-print me-2"></i> Print Summary
-        </button>
+        <?php if ($record['process_status'] === 'Completed / Effective'): ?>
+            <a href="print_record.php?ref=<?= urlencode($record['case_reference']) ?>" class="btn" style="background:#b91c1c; color:#fff;" target="_blank">
+                <i class="fa-solid fa-file-contract me-1"></i> Divorce Record PDF
+            </a>
+        <?php endif; ?>
+        <a href="update_status.php?ref=<?= urlencode($record['case_reference']) ?>" class="btn btn-back">
+            <i class="fa-solid fa-pen-to-square me-1"></i> Update Status
+        </a>
     </div>
 </div>
 

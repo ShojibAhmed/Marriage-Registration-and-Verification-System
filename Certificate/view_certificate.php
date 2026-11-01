@@ -125,11 +125,18 @@ if (!$marriage = mysqli_fetch_assoc($result)) {
     <div class="academic-watermark">ACADEMIC PROTOTYPE<br>CSE FINAL PROJECT</div>
 
     <div class="cert-body">
-        <!-- Header -->
+        <!-- Header with Bangladesh Logo -->
         <div class="cert-header">
-            <h4>Marriage Registration &amp; Verification System</h4>
-            <h1>Marriage Registration Certificate</h1>
-            <p>Academic Prototype Demonstration Record &bull; Computer Science &amp; Engineering Department</p>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 8px;">
+                <svg viewBox="0 0 100 100" width="48" height="48">
+                    <circle cx="50" cy="50" r="46" fill="#006A4E"/>
+                    <circle cx="50" cy="50" r="28" fill="#C8102E"/>
+                </svg>
+            </div>
+            <h4 style="margin: 0; font-family: 'Cinzel', serif; letter-spacing: 2px;">Government of the People's Republic of Bangladesh</h4>
+            <div style="font-size: 0.9rem; color: #475569; font-weight: 600; margin-top: 3px;">Office of the Muslim Marriage Registrar &amp; Kazi</div>
+            <h1 style="margin: 6px 0;">Marriage Registration Certificate</h1>
+            <p>Official Academic Prototype &bull; Marriage Registration and Verification System</p>
         </div>
 
         <!-- Meta Strip -->

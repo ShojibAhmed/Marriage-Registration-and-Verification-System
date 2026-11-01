@@ -83,24 +83,8 @@ if (!is_valid_location($division, $district, $upazila)) {
     exit();
 }
 
-// 5. Detect actual mobile column name in kazi_users (defensive: supports renamed columns)
-$mobile_col = null;
-$col_check = mysqli_query($conn, "SHOW COLUMNS FROM `kazi_users`");
-while ($col_row = mysqli_fetch_assoc($col_check)) {
-    $fn = strtolower($col_row['Field']);
-    if (in_array($fn, ['mobile_no', 'mobile', 'phone', 'phone_no', 'contact_no', 'mobile_number'])) {
-        $mobile_col = $col_row['Field'];
-        break;
-    }
-}
-if ($mobile_col === null) {
-    $_SESSION['kazi_signup_error'] = "System configuration error: mobile number column not found in database. Please contact the administrator.";
-    header("Location: signup.php");
-    exit();
-}
-
-// 5b. Check duplicate mobile or email using verified column name
-$chk_stmt = mysqli_prepare($conn, "SELECT kazi_id FROM `kazi_users` WHERE `$mobile_col` = ? OR email = ?");
+// 5. Check duplicate mobile or email using standard mobile_no column
+$chk_stmt = mysqli_prepare($conn, "SELECT kazi_id FROM `kazi_users` WHERE mobile_no = ? OR email = ?");
 mysqli_stmt_bind_param($chk_stmt, "ss", $mobile_no, $email);
 mysqli_stmt_execute($chk_stmt);
 $chk_res = mysqli_stmt_get_result($chk_stmt);
@@ -135,8 +119,8 @@ try {
     // Format: e.g. Dha_000001, Chu_000001
     $generated_license = sprintf("%s_%06d", $prefix, $serial);
 
-    // Insert Kazi record — use detected mobile column name
-    $ins_kazi = mysqli_prepare($conn, "INSERT INTO `kazi_users` (full_name, `$mobile_col`, email, password, division, district, upazila, full_address, license_no, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Active')");
+    // Insert Kazi record — standard mobile_no column
+    $ins_kazi = mysqli_prepare($conn, "INSERT INTO `kazi_users` (full_name, mobile_no, email, password, division, district, upazila, full_address, license_no, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Active')");
     mysqli_stmt_bind_param($ins_kazi, "sssssssss", $full_name, $mobile_no, $email, $hashed_password, $division, $district, $upazila, $full_address, $generated_license);
     mysqli_stmt_execute($ins_kazi);
 

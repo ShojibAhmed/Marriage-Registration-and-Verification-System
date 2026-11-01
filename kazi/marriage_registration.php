@@ -149,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 ?, ?, 'Active'
                             )");
 
-                            mysqli_stmt_bind_param($ins_m, "sssisssisssissssssssdds", 
+                            mysqli_stmt_bind_param($ins_m, "sssisssisssissssssssssdd", 
                                 $registration_number, $marriage_date, $religion,
                                 $husband['citizen_id'], $husband_id_type, $husband_id_no, $husband['full_name'],
                                 $wife['citizen_id'], $wife_id_type, $wife_id_no, $wife['full_name'],

@@ -135,12 +135,12 @@ session_start();
             min-height: 420px;
         }
         .hero-bg-overlay {
-            position: absolute;
-            inset: 0;
-            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/National_Martyrs%27_Memorial%2C_Savar%2C_Bangladesh_%284%29.jpg/1280px-National_Martyrs%27_Memorial%2C_Savar%2C_Bangladesh_%284%29.jpg') center/cover no-repeat;
-            opacity: 0.18;
-            z-index: 0;
-        }
+    position: absolute;
+    inset: 0;
+    background: url('Assets/images/hero_banner.jpg') center/cover no-repeat;
+    opacity: 0.18;
+    z-index: 0;
+}
         .hero-content {
             position: relative;
             z-index: 1;
@@ -453,17 +453,17 @@ session_start();
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="services.php">
                         <i class="fa-solid fa-list me-1"></i> সেবা সমূহ
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fa-solid fa-circle-question me-1"></i> সহায়তা
+                    <a class="nav-link" href="services.php">
+                        <i class="fa-solid fa-circle-info me-1"></i> আরও জানুন
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="#contact-section">
                         <i class="fa-solid fa-phone me-1"></i> যোগাযোগ
                     </a>
                 </li>
@@ -594,19 +594,19 @@ session_start();
 
             <!-- Importance of Marriage Registration -->
             <div class="col-lg-7">
-                <div class="row g-0 h-100">
-                    <div class="col-md-5">
-                        <div class="importance-img-wrap h-100">
-                            <img
-                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Bangladesh_Family_Photo.jpg/640px-Bangladesh_Family_Photo.jpg"
-                                alt="বিবাহ নিবন্ধন"
-                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                            >
-                            <div style="display:none; width:100%; height:260px; background:var(--bd-green-l); align-items:center; justify-content:center; border-radius:16px;">
-                                <i class="fa-solid fa-heart" style="font-size:3rem; color:var(--bd-green);"></i>
-                            </div>
-                        </div>
-                    </div>
+    <div class="row g-0 h-100">
+        <div class="col-md-5">
+            <div class="importance-img-wrap h-100">
+                <img
+                    src="Assets/images/couple_illustration.jpg"
+                    alt="বিবাহ নিবন্ধন"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                >
+                <div style="display:none; width:100%; height:260px; background:var(--bd-green-l); align-items:center; justify-content:center; border-radius:16px;">
+                    <i class="fa-solid fa-heart" style="font-size:3rem; color:var(--bd-green);"></i>
+                </div>
+            </div>
+        </div>
                     <div class="col-md-7 ps-md-4 pt-4 pt-md-0">
                         <div class="importance-text h-100 d-flex flex-column justify-content-center">
                             <h3>বিবাহ নিবন্ধন কেন জরুরি?</h3>
@@ -616,7 +616,7 @@ session_start();
                             <p>
                                 নিবন্ধিত বিবাহ সন্তানের পরিচয়, সম্পত্তি, উত্তরাধিকার ও ভিসা সংক্রান্ত বিষয়ে আইনগত সুরক্ষা প্রদান করে।
                             </p>
-                            <a href="kazi/signup.php" class="btn-importance mt-2" style="width:fit-content;">
+                            <a href="services.php" class="btn-importance mt-2" style="width:fit-content;">
                                 <i class="fa-solid fa-info-circle"></i> আরও জানুন
                             </a>
                         </div>
@@ -684,7 +684,7 @@ session_start();
 <!-- =======================================
      FOOTER
 ======================================= -->
-<footer class="main-footer">
+<footer class="main-footer" id="contact-section">
     <div class="container">
         <div class="row g-4">
 
@@ -718,9 +718,9 @@ session_start();
                     <h6>প্রচ্ছদ পাতা</h6>
                     <ul class="footer-links">
                         <li><a href="index.php"><i class="fa-solid fa-chevron-right me-1" style="font-size:0.65rem;"></i> হোম</a></li>
-                        <li><a href="#"><i class="fa-solid fa-chevron-right me-1" style="font-size:0.65rem;"></i> সেবা সমূহ</a></li>
-                        <li><a href="#"><i class="fa-solid fa-chevron-right me-1" style="font-size:0.65rem;"></i> সহায়তা</a></li>
-                        <li><a href="#"><i class="fa-solid fa-chevron-right me-1" style="font-size:0.65rem;"></i> সাধারণ প্রশ্ন</a></li>
+                        <li><a href="services.php"><i class="fa-solid fa-chevron-right me-1" style="font-size:0.65rem;"></i> সেবা সমূহ</a></li>
+                        <li><a href="services.php"><i class="fa-solid fa-chevron-right me-1" style="font-size:0.65rem;"></i> আরও জানুন</a></li>
+                        <li><a href="#contact-section"><i class="fa-solid fa-chevron-right me-1" style="font-size:0.65rem;"></i> যোগাযোগ</a></li>
                     </ul>
                 </div>
             </div>

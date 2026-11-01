@@ -130,7 +130,7 @@ $result = mysqli_stmt_get_result($stmt);
                         <th>DOB &amp; Age</th>
                         <th>Gender &amp; Religion</th>
                         <th>Mobile &amp; Address</th>
-                        <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody class="small">
@@ -183,9 +183,9 @@ $result = mysqli_stmt_get_result($stmt);
                                     <div class="text-muted text-truncate" style="max-width: 180px;" title="<?= e($row['full_address']) ?>"><?= e($row['full_address']) ?></div>
                                 </td>
                                 <td>
-                                    <span class="badge bg-secondary-subtle text-secondary" title="Ordinary Kazi users cannot edit or delete registered records">
-                                        <i class="fa-solid fa-lock me-1"></i>Locked
-                                    </span>
+                                    <a href="citizen_details.php?id=<?= $row['citizen_id'] ?>" class="btn btn-sm btn-outline-primary" title="View Details &amp; Marriages">
+                                        <i class="fa-solid fa-eye me-1"></i> Details
+                                    </a>
                                 </td>
                             </tr>
                         <?php endwhile; ?>

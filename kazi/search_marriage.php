@@ -11,19 +11,21 @@ $search_query = trim($_POST['search_query'] ?? ($_GET['search_query'] ?? ''));
 
 if (!empty($search_query)) {
     $searched = true;
+    // Authorized search strictly by Husband's NID or Wife's NID
     $sql = "SELECT * FROM marriages 
-            WHERE registration_number = ? OR husband_identity_no = ? OR wife_identity_no = ? 
+            WHERE (husband_identity_no = ? AND husband_identity_type = 'NID')
+               OR (wife_identity_no = ? AND wife_identity_type = 'NID') 
             LIMIT 1";
 
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "sss", $search_query, $search_query, $search_query);
+    mysqli_stmt_bind_param($stmt, "ss", $search_query, $search_query);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
     if (mysqli_num_rows($result) === 1) {
         $marriage = mysqli_fetch_assoc($result);
     } else {
-        $message = "No marriage record found matching query: " . htmlspecialchars($search_query);
+        $message = "No marriage record found matching NID: " . htmlspecialchars($search_query);
     }
 }
 
@@ -89,15 +91,18 @@ function mask_identity($id) {
             <span class="badge bg-primary-subtle text-primary">Authorized Kazi Access</span>
         </div>
         <p class="text-muted small mb-4">
-            Search internal registry records by <strong>Marriage Registration Number</strong>, <strong>Husband Identity (NID/Passport)</strong>, or <strong>Wife Identity</strong>.
+            Search marriage records strictly by <strong>Husband's NID</strong> or <strong>Wife's NID</strong>.
         </p>
 
         <form method="POST" action="search_marriage.php">
             <div class="input-group input-group-lg">
-                <input type="text" name="search_query" class="form-control" placeholder="Enter Registration No (e.g. MR-2026-000001) or NID / Passport..." value="<?= e($search_query) ?>" required autofocus>
+                <input type="text" name="search_query" class="form-control font-monospace" placeholder="Enter Husband's NID or Wife's NID..." value="<?= e($search_query) ?>" required autofocus>
                 <button type="submit" class="btn btn-primary px-4 fw-bold">
                     <i class="fa-solid fa-search me-1"></i> Verify Record
                 </button>
+            </div>
+            <div class="form-text small mt-2 text-muted">
+                <i class="fa-solid fa-shield-halved me-1"></i> Authorized Kazi search requires spouse National Identity Number (NID).
             </div>
         </form>
 

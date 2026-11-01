@@ -74,8 +74,28 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link <?= ($current_page === 'divorces.php') ? 'active' : '' ?>" href="divorces.php">
+                    <i class="fa-solid fa-file-contract"></i> Divorce Records
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link <?= ($current_page === 'citizens.php') ? 'active' : '' ?>" href="citizens.php">
                     <i class="fa-solid fa-users"></i> Citizen Database
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?= ($current_page === 'manage_posts.php') ? 'active' : '' ?>" href="manage_posts.php">
+                    <i class="fa-solid fa-newspaper"></i> Post Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?= ($current_page === 'reports.php') ? 'active' : '' ?>" href="reports.php">
+                    <i class="fa-solid fa-chart-line"></i> System Reports
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?= ($current_page === 'profile.php') ? 'active' : '' ?>" href="profile.php">
+                    <i class="fa-solid fa-user-gear"></i> Admin Profile
                 </a>
             </li>
         </ul>
