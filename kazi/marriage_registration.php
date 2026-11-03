@@ -201,14 +201,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Assets/css/theme.css">
     <link rel="stylesheet" href="../Assets/css/style.css">
     <style>
         body { font-family: 'Poppins', sans-serif; background: #f4f7fc; color: #334155; min-height: 100vh; }
-        .kazi-navbar { background: #1e3a8a; color: #ffffff; padding: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        button, input[type="button"], input[type="submit"], .btn { cursor: pointer; }
+        .kazi-navbar { background: #006A4E; color: #ffffff; padding: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
         .form-card { max-width: 900px; margin: 30px auto 50px auto; background: #ffffff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; overflow: hidden; }
-        .form-header { background: #1e293b; color: #ffffff; padding: 22px 30px; }
+        .form-header { background: #004d38; color: #ffffff; padding: 22px 30px; }
         .form-body { padding: 32px 30px; }
-        .section-tag { font-size: 0.82rem; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin: 25px 0 15px 0; }
+        .section-tag { font-size: 0.82rem; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; color: #006A4E; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin: 25px 0 15px 0; }
         .auto-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 15px; }
     </style>
 </head>

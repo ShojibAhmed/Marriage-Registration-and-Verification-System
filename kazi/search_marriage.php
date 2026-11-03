@@ -50,39 +50,18 @@ function mask_identity($id) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Assets/css/theme.css">
     <link rel="stylesheet" href="../Assets/css/style.css">
     <style>
         body { font-family: 'Poppins', sans-serif; background: #f4f7fc; color: #334155; min-height: 100vh; }
-        .kazi-navbar { background: #1e3a8a; color: #ffffff; padding: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
-        .search-container { max-width: 820px; margin: 30px auto 50px auto; }
+        button, input[type="button"], input[type="submit"], .btn { cursor: pointer; }
+        .search-container { max-width: 820px; margin: 35px auto 50px auto; }
         .card-custom { background: #ffffff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; padding: 30px; margin-bottom: 25px; }
         .info-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; font-weight: 600; }
         .info-value { font-size: 1.05rem; font-weight: 600; color: #0f172a; }
     </style>
 </head>
 <body>
-
-<!-- Navbar -->
-<nav class="kazi-navbar">
-    <div class="container d-flex justify-content-between align-items-center">
-        <a href="dashboard.php" class="d-flex align-items-center text-white text-decoration-none">
-            <i class="fa-solid fa-stamp fa-xl me-2 text-info"></i>
-            <div>
-                <span class="fw-bold fs-5 d-block leading-tight">BD Marriage System</span>
-                <small class="text-white-50" style="font-size: 0.75rem;">Authorized Kazi Portal</small>
-            </div>
-        </a>
-
-        <div>
-            <a href="dashboard.php" class="btn btn-sm btn-outline-light rounded-pill px-3 me-2">
-                <i class="fa-solid fa-house me-1"></i> Dashboard
-            </a>
-            <a href="logout.php" class="btn btn-sm btn-outline-danger text-white rounded-pill px-3">
-                <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
-            </a>
-        </div>
-    </div>
-</nav>
 
 <div class="container search-container">
     <div class="card-custom">

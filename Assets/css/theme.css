@@ -289,6 +289,139 @@ body {
 .bg-bd-navy    { background: var(--bd-navy)  !important; }
 .border-bd-green { border-color: var(--bd-green) !important; }
 
+/* ---- Global Cursor & Button Visibility Rules ---- */
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+.btn,
+.nav-link,
+[role="button"] {
+    cursor: pointer;
+}
+button:disabled,
+.btn.disabled,
+input:disabled {
+    cursor: not-allowed;
+}
+
+/* Ensure button labels and icons are always visible in all states */
+.btn {
+    text-decoration: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Bootstrap Primary Overrides to align with approved green */
+.btn-primary {
+    background-color: var(--bd-green) !important;
+    border-color: var(--bd-green) !important;
+    color: #ffffff !important;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active {
+    background-color: var(--bd-green-d) !important;
+    border-color: var(--bd-green-d) !important;
+    color: #ffffff !important;
+}
+
+.btn-outline-primary {
+    color: var(--bd-green) !important;
+    border-color: var(--bd-green) !important;
+    background-color: transparent !important;
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active,
+.btn-outline-primary.active {
+    background-color: var(--bd-green) !important;
+    border-color: var(--bd-green) !important;
+    color: #ffffff !important;
+}
+
+/* Fix outline-light inside dark/green headers so text is always crisp and visible */
+.btn-outline-light {
+    color: #ffffff !important;
+    border-color: rgba(255,255,255,0.75) !important;
+    background-color: transparent !important;
+}
+.btn-outline-light:hover,
+.btn-outline-light:focus,
+.btn-outline-light:active {
+    background-color: rgba(255,255,255,0.18) !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+}
+
+/* Fix btn-light so text is always dark/readable in normal state and never invisible */
+.btn-light {
+    color: var(--text-dark) !important;
+    background-color: #ffffff !important;
+    border: 1px solid var(--border) !important;
+}
+.btn-light:hover,
+.btn-light:focus,
+.btn-light:active {
+    color: var(--bd-green) !important;
+    background-color: var(--bg-light) !important;
+    border-color: var(--bd-green) !important;
+}
+
+/* Outline-secondary */
+.btn-outline-secondary {
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+    background-color: transparent !important;
+}
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus,
+.btn-outline-secondary:active {
+    background-color: #475569 !important;
+    color: #ffffff !important;
+}
+
+/* Outline-danger */
+.btn-outline-danger {
+    color: var(--bd-red) !important;
+    border-color: var(--bd-red) !important;
+    background-color: transparent !important;
+}
+.btn-outline-danger:hover,
+.btn-outline-danger:focus,
+.btn-outline-danger:active {
+    background-color: var(--bd-red) !important;
+    color: #ffffff !important;
+}
+
+/* Outline-info */
+.btn-outline-info {
+    color: #0284c7 !important;
+    border-color: #0284c7 !important;
+    background-color: transparent !important;
+}
+.btn-outline-info:hover,
+.btn-outline-info:focus,
+.btn-outline-info:active {
+    background-color: #0284c7 !important;
+    color: #ffffff !important;
+}
+
+/* Text & BG primary utility overrides to green */
+.text-primary {
+    color: var(--bd-green) !important;
+}
+.bg-primary {
+    background-color: var(--bd-green) !important;
+}
+.border-primary {
+    border-color: var(--bd-green) !important;
+}
+.bg-primary-subtle {
+    background-color: var(--bd-green-l) !important;
+    color: var(--bd-green) !important;
+}
+
 /* ---- Responsive helpers ---- */
 @media (max-width: 768px) {
     .auth-card-body { padding: 24px 20px; }

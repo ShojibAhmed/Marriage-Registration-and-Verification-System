@@ -16,21 +16,23 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Assets/css/theme.css">
     <style>
         :root {
-            --primary: #1e3a8a;
-            --primary-light: #2563eb;
-            --sidebar-bg: #0f172a;
+            --primary: #006A4E;
+            --primary-light: #004d38;
+            --sidebar-bg: #0d1b2a;
             --bg-light: #f8fafc;
         }
+        button, input[type="button"], input[type="submit"], .btn { cursor: pointer; }
         body { font-family: 'Poppins', sans-serif; background-color: var(--bg-light); color: #334155; min-height: 100vh; }
         .admin-sidebar { width: 260px; background-color: var(--sidebar-bg); min-height: 100vh; position: fixed; top: 0; left: 0; z-index: 1000; transition: all 0.3s; }
-        .admin-brand { padding: 22px 20px; background: #1e293b; color: #ffffff; display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); }
-        .admin-brand i { font-size: 1.6rem; color: #38bdf8; margin-right: 12px; }
+        .admin-brand { padding: 22px 20px; background: #004d38; color: #ffffff; display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .admin-brand i { font-size: 1.6rem; color: #f8d66c; margin-right: 12px; }
         .admin-nav .nav-link { color: #94a3b8; padding: 12px 20px; font-size: 0.92rem; font-weight: 500; display: flex; align-items: center; border-left: 4px solid transparent; transition: all 0.2s; }
         .admin-nav .nav-link i { width: 24px; margin-right: 12px; font-size: 1.1rem; }
-        .admin-nav .nav-link:hover { color: #ffffff; background: rgba(255,255,255,0.05); border-left-color: var(--primary-light); }
-        .admin-nav .nav-link.active { color: #ffffff; background: rgba(37, 99, 235, 0.15); border-left-color: #38bdf8; font-weight: 600; }
+        .admin-nav .nav-link:hover { color: #ffffff; background: rgba(255,255,255,0.05); border-left-color: var(--primary); }
+        .admin-nav .nav-link.active { color: #ffffff; background: rgba(0, 106, 78, 0.2); border-left-color: var(--primary); font-weight: 600; }
         .admin-content { margin-left: 260px; padding: 30px; min-height: 100vh; }
         .top-navbar { background: #ffffff; border-radius: 12px; padding: 14px 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; }
         .stat-card { background: #ffffff; border-radius: 14px; padding: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid #e2e8f0; }

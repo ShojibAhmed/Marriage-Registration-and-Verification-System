@@ -38,8 +38,10 @@ if (!$record = mysqli_fetch_assoc($res)) {
         body { font-family: 'Poppins', sans-serif; background: #e2e8f0; color: #1e293b; padding: 30px 15px; }
         .action-bar { max-width: 860px; margin: 0 auto 20px auto; display: flex; justify-content: space-between; align-items: center; }
         .btn { display: inline-flex; align-items: center; padding: 10px 20px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; text-decoration: none; cursor: pointer; border: none; }
-        .btn-print { background: #1e3a8a; color: #ffffff; }
+        .btn-print { background: #006A4E; color: #ffffff; }
+        .btn-print:hover { background: #004d38; color: #ffffff; }
         .btn-back { background: #ffffff; color: #334155; border: 1px solid #cbd5e1; }
+        .btn-back:hover { background: #f8fafc; color: #006A4E; border-color: #006A4E; }
         
         .summary-sheet {
             max-width: 860px;
@@ -57,7 +59,7 @@ if (!$record = mysqli_fetch_assoc($res)) {
 
         .meta-strip { display: flex; justify-content: space-between; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 18px; margin-bottom: 25px; }
         .meta-strip small { display: block; font-size: 0.72rem; text-transform: uppercase; color: #64748b; font-weight: 700; }
-        .meta-strip strong { font-size: 1rem; color: #1e3a8a; }
+        .meta-strip strong { font-size: 1rem; color: #006A4E; }
 
         .data-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 0.9rem; }
         .data-table td { padding: 10px 14px; border: 1px solid #e2e8f0; }

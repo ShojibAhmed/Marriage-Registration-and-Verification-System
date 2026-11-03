@@ -458,11 +458,6 @@ session_start();
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="services.php">
-                        <i class="fa-solid fa-circle-info me-1"></i> আরও জানুন
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="#contact-section">
                         <i class="fa-solid fa-phone me-1"></i> যোগাযোগ
                     </a>

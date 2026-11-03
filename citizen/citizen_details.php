@@ -64,10 +64,12 @@ $age = $now->diff($dob)->y;
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Assets/css/theme.css">
     <link rel="stylesheet" href="../Assets/css/style.css">
     <style>
         body { font-family: 'Poppins', sans-serif; background: #f4f7fc; color: #334155; }
-        .kazi-navbar { background: #1e3a8a; color: #ffffff; padding: 15px 0; }
+        button, input[type="button"], input[type="submit"], .btn { cursor: pointer; }
+        .kazi-navbar { background: #006A4E; color: #ffffff; padding: 15px 0; }
         .details-container { max-width: 1000px; margin: 30px auto; padding: 0 15px; }
         .card-custom { background: #ffffff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; padding: 30px; margin-bottom: 25px; }
         .info-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; font-weight: 600; }

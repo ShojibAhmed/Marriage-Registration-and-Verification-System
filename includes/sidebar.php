@@ -1,5 +1,5 @@
 <div class="col-md-2 sidebar p-0">
-    <div class="text-center text-white py-4 border-bottom border-primary">
+    <div class="text-center text-white py-4 border-bottom" style="border-color: rgba(255,255,255,0.15) !important;">
         <i class="fa-solid fa-landmark-dome fa-2x mb-2 text-warning"></i>
         <h5 class="fw-bold mb-0">Admin Center</h5>
         <small class="text-white-50">Marriage System</small>

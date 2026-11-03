@@ -23,16 +23,18 @@ $selected_type = $old['citizen_type'] ?? 'Bangladeshi';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Assets/css/theme.css">
     <link rel="stylesheet" href="../Assets/css/style.css">
     <style>
         body { font-family: 'Poppins', sans-serif; background: #f4f7fc; color: #334155; min-height: 100vh; }
-        .kazi-navbar { background: #1e3a8a; color: #ffffff; padding: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        button, input[type="button"], input[type="submit"], .btn { cursor: pointer; }
+        .kazi-navbar { background: #006A4E; color: #ffffff; padding: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
         .form-card { max-width: 860px; margin: 30px auto 50px auto; background: #ffffff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; overflow: hidden; }
-        .form-header { background: #1e293b; color: #ffffff; padding: 22px 30px; }
+        .form-header { background: #004d38; color: #ffffff; padding: 22px 30px; }
         .form-body { padding: 32px 30px; }
         .type-toggle { background: #f1f5f9; padding: 6px; border-radius: 10px; display: inline-flex; width: 100%; margin-bottom: 25px; }
         .type-btn { flex: 1; border: none; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; background: transparent; color: #64748b; text-align: center; }
-        .type-btn.active { background: #2563eb; color: #ffffff; box-shadow: 0 2px 8px rgba(37,99,235,0.25); }
+        .type-btn.active { background: #006A4E; color: #ffffff; box-shadow: 0 2px 8px rgba(0,106,78,0.25); }
     </style>
 </head>
 <body>

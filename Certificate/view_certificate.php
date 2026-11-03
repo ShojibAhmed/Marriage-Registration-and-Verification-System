@@ -44,10 +44,10 @@ if (!$marriage = mysqli_fetch_assoc($result)) {
         body { font-family: 'Poppins', sans-serif; background: #e2e8f0; color: #1e293b; padding: 30px 15px; }
         .action-bar { max-width: 920px; margin: 0 auto 20px auto; display: flex; justify-content: space-between; align-items: center; }
         .btn { display: inline-flex; align-items: center; padding: 10px 22px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; text-decoration: none; cursor: pointer; border: none; }
-        .btn-print { background: #1e3a8a; color: #ffffff; }
-        .btn-print:hover { background: #2563eb; }
+        .btn-print { background: #006A4E; color: #ffffff; }
+        .btn-print:hover { background: #004d38; color: #ffffff; }
         .btn-back { background: #ffffff; color: #334155; border: 1px solid #cbd5e1; }
-        .btn-back:hover { background: #f1f5f9; }
+        .btn-back:hover { background: #f8fafc; color: #006A4E; border-color: #006A4E; }
 
         /* Certificate Container */
         .certificate-sheet {
@@ -55,7 +55,7 @@ if (!$marriage = mysqli_fetch_assoc($result)) {
             margin: 0 auto;
             background: #ffffff;
             padding: 45px 50px;
-            border: 10px solid #1e3a8a;
+            border: 10px solid #006A4E;
             outline: 3px solid #b45309;
             outline-offset: -6px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.12);
@@ -69,7 +69,7 @@ if (!$marriage = mysqli_fetch_assoc($result)) {
             opacity: 0.05;
             font-size: 5rem;
             font-weight: 900;
-            color: #1e3a8a;
+            color: #006A4E;
             pointer-events: none;
             white-space: nowrap;
             text-align: center;
@@ -79,16 +79,16 @@ if (!$marriage = mysqli_fetch_assoc($result)) {
         .cert-body { position: relative; z-index: 2; }
         .cert-header { text-align: center; border-bottom: 2px solid #cbd5e1; padding-bottom: 18px; margin-bottom: 22px; }
         .cert-header h4 { font-family: 'Cinzel', serif; font-size: 1rem; letter-spacing: 2px; color: #475569; text-transform: uppercase; margin-bottom: 4px; }
-        .cert-header h1 { font-family: 'Cinzel', serif; font-size: 2.2rem; color: #1e3a8a; font-weight: 800; letter-spacing: 1.5px; margin: 4px 0; }
+        .cert-header h1 { font-family: 'Cinzel', serif; font-size: 2.2rem; color: #006A4E; font-weight: 800; letter-spacing: 1.5px; margin: 4px 0; }
         .cert-header p { font-size: 0.88rem; color: #64748b; }
         
         .meta-strip { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 18px; margin-bottom: 25px; }
         .meta-strip .item small { display: block; font-size: 0.72rem; text-transform: uppercase; color: #64748b; font-weight: 700; }
-        .meta-strip .item strong { font-size: 1rem; color: #1e3a8a; }
+        .meta-strip .item strong { font-size: 1rem; color: #006A4E; }
 
         .party-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 22px; }
         .party-box { border: 1px solid #cbd5e1; border-radius: 8px; padding: 18px; background: #ffffff; }
-        .party-box h5 { font-family: 'Cinzel', serif; font-size: 1.05rem; color: #1e3a8a; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 12px; }
+        .party-box h5 { font-family: 'Cinzel', serif; font-size: 1.05rem; color: #006A4E; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 12px; }
         .field-row { display: flex; margin-bottom: 7px; font-size: 0.88rem; }
         .field-row .lbl { width: 120px; color: #64748b; font-weight: 600; }
         .field-row .val { flex: 1; color: #0f172a; font-weight: 600; }
@@ -106,7 +106,7 @@ if (!$marriage = mysqli_fetch_assoc($result)) {
         @media print {
             body { background: #ffffff !important; padding: 0 !important; }
             .action-bar { display: none !important; }
-            .certificate-sheet { max-width: 100% !important; border: 8px solid #1e3a8a !important; outline: 2px solid #b45309 !important; box-shadow: none !important; padding: 30px !important; }
+            .certificate-sheet { max-width: 100% !important; border: 8px solid #006A4E !important; outline: 2px solid #b45309 !important; box-shadow: none !important; padding: 30px !important; }
         }
     </style>
 </head>

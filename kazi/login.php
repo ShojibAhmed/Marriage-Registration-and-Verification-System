@@ -25,11 +25,12 @@ unset($_SESSION['kazi_login_error'], $_SESSION['kazi_login_mobile'], $_SESSION['
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Assets/css/theme.css">
     <link rel="stylesheet" href="../Assets/css/style.css">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            background: linear-gradient(135deg, #006A4E 0%, #0d1b2a 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -45,7 +46,7 @@ unset($_SESSION['kazi_login_error'], $_SESSION['kazi_login_mobile'], $_SESSION['
             overflow: hidden;
         }
         .card-header-kazi {
-            background: #2563eb;
+            background: #006A4E;
             color: #ffffff;
             padding: 28px 25px;
             text-align: center;
@@ -58,17 +59,19 @@ unset($_SESSION['kazi_login_error'], $_SESSION['kazi_login_mobile'], $_SESSION['
             padding: 11px 14px;
         }
         .btn-kazi {
-            background: #2563eb;
+            background: #006A4E;
             color: #ffffff;
             font-weight: 600;
             padding: 12px;
             border-radius: 8px;
             border: none;
             width: 100%;
+            cursor: pointer;
             transition: all 0.2s;
         }
-        .btn-kazi:hover {
-            background: #1d4ed8;
+        .btn-kazi:hover,
+        .btn-kazi:focus {
+            background: #004d38;
             color: #ffffff;
         }
     </style>

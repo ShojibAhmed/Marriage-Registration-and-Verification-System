@@ -73,14 +73,16 @@ while ($row = mysqli_fetch_assoc($rd_res)) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Assets/css/theme.css">
     <link rel="stylesheet" href="../Assets/css/style.css">
     <style>
         body { font-family: 'Poppins', sans-serif; background: #f4f7fc; color: #334155; min-height: 100vh; }
-        .kazi-navbar { background: #1e3a8a; color: #ffffff; padding: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        button, input[type="button"], input[type="submit"], .btn { cursor: pointer; }
+        .kazi-navbar { background: #006A4E; color: #ffffff; padding: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
         .dashboard-container { max-width: 1160px; margin: 30px auto; padding: 0 15px; }
         .stat-card { background: #ffffff; border-radius: 14px; padding: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid #e2e8f0; }
         .service-card { background: #ffffff; border-radius: 14px; padding: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid #e2e8f0; text-decoration: none; color: inherit; display: flex; align-items: center; transition: all 0.2s; height: 100%; }
-        .service-card:hover { transform: translateY(-3px); border-color: #2563eb; color: #1e3a8a; box-shadow: 0 8px 25px rgba(37,99,235,0.1); }
+        .service-card:hover { transform: translateY(-3px); border-color: #006A4E; color: #004d38; box-shadow: 0 8px 25px rgba(0,106,78,0.15); }
         .service-icon { width: 56px; height: 56px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-right: 16px; flex-shrink: 0; }
         .data-card { background: #ffffff; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid #e2e8f0; overflow: hidden; margin-bottom: 25px; }
         .data-card-header { padding: 18px 24px; border-bottom: 1px solid #f1f5f9; background: #ffffff; display: flex; justify-content: space-between; align-items: center; }
@@ -125,11 +127,46 @@ while ($row = mysqli_fetch_assoc($rd_res)) {
                     Chamber: <strong><?= htmlspecialchars($kazi['upazila'] ?? '') ?>, <?= htmlspecialchars($kazi['district'] ?? '') ?>, <?= htmlspecialchars($kazi['division'] ?? '') ?></strong> &bull;
                     Mobile: <code><?= htmlspecialchars($kazi['mobile_no'] ?? '') ?></code>
                 </p>
+                <div class="mt-3">
+                    <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3" data-bs-toggle="collapse" data-bs-target="#kaziProfileCollapse" aria-expanded="false" aria-controls="kaziProfileCollapse" id="profileToggleBtn">
+                        <i class="fa-solid fa-chevron-down me-1"></i> প্রোফাইলের বিস্তারিত দেখুন
+                    </button>
+                </div>
             </div>
             <div class="col-md-4 text-md-end mt-3 mt-md-0">
                 <a href="marriage_registration.php" class="btn btn-primary px-4 py-2 rounded-pill fw-semibold shadow-sm">
                     <i class="fa-solid fa-ring me-1"></i> New Marriage Registration
                 </a>
+            </div>
+        </div>
+
+        <!-- Collapsible Official Profile Details -->
+        <div class="collapse mt-3" id="kaziProfileCollapse">
+            <div class="p-3 bg-light rounded-3 border">
+                <div class="row g-3 small">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="text-muted text-uppercase fw-semibold" style="font-size: 0.72rem;">ইমেইল (Email)</div>
+                        <div class="fw-medium text-dark font-monospace"><?= htmlspecialchars($kazi['email'] ?? 'N/A') ?></div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="text-muted text-uppercase fw-semibold" style="font-size: 0.72rem;">লাইসেন্স স্ট্যাটাস (Status)</div>
+                        <div>
+                            <span class="badge bg-<?= (($kazi['status'] ?? '') === 'Active') ? 'success' : 'secondary' ?>-subtle text-<?= (($kazi['status'] ?? '') === 'Active') ? 'success' : 'secondary' ?> fw-semibold">
+                                <i class="fa-solid fa-circle-check me-1"></i><?= htmlspecialchars($kazi['status'] ?? 'Active') ?>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="text-muted text-uppercase fw-semibold" style="font-size: 0.72rem;">নিবন্ধন তারিখ (Registration Date)</div>
+                        <div class="fw-medium text-dark">
+                            <?= !empty($kazi['created_at']) ? htmlspecialchars(date('d M Y, h:i A', strtotime($kazi['created_at']))) : 'N/A' ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="text-muted text-uppercase fw-semibold" style="font-size: 0.72rem;">চেম্বারের পূর্ণ ঠিকানা (Chamber Address)</div>
+                        <div class="fw-medium text-dark"><?= htmlspecialchars($kazi['full_address'] ?? 'N/A') ?></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -356,5 +393,19 @@ while ($row = mysqli_fetch_assoc($rd_res)) {
 
 <!-- Bootstrap 5 JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(function() {
+    var collapseEl = document.getElementById('kaziProfileCollapse');
+    var toggleBtn = document.getElementById('profileToggleBtn');
+    if (collapseEl && toggleBtn) {
+        collapseEl.addEventListener('show.bs.collapse', function () {
+            toggleBtn.innerHTML = '<i class="fa-solid fa-chevron-up me-1"></i> বিস্তারিত বন্ধ করুন';
+        });
+        collapseEl.addEventListener('hide.bs.collapse', function () {
+            toggleBtn.innerHTML = '<i class="fa-solid fa-chevron-down me-1"></i> প্রোফাইলের বিস্তারিত দেখুন';
+        });
+    }
+})();
+</script>
 </body>
 </html>

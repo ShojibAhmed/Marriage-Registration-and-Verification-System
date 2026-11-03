@@ -75,6 +75,29 @@ if ($res) {
             display: inline-block;
             margin-bottom: 10px;
         }
+        .post-content-collapsed {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .btn-toggle-post {
+            background: none;
+            border: none;
+            padding: 0;
+            color: var(--bd-green);
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .btn-toggle-post:hover {
+            color: var(--bd-green-d);
+            text-decoration: underline;
+        }
         .main-footer { background: #0d1b2a; color: rgba(255,255,255,0.75); padding: 35px 0 20px; }
     </style>
 </head>
@@ -146,7 +169,10 @@ if ($res) {
                         <div class="text-muted small mb-3">
                             <i class="fa-regular fa-calendar-days me-1"></i> প্রকাশিত: <?= date('d M Y, h:i A', strtotime($post['created_at'])) ?>
                         </div>
-                        <p class="text-secondary" style="line-height: 1.8; white-space: pre-line;"><?= htmlspecialchars($post['content']) ?></p>
+                        <p id="post-content-<?= $post['post_id'] ?>" class="text-secondary post-content-collapsed mb-2" style="line-height: 1.8; white-space: pre-line;"><?= htmlspecialchars($post['content']) ?></p>
+                        <button type="button" class="btn-toggle-post" onclick="togglePost(this, <?= (int)$post['post_id'] ?>)" aria-expanded="false">
+                            আরও পড়ুন <i class="fa-solid fa-chevron-down ms-1"></i>
+                        </button>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -181,5 +207,22 @@ if ($res) {
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function togglePost(btn, postId) {
+    var content = document.getElementById('post-content-' + postId);
+    if (!content) return;
+
+    var isCollapsed = content.classList.contains('post-content-collapsed');
+    if (isCollapsed) {
+        content.classList.remove('post-content-collapsed');
+        btn.innerHTML = 'কম দেখুন <i class="fa-solid fa-chevron-up ms-1"></i>';
+        btn.setAttribute('aria-expanded', 'true');
+    } else {
+        content.classList.add('post-content-collapsed');
+        btn.innerHTML = 'আরও পড়ুন <i class="fa-solid fa-chevron-down ms-1"></i>';
+        btn.setAttribute('aria-expanded', 'false');
+    }
+}
+</script>
 </body>
 </html>
