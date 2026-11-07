@@ -28,14 +28,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $wife_id_type = trim($_POST['wife_identity_type'] ?? 'NID');
         $wife_id_no = trim($_POST['wife_identity_no'] ?? '');
 
-        // Witnesses
+        // Witnesses (Strictly forced to NID on server side)
         $witness1_name = trim($_POST['witness1_name'] ?? '');
-        $witness1_id_type = trim($_POST['witness1_identity_type'] ?? 'NID');
+        $witness1_id_type = 'NID';
         $witness1_id_no = trim($_POST['witness1_identity_no'] ?? '');
         $witness1_mobile = trim($_POST['witness1_mobile'] ?? '');
 
         $witness2_name = trim($_POST['witness2_name'] ?? '');
-        $witness2_id_type = trim($_POST['witness2_identity_type'] ?? 'NID');
+        $witness2_id_type = 'NID';
         $witness2_id_no = trim($_POST['witness2_identity_no'] ?? '');
         $witness2_mobile = trim($_POST['witness2_mobile'] ?? '');
 
@@ -60,6 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $message_type = "danger";
         } elseif ($wife_id_type === 'NID' && !preg_match('/^[0-9]{10}$/', $wife_id_no)) {
             $message = "কনের জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।";
+            $message_type = "danger";
+        } elseif (!preg_match('/^[0-9]{10}$/', $witness1_id_no)) {
+            $message = "প্রথম সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।";
+            $message_type = "danger";
+        } elseif (!preg_match('/^[0-9]{10}$/', $witness2_id_no)) {
+            $message = "দ্বিতীয় সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।";
             $message_type = "danger";
         } else {
             // 4. Verify Husband in Citizens Database
@@ -368,12 +374,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                     <label class="form-label small fw-semibold text-muted">ID Type</label>
                                     <select name="witness1_identity_type" class="form-select form-select-sm">
                                         <option value="NID">NID</option>
-                                        <option value="Passport">Passport</option>
                                     </select>
                                 </div>
                                 <div class="col-7">
-                                    <label class="form-label small fw-semibold text-muted">ID Number</label>
-                                    <input type="text" name="witness1_identity_no" class="form-control form-control-sm font-monospace" placeholder="ID Number" required>
+                                    <label class="form-label small fw-semibold text-muted">ID Number <span class="text-danger">*</span></label>
+                                    <input type="text" name="witness1_identity_no" class="form-control form-control-sm font-monospace" placeholder="e.g. 1234567890" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('প্রথম সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" required>
                                 </div>
                             </div>
                             <div>
@@ -396,12 +401,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                     <label class="form-label small fw-semibold text-muted">ID Type</label>
                                     <select name="witness2_identity_type" class="form-select form-select-sm">
                                         <option value="NID">NID</option>
-                                        <option value="Passport">Passport</option>
                                     </select>
                                 </div>
                                 <div class="col-7">
-                                    <label class="form-label small fw-semibold text-muted">ID Number</label>
-                                    <input type="text" name="witness2_identity_no" class="form-control form-control-sm font-monospace" placeholder="ID Number" required>
+                                    <label class="form-label small fw-semibold text-muted">ID Number <span class="text-danger">*</span></label>
+                                    <input type="text" name="witness2_identity_no" class="form-control form-control-sm font-monospace" placeholder="e.g. 1234567890" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('দ্বিতীয় সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" required>
                                 </div>
                             </div>
                             <div>
