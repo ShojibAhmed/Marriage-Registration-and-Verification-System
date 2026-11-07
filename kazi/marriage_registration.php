@@ -55,6 +55,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } elseif ($witness1_id_no === $husband_id_no || $witness1_id_no === $wife_id_no || $witness2_id_no === $husband_id_no || $witness2_id_no === $wife_id_no) {
             $message = "Neither the Husband nor the Wife may act as a witness to their own marriage.";
             $message_type = "danger";
+        } elseif ($husband_id_type === 'NID' && !preg_match('/^[0-9]{10}$/', $husband_id_no)) {
+            $message = "বরের জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।";
+            $message_type = "danger";
+        } elseif ($wife_id_type === 'NID' && !preg_match('/^[0-9]{10}$/', $wife_id_no)) {
+            $message = "কনের জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।";
+            $message_type = "danger";
         } else {
             // 4. Verify Husband in Citizens Database
             $h_sql = ($husband_id_type === 'Passport') ? 
@@ -293,7 +299,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="row g-2 mb-2">
                     <div class="col-md-4">
                         <label class="form-label small fw-semibold text-muted">Identity Type</label>
-                        <select name="husband_identity_type" id="hIdType" class="form-select" onchange="lookupHusband()">
+                        <select name="husband_identity_type" id="hIdType" class="form-select" onchange="updateIdValidation('husband'); lookupHusband();">
                             <option value="NID">Bangladeshi NID</option>
                             <option value="Passport">Foreign Passport</option>
                         </select>
@@ -322,7 +328,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="row g-2 mb-2">
                     <div class="col-md-4">
                         <label class="form-label small fw-semibold text-muted">Identity Type</label>
-                        <select name="wife_identity_type" id="wIdType" class="form-select" onchange="lookupWife()">
+                        <select name="wife_identity_type" id="wIdType" class="form-select" onchange="updateIdValidation('wife'); lookupWife();">
                             <option value="NID">Bangladeshi NID</option>
                             <option value="Passport">Foreign Passport</option>
                         </select>
@@ -556,6 +562,39 @@ function lookupWife() {
 
 // Initial calculation
 calculateFee();
+updateIdValidation('husband');
+updateIdValidation('wife');
+
+function updateIdValidation(role) {
+    const typeSelect = document.getElementById(role === 'husband' ? 'hIdType' : 'wIdType');
+    const idInput = document.getElementById(role === 'husband' ? 'hIdNo' : 'wIdNo');
+    const errorMsg = (role === 'husband')
+        ? 'বরের জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।'
+        : 'কনের জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।';
+
+    if (typeSelect.value === 'NID') {
+        idInput.setAttribute('pattern', '[0-9]{10}');
+        idInput.setAttribute('minlength', '10');
+        idInput.setAttribute('maxlength', '10');
+        idInput.setAttribute('inputmode', 'numeric');
+        idInput.setAttribute('placeholder', 'e.g. 1234567890 (১০ ডিজিট NID)');
+        idInput.oninvalid = function() {
+            this.setCustomValidity(errorMsg);
+        };
+        idInput.oninput = function() {
+            this.setCustomValidity('');
+        };
+    } else {
+        idInput.removeAttribute('pattern');
+        idInput.removeAttribute('minlength');
+        idInput.removeAttribute('maxlength');
+        idInput.removeAttribute('inputmode');
+        idInput.setAttribute('placeholder', 'e.g. A12345678 (Passport number)');
+        idInput.setCustomValidity('');
+        idInput.oninvalid = null;
+        idInput.oninput = null;
+    }
+}
 </script>
 
 </body>
