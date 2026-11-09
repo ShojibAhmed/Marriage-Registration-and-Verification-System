@@ -9,7 +9,7 @@ if (!isset($_SESSION['kazi_id'])) {
 $registration_number = trim($_GET['registration_number'] ?? '');
 
 if (empty($registration_number)) {
-    die("Invalid registration number.");
+    die("অবৈধ বা অনুপস্থিত বিবাহ নিবন্ধন নম্বর।");
 }
 
 // Redirect to the unified official Digital Certificate with QR code

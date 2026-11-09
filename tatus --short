@@ -1,0 +1,66 @@
+warning: in the working copy of 'kazi/marriage_registration.php', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/kazi/marriage_registration.php b/kazi/marriage_registration.php[m
+[1mindex 77cac6d..5c58d39 100644[m
+[1m--- a/kazi/marriage_registration.php[m
+[1m+++ b/kazi/marriage_registration.php[m
+[36m@@ -28,14 +28,14 @@[m [mif ($_SERVER["REQUEST_METHOD"] === "POST") {[m
+         $wife_id_type = trim($_POST['wife_identity_type'] ?? 'NID');[m
+         $wife_id_no = trim($_POST['wife_identity_no'] ?? '');[m
+ [m
+[31m-        // Witnesses[m
+[32m+[m[32m        // Witnesses (Strictly forced to NID on server side)[m
+         $witness1_name = trim($_POST['witness1_name'] ?? '');[m
+[31m-        $witness1_id_type = trim($_POST['witness1_identity_type'] ?? 'NID');[m
+[32m+[m[32m        $witness1_id_type = 'NID';[m
+         $witness1_id_no = trim($_POST['witness1_identity_no'] ?? '');[m
+         $witness1_mobile = trim($_POST['witness1_mobile'] ?? '');[m
+ [m
+         $witness2_name = trim($_POST['witness2_name'] ?? '');[m
+[31m-        $witness2_id_type = trim($_POST['witness2_identity_type'] ?? 'NID');[m
+[32m+[m[32m        $witness2_id_type = 'NID';[m
+         $witness2_id_no = trim($_POST['witness2_identity_no'] ?? '');[m
+         $witness2_mobile = trim($_POST['witness2_mobile'] ?? '');[m
+ [m
+[36m@@ -61,6 +61,12 @@[m [mif ($_SERVER["REQUEST_METHOD"] === "POST") {[m
+         } elseif ($wife_id_type === 'NID' && !preg_match('/^[0-9]{10}$/', $wife_id_no)) {[m
+             $message = "কনের জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।";[m
+             $message_type = "danger";[m
+[32m+[m[32m        } elseif (!preg_match('/^[0-9]{10}$/', $witness1_id_no)) {[m
+[32m+[m[32m            $message = "প্রথম সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।";[m
+[32m+[m[32m            $message_type = "danger";[m
+[32m+[m[32m        } elseif (!preg_match('/^[0-9]{10}$/', $witness2_id_no)) {[m
+[32m+[m[32m            $message = "দ্বিতীয় সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।";[m
+[32m+[m[32m            $message_type = "danger";[m
+         } else {[m
+             // 4. Verify Husband in Citizens Database[m
+             $h_sql = ($husband_id_type === 'Passport') ? [m
+[36m@@ -368,12 +374,11 @@[m [mif ($_SERVER["REQUEST_METHOD"] === "POST") {[m
+                                     <label class="form-label small fw-semibold text-muted">ID Type</label>[m
+                                     <select name="witness1_identity_type" class="form-select form-select-sm">[m
+                                         <option value="NID">NID</option>[m
+[31m-                                        <option value="Passport">Passport</option>[m
+                                     </select>[m
+                                 </div>[m
+                                 <div class="col-7">[m
+[31m-                                    <label class="form-label small fw-semibold text-muted">ID Number</label>[m
+[31m-                                    <input type="text" name="witness1_identity_no" class="form-control form-control-sm font-monospace" placeholder="ID Number" required>[m
+[32m+[m[32m                                    <label class="form-label small fw-semibold text-muted">ID Number <span class="text-danger">*</span></label>[m
+[32m+[m[32m                                    <input type="text" name="witness1_identity_no" class="form-control form-control-sm font-monospace" placeholder="e.g. 1234567890" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('প্রথম সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" required>[m
+                                 </div>[m
+                             </div>[m
+                             <div>[m
+[36m@@ -396,12 +401,11 @@[m [mif ($_SERVER["REQUEST_METHOD"] === "POST") {[m
+                                     <label class="form-label small fw-semibold text-muted">ID Type</label>[m
+                                     <select name="witness2_identity_type" class="form-select form-select-sm">[m
+                                         <option value="NID">NID</option>[m
+[31m-                                        <option value="Passport">Passport</option>[m
+                                     </select>[m
+                                 </div>[m
+                                 <div class="col-7">[m
+[31m-                                    <label class="form-label small fw-semibold text-muted">ID Number</label>[m
+[31m-                                    <input type="text" name="witness2_identity_no" class="form-control form-control-sm font-monospace" placeholder="ID Number" required>[m
+[32m+[m[32m                                    <label class="form-label small fw-semibold text-muted">ID Number <span class="text-danger">*</span></label>[m
+[32m+[m[32m                                    <input type="text" name="witness2_identity_no" class="form-control form-control-sm font-monospace" placeholder="e.g. 1234567890" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('দ্বিতীয় সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" required>[m
+                                 </div>[m
+                             </div>[m
+                             <div>[m

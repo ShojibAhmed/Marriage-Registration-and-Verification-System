@@ -6,7 +6,7 @@ require_once "includes/security.php";
 // Marriage Verification is restricted to authenticated Kazi officers.
 // Public visitors are redirected to authorized Kazi login with clear notice.
 if (!isset($_SESSION['kazi_id'])) {
-    $_SESSION['kazi_login_error'] = "Marriage verification is restricted to authorized Kazi users. Please log in to search.";
+    $_SESSION['kazi_login_error'] = "বিবাহ রেকর্ড যাচাইকরণ শুধুমাত্র অনুমোদিত কাজীদের জন্য সংরক্ষিত। অনুগ্রহ করে লগইন করুন।";
     header("Location: kazi/login.php");
     exit();
 }

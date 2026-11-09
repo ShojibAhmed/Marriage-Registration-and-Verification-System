@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 // 1. Verify CSRF Token
 $token = $_POST['csrf_token'] ?? '';
 if (!verify_csrf_token($token)) {
-    $_SESSION['kazi_signup_error'] = "Invalid session or CSRF security token. Please try again.";
+    $_SESSION['kazi_signup_error'] = "নিরাপত্তা টোকেন মেয়াদোত্তীর্ণ বা অবৈধ। অনুগ্রহ করে আবার চেষ্টা করুন।";
     header("Location: signup.php");
     exit();
 }
@@ -41,44 +41,44 @@ $_SESSION['kazi_signup_old'] = [
 
 // 3. Validation checks
 if (empty($full_name) || empty($mobile_no) || empty($email) || empty($password) || empty($division) || empty($district) || empty($upazila) || empty($full_address)) {
-    $_SESSION['kazi_signup_error'] = "Please fill in all mandatory fields.";
+    $_SESSION['kazi_signup_error'] = "অনুগ্রহ করে সকল আবশ্যকীয় তথ্য পূরণ করুন।";
     header("Location: signup.php");
     exit();
 }
 
 if (!validate_person_name($full_name)) {
-    $_SESSION['kazi_signup_error'] = "Please enter a valid legal name (letters and spaces only).";
+    $_SESSION['kazi_signup_error'] = "অনুগ্রহ করে সঠিক বৈধ নাম লিখুন (শুধুমাত্র অক্ষর ও স্পেস)।";
     header("Location: signup.php");
     exit();
 }
 
 if (!validate_bd_mobile($mobile_no)) {
-    $_SESSION['kazi_signup_error'] = "Mobile number must contain exactly 11 digits under the project's prototype validation rule (e.g. 01712345678).";
+    $_SESSION['kazi_signup_error'] = "মোবাইল নম্বর অবশ্যই ১১ ডিজিটের হতে হবে (যেমন: 01712345678)।";
     header("Location: signup.php");
     exit();
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $_SESSION['kazi_signup_error'] = "Please provide a valid email address.";
+    $_SESSION['kazi_signup_error'] = "অনুগ্রহ করে একটি সঠিক ইমেইল ঠিকানা দিন।";
     header("Location: signup.php");
     exit();
 }
 
 if (strlen($password) < 6) {
-    $_SESSION['kazi_signup_error'] = "Password must be at least 6 characters long.";
+    $_SESSION['kazi_signup_error'] = "পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।";
     header("Location: signup.php");
     exit();
 }
 
 if ($password !== $confirm_password) {
-    $_SESSION['kazi_signup_error'] = "The two passwords you entered do not match.";
+    $_SESSION['kazi_signup_error'] = "প্রদত্ত দুটি পাসওয়ার্ডের মিল পাওয়া যায়নি।";
     header("Location: signup.php");
     exit();
 }
 
 // 4. Validate Location Hierarchy
 if (!is_valid_location($division, $district, $upazila)) {
-    $_SESSION['kazi_signup_error'] = "Invalid administrative location. Please ensure the district belongs to the selected division and the upazila belongs to the selected district.";
+    $_SESSION['kazi_signup_error'] = "অবৈধ প্রশাসনিক এলাকা। বিভাগ, জেলা এবং উপজেলা সঠিকভাবে নির্বাচন করুন।";
     header("Location: signup.php");
     exit();
 }
@@ -90,7 +90,7 @@ mysqli_stmt_execute($chk_stmt);
 $chk_res = mysqli_stmt_get_result($chk_stmt);
 
 if (mysqli_num_rows($chk_res) > 0) {
-    $_SESSION['kazi_signup_error'] = "A Kazi account with this Mobile Number or Email address already exists.";
+    $_SESSION['kazi_signup_error'] = "এই মোবাইল নম্বর বা ইমেইল ঠিকানা দিয়ে ইতিমধ্যে একটি কাজী অ্যাকাউন্ট রয়েছে।";
     header("Location: signup.php");
     exit();
 }
@@ -128,26 +128,26 @@ try {
     unset($_SESSION['kazi_signup_old']);
 } catch (Exception $e) {
     mysqli_rollback($conn);
-    $_SESSION['kazi_signup_error'] = "Database error generating license: " . $e->getMessage();
+    $_SESSION['kazi_signup_error'] = "লাইসেন্স তৈরিতে ডাটাবেজ ত্রুটি: " . $e->getMessage();
     header("Location: signup.php");
     exit();
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Successful | Kazi Portal</title>
+    <title>নিবন্ধন সফল | কাজী পোর্টাল</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Font: Hind Siliguri (Bengali) + Poppins (English) -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../Assets/css/style.css">
     <style>
-        body { font-family: 'Poppins', sans-serif; background: #f4f7fc; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 25px 15px; }
+        body { font-family: 'Hind Siliguri', 'Poppins', sans-serif; background: #f4f7fc; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 25px 15px; }
         .success-box { width: 100%; max-width: 540px; background: #ffffff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 40px; text-align: center; border: 1px solid #e2e8f0; }
         .license-highlight { background: #f0fdf4; border: 2px dashed #16a34a; border-radius: 12px; padding: 20px; margin: 25px 0; }
     </style>
@@ -158,31 +158,31 @@ try {
     <div class="text-success mb-3" style="font-size: 3.5rem;">
         <i class="fa-solid fa-circle-check"></i>
     </div>
-    <h3 class="fw-bold text-dark mb-1">Kazi Account Registered!</h3>
-    <p class="text-muted small mb-0">Your account has been created and your unique license has been generated.</p>
+    <h3 class="fw-bold text-dark mb-1">কাজী অ্যাকাউন্ট নিবন্ধন সম্পন্ন হয়েছে!</h3>
+    <p class="text-muted small mb-0">আপনার অ্যাকাউন্ট তৈরি হয়েছে এবং একটি অনন্য কাজী লাইসেন্স নম্বর জেনারেট করা হয়েছে।</p>
 
     <div class="license-highlight">
-        <div class="text-muted small text-uppercase fw-bold letter-spacing-1">Your Generated Kazi License Number:</div>
+        <div class="text-muted small text-uppercase fw-bold letter-spacing-1">আপনার কাজী লাইসেন্স নম্বর:</div>
         <div class="fs-2 fw-bold text-success font-monospace my-2"><?= htmlspecialchars($generated_license) ?></div>
-        <small class="text-muted d-block">District Prefix: <strong><?= htmlspecialchars($prefix) ?></strong> &bull; Serial: <strong>#<?= sprintf("%06d", $serial) ?></strong></small>
+        <small class="text-muted d-block">জেলা প্রিফিক্স: <strong><?= htmlspecialchars($prefix) ?></strong> &bull; ক্রমিক: <strong>#<?= sprintf("%06d", $serial) ?></strong></small>
     </div>
 
     <div class="p-3 bg-light rounded-3 text-start small mb-4 border">
-        <div class="mb-1"><strong>Full Name:</strong> <?= htmlspecialchars($full_name) ?></div>
-        <div class="mb-1"><strong>Mobile Number:</strong> <?= htmlspecialchars($mobile_no) ?></div>
-        <div class="mb-1"><strong>Jurisdiction:</strong> <?= htmlspecialchars($upazila) ?>, <?= htmlspecialchars($district) ?>, <?= htmlspecialchars($division) ?></div>
+        <div class="mb-1"><strong>পূর্ণ নাম:</strong> <?= htmlspecialchars($full_name) ?></div>
+        <div class="mb-1"><strong>মোবাইল নম্বর:</strong> <?= htmlspecialchars($mobile_no) ?></div>
+        <div class="mb-1"><strong>কর্মক্ষেত্র এলাকা:</strong> <?= htmlspecialchars($upazila) ?>, <?= htmlspecialchars($district) ?>, <?= htmlspecialchars($division) ?></div>
         <div class="text-muted mt-2 border-top pt-2">
             <i class="fa-solid fa-circle-info me-1 text-primary"></i>
-            Please note down your <strong>License Number</strong> and <strong>Mobile Number</strong>. Both are required along with your password to log in.
+            অনুগ্রহ করে আপনার <strong>লাইসেন্স নম্বর</strong> এবং <strong>মোবাইল নম্বর</strong> সংরক্ষণ করুন। লগইন করার জন্য এই দুটি এবং আপনার পাসওয়ার্ড প্রয়োজন হবে।
         </div>
     </div>
 
     <div class="d-grid gap-2">
         <a href="login.php" class="btn btn-primary py-2 fw-semibold">
-            <i class="fa-solid fa-right-to-bracket me-1"></i> Proceed to Kazi Login
+            <i class="fa-solid fa-right-to-bracket me-1"></i> কাজী লগইনে প্রবেশ করুন
         </a>
         <a href="../index.php" class="btn btn-outline-secondary py-2">
-            Return to Homepage
+            হোম পেজে ফিরে যান
         </a>
     </div>
 </div>

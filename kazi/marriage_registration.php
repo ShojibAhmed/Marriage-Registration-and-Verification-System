@@ -104,95 +104,104 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $message = "Gender validation error: The selected Wife is registered as {$wife['gender']} (expected Female).";
                     $message_type = "danger";
                 } else {
-                    // Check conflicting active marriages
-                    $chk_h = mysqli_prepare($conn, "SELECT registration_number FROM marriages WHERE (husband_identity_no = ? OR wife_identity_no = ?) AND status = 'Active' LIMIT 1");
-                    mysqli_stmt_bind_param($chk_h, "ss", $husband_id_no, $husband_id_no);
-                    mysqli_stmt_execute($chk_h);
-                    $chk_h_res = mysqli_stmt_get_result($chk_h);
+                    // Backend Age Validation (Groom >= 21, Bride >= 18 on solemnization date)
+                    $husband_age = calculate_age_on_date($husband['date_of_birth'], $marriage_date);
+                    $wife_age = calculate_age_on_date($wife['date_of_birth'], $marriage_date);
 
-                    $chk_w = mysqli_prepare($conn, "SELECT registration_number FROM marriages WHERE (husband_identity_no = ? OR wife_identity_no = ?) AND status = 'Active' LIMIT 1");
-                    mysqli_stmt_bind_param($chk_w, "ss", $wife_id_no, $wife_id_no);
-                    mysqli_stmt_execute($chk_w);
-                    $chk_w_res = mysqli_stmt_get_result($chk_w);
-
-                    if ($h_row = mysqli_fetch_assoc($chk_h_res)) {
-                        $message = "Registration blocked: Husband already has an existing Active marriage registration (#{$h_row['registration_number']}).";
-                        $message_type = "danger";
-                    } elseif ($w_row = mysqli_fetch_assoc($chk_w_res)) {
-                        $message = "Registration blocked: Wife already has an existing Active marriage registration (#{$w_row['registration_number']}).";
+                    if ($husband_age === null || $husband_age < 21 || $wife_age === null || $wife_age < 18) {
+                        $message = "বয়স হয়নি";
                         $message_type = "danger";
                     } else {
-                        // 6. Calculate Proposed Fee
-                        $fee_details = calculate_marriage_registration_fee($religion, $denmohor);
-                        $fee_amount = $fee_details['fee_amount'];
-                        $tax_amount = $fee_details['tax_amount'];
-                        $total_amount = $fee_details['total_amount'];
+                        // Check conflicting active marriages
+                        $chk_h = mysqli_prepare($conn, "SELECT registration_number FROM marriages WHERE (husband_identity_no = ? OR wife_identity_no = ?) AND status = 'Active' LIMIT 1");
+                        mysqli_stmt_bind_param($chk_h, "ss", $husband_id_no, $husband_id_no);
+                        mysqli_stmt_execute($chk_h);
+                        $chk_h_res = mysqli_stmt_get_result($chk_h);
 
-                        // 7. Auto-Generate Unique Registration Number & Receipt Number
-                        $year = date('Y', strtotime($marriage_date));
-                        $rand_num = rand(100000, 999999);
-                        $registration_number = "MR-{$year}-{$rand_num}";
-                        $receipt_no = "RCT-{$year}-{$rand_num}";
+                        $chk_w = mysqli_prepare($conn, "SELECT registration_number FROM marriages WHERE (husband_identity_no = ? OR wife_identity_no = ?) AND status = 'Active' LIMIT 1");
+                        mysqli_stmt_bind_param($chk_w, "ss", $wife_id_no, $wife_id_no);
+                        mysqli_stmt_execute($chk_w);
+                        $chk_w_res = mysqli_stmt_get_result($chk_w);
 
-                        $kazi_id = (int)$_SESSION['kazi_id'];
-                        $kazi_license_no = $_SESSION['license_no'];
-                        $kazi_name = $_SESSION['kazi_name'];
-
-                        // 8. Execute Database Transaction
-                        mysqli_begin_transaction($conn);
-
-                        try {
-                            // Insert into marriages
-                            $ins_m = mysqli_prepare($conn, "INSERT INTO marriages (
-                                registration_number, marriage_date, religion,
-                                husband_citizen_id, husband_identity_type, husband_identity_no, husband_name,
-                                wife_citizen_id, wife_identity_type, wife_identity_no, wife_name,
-                                kazi_id, kazi_license_no, kazi_name,
-                                witness1_name, witness1_identity_type, witness1_identity_no, witness1_mobile,
-                                witness2_name, witness2_identity_type, witness2_identity_no, witness2_mobile,
-                                denmohor_amount, registration_fee, status
-                            ) VALUES (
-                                ?, ?, ?,
-                                ?, ?, ?, ?,
-                                ?, ?, ?, ?,
-                                ?, ?, ?,
-                                ?, ?, ?, ?,
-                                ?, ?, ?, ?,
-                                ?, ?, 'Active'
-                            )");
-
-                            mysqli_stmt_bind_param($ins_m, "sssisssisssissssssssssdd", 
-                                $registration_number, $marriage_date, $religion,
-                                $husband['citizen_id'], $husband_id_type, $husband_id_no, $husband['full_name'],
-                                $wife['citizen_id'], $wife_id_type, $wife_id_no, $wife['full_name'],
-                                $kazi_id, $kazi_license_no, $kazi_name,
-                                $witness1_name, $witness1_id_type, $witness1_id_no, $witness1_mobile,
-                                $witness2_name, $witness2_id_type, $witness2_id_no, $witness2_mobile,
-                                $denmohor, $total_amount
-                            );
-                            mysqli_stmt_execute($ins_m);
-
-                            // Insert into payments
-                            $service_cat = ($religion === 'Muslim') ? 'Muslim Marriage' : (($religion === 'Hindu') ? 'Hindu Marriage' : 'Other Marriage');
-                            $ins_p = mysqli_prepare($conn, "INSERT INTO payments (
-                                receipt_no, service_category, reference_no, fee_amount, tax_amount, total_amount, payment_date, payment_status, kazi_license_no
-                            ) VALUES (
-                                ?, ?, ?, ?, ?, ?, ?, 'Paid', ?
-                            )");
-                            mysqli_stmt_bind_param($ins_p, "sssdddss", 
-                                $receipt_no, $service_cat, $registration_number, $fee_amount, $tax_amount, $total_amount, $marriage_date, $kazi_license_no
-                            );
-                            mysqli_stmt_execute($ins_p);
-
-                            mysqli_commit($conn);
-                            $generated_reg_no = $registration_number;
-                            $message = "Marriage successfully registered and recorded as Active! Receipt #{$receipt_no} generated.";
-                            $message_type = "success";
-
-                        } catch (Exception $e) {
-                            mysqli_rollback($conn);
-                            $message = "Database transaction failed: " . $e->getMessage();
+                        if ($h_row = mysqli_fetch_assoc($chk_h_res)) {
+                            $message = "Registration blocked: Husband already has an existing Active marriage registration (#{$h_row['registration_number']}).";
                             $message_type = "danger";
+                        } elseif ($w_row = mysqli_fetch_assoc($chk_w_res)) {
+                            $message = "Registration blocked: Wife already has an existing Active marriage registration (#{$w_row['registration_number']}).";
+                            $message_type = "danger";
+                        } else {
+                            // 6. Calculate Proposed Fee
+                            $fee_details = calculate_marriage_registration_fee($religion, $denmohor);
+                            $fee_amount = $fee_details['fee_amount'];
+                            $tax_amount = $fee_details['tax_amount'];
+                            $total_amount = $fee_details['total_amount'];
+
+                            // 7. Auto-Generate Unique Registration Number & Receipt Number
+                            $year = date('Y', strtotime($marriage_date));
+                            $rand_num = rand(100000, 999999);
+                            $registration_number = "MR-{$year}-{$rand_num}";
+                            $receipt_no = "RCT-{$year}-{$rand_num}";
+
+                            $kazi_id = (int)$_SESSION['kazi_id'];
+                            $kazi_license_no = $_SESSION['license_no'];
+                            $kazi_name = $_SESSION['kazi_name'];
+
+                            // 8. Execute Database Transaction
+                            mysqli_begin_transaction($conn);
+
+                            try {
+                                // Insert into marriages
+                                $ins_m = mysqli_prepare($conn, "INSERT INTO marriages (
+                                    registration_number, marriage_date, religion,
+                                    husband_citizen_id, husband_identity_type, husband_identity_no, husband_name,
+                                    wife_citizen_id, wife_identity_type, wife_identity_no, wife_name,
+                                    kazi_id, kazi_license_no, kazi_name,
+                                    witness1_name, witness1_identity_type, witness1_identity_no, witness1_mobile,
+                                    witness2_name, witness2_identity_type, witness2_identity_no, witness2_mobile,
+                                    denmohor_amount, registration_fee, status
+                                ) VALUES (
+                                    ?, ?, ?,
+                                    ?, ?, ?, ?,
+                                    ?, ?, ?, ?,
+                                    ?, ?, ?,
+                                    ?, ?, ?, ?,
+                                    ?, ?, ?, ?,
+                                    ?, ?, 'Active'
+                                )");
+
+                                mysqli_stmt_bind_param($ins_m, "sssisssisssissssssssssdd", 
+                                    $registration_number, $marriage_date, $religion,
+                                    $husband['citizen_id'], $husband_id_type, $husband_id_no, $husband['full_name'],
+                                    $wife['citizen_id'], $wife_id_type, $wife_id_no, $wife['full_name'],
+                                    $kazi_id, $kazi_license_no, $kazi_name,
+                                    $witness1_name, $witness1_id_type, $witness1_id_no, $witness1_mobile,
+                                    $witness2_name, $witness2_id_type, $witness2_id_no, $witness2_mobile,
+                                    $denmohor, $total_amount
+                                );
+                                mysqli_stmt_execute($ins_m);
+
+                                // Insert into payments
+                                $service_cat = ($religion === 'Muslim') ? 'Muslim Marriage' : (($religion === 'Hindu') ? 'Hindu Marriage' : 'Other Marriage');
+                                $ins_p = mysqli_prepare($conn, "INSERT INTO payments (
+                                    receipt_no, service_category, reference_no, fee_amount, tax_amount, total_amount, payment_date, payment_status, kazi_license_no
+                                ) VALUES (
+                                    ?, ?, ?, ?, ?, ?, ?, 'Paid', ?
+                                )");
+                                mysqli_stmt_bind_param($ins_p, "sssdddss", 
+                                    $receipt_no, $service_cat, $registration_number, $fee_amount, $tax_amount, $total_amount, $marriage_date, $kazi_license_no
+                                );
+                                mysqli_stmt_execute($ins_p);
+
+                                mysqli_commit($conn);
+                                $generated_reg_no = $registration_number;
+                                $message = "Marriage successfully registered and recorded as Active! Receipt #{$receipt_no} generated.";
+                                $message_type = "success";
+
+                            } catch (Exception $e) {
+                                mysqli_rollback($conn);
+                                $message = "Database transaction failed: " . $e->getMessage();
+                                $message_type = "danger";
+                            }
                         }
                     }
                 }
@@ -264,30 +273,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <div class="form-body">
             <?php if (!empty($message)): ?>
-                <div class="alert alert-<?= $message_type ?> p-4 rounded-3 mb-4">
-                    <h5 class="fw-bold d-flex align-items-center mb-1">
-                        <i class="fa-solid fa-<?= ($message_type === 'success') ? 'circle-check' : 'triangle-exclamation' ?> me-2"></i>
-                        <?= htmlspecialchars($message) ?>
-                    </h5>
-                    <?php if ($message_type === 'success' && !empty($generated_reg_no)): ?>
-                        <div class="mt-3 pt-3 border-top border-success-subtle">
-                            <p class="mb-2">Official Marriage Registration Number: <strong class="font-monospace text-primary"><?= htmlspecialchars($generated_reg_no) ?></strong></p>
-                            <a href="../Certificate/view_certificate.php?reg=<?= urlencode($generated_reg_no) ?>" target="_blank" class="btn btn-success fw-bold">
-                                <i class="fa-solid fa-certificate me-1"></i> View &amp; Print Official Marriage Certificate
-                            </a>
-                        </div>
-                    <?php endif; ?>
-                </div>
+                <?php if ($message === 'বয়স হয়নি'): ?>
+                    <script>
+                        alert("বয়স হয়নি");
+                    </script>
+                <?php else: ?>
+                    <div class="alert alert-<?= $message_type ?> p-4 rounded-3 mb-4">
+                        <h5 class="fw-bold d-flex align-items-center mb-1">
+                            <i class="fa-solid fa-<?= ($message_type === 'success') ? 'circle-check' : 'triangle-exclamation' ?> me-2"></i>
+                            <?= htmlspecialchars($message) ?>
+                        </h5>
+                        <?php if ($message_type === 'success' && !empty($generated_reg_no)): ?>
+                            <div class="mt-3 pt-3 border-top border-success-subtle">
+                                <p class="mb-2">Official Marriage Registration Number: <strong class="font-monospace text-primary"><?= htmlspecialchars($generated_reg_no) ?></strong></p>
+                                <a href="../Certificate/view_certificate.php?reg=<?= urlencode($generated_reg_no) ?>" target="_blank" class="btn btn-success fw-bold">
+                                    <i class="fa-solid fa-certificate me-1"></i> View &amp; Print Official Marriage Certificate
+                                </a>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
             <?php endif; ?>
 
-            <form method="POST" action="marriage_registration.php">
+            <form method="POST" action="marriage_registration.php" id="marriageForm">
                 <?= csrf_field() ?>
 
                 <!-- Basic Meta -->
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
                         <label class="form-label small fw-semibold text-dark">Solemnization Date <span class="text-danger">*</span></label>
-                        <input type="date" name="marriage_date" class="form-control" value="<?= date('Y-m-d') ?>" required>
+                        <input type="date" name="marriage_date" id="marriageDate" class="form-control" value="<?= date('Y-m-d') ?>" required>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label small fw-semibold text-dark">Religion / Marriage Type <span class="text-danger">*</span></label>
@@ -490,6 +505,25 @@ function calculateFee() {
     feeNote.textContent = note;
 }
 
+let currentHusband = null;
+let currentWife = null;
+
+function calculateAge(dobStr, marriageDateStr) {
+    if (!dobStr || !marriageDateStr) return null;
+    const dob = new Date(dobStr + 'T00:00:00');
+    const mDate = new Date(marriageDateStr + 'T00:00:00');
+    if (isNaN(dob.getTime()) || isNaN(mDate.getTime()) || dob > mDate) {
+        return null;
+    }
+    let age = mDate.getFullYear() - dob.getFullYear();
+    const mMonth = mDate.getMonth();
+    const dMonth = dob.getMonth();
+    if (mMonth < dMonth || (mMonth === dMonth && mDate.getDate() < dob.getDate())) {
+        age--;
+    }
+    return age;
+}
+
 function lookupHusband() {
     const type = document.getElementById('hIdType').value;
     const idNo = document.getElementById('hIdNo').value.trim();
@@ -497,14 +531,19 @@ function lookupHusband() {
     const nameEl = document.getElementById('hName');
     const detEl = document.getElementById('hDetails');
     const badge = document.getElementById('hBadge');
+    const mDate = document.getElementById('marriageDate').value;
 
-    if (!idNo) return;
+    if (!idNo) {
+        currentHusband = null;
+        return;
+    }
 
-    fetch(`../api/lookup_citizen.php?type=${encodeURIComponent(type)}&identifier=${encodeURIComponent(idNo)}`)
+    fetch(`../api/lookup_citizen.php?type=${encodeURIComponent(type)}&identifier=${encodeURIComponent(idNo)}&marriage_date=${encodeURIComponent(mDate)}`)
         .then(res => res.json())
         .then(data => {
             card.classList.remove('d-none');
             if (data.success) {
+                currentHusband = data.citizen;
                 const c = data.citizen;
                 nameEl.textContent = c.full_name;
                 detEl.textContent = `Gender: ${c.gender} • Age: ${c.age} yrs • Religion: ${c.religion}`;
@@ -519,6 +558,7 @@ function lookupHusband() {
                     badge.textContent = 'Eligible for Marriage';
                 }
             } else {
+                currentHusband = null;
                 nameEl.textContent = 'Citizen Not Found';
                 detEl.textContent = data.error;
                 badge.className = 'badge bg-warning text-dark';
@@ -534,14 +574,19 @@ function lookupWife() {
     const nameEl = document.getElementById('wName');
     const detEl = document.getElementById('wDetails');
     const badge = document.getElementById('wBadge');
+    const mDate = document.getElementById('marriageDate').value;
 
-    if (!idNo) return;
+    if (!idNo) {
+        currentWife = null;
+        return;
+    }
 
-    fetch(`../api/lookup_citizen.php?type=${encodeURIComponent(type)}&identifier=${encodeURIComponent(idNo)}`)
+    fetch(`../api/lookup_citizen.php?type=${encodeURIComponent(type)}&identifier=${encodeURIComponent(idNo)}&marriage_date=${encodeURIComponent(mDate)}`)
         .then(res => res.json())
         .then(data => {
             card.classList.remove('d-none');
             if (data.success) {
+                currentWife = data.citizen;
                 const c = data.citizen;
                 nameEl.textContent = c.full_name;
                 detEl.textContent = `Gender: ${c.gender} • Age: ${c.age} yrs • Religion: ${c.religion}`;
@@ -556,6 +601,7 @@ function lookupWife() {
                     badge.textContent = 'Eligible for Marriage';
                 }
             } else {
+                currentWife = null;
                 nameEl.textContent = 'Citizen Not Found';
                 detEl.textContent = data.error;
                 badge.className = 'badge bg-warning text-dark';
@@ -563,6 +609,86 @@ function lookupWife() {
             }
         });
 }
+
+// Clear cached citizen data when identity type or identity number changes
+document.getElementById('hIdType').addEventListener('change', function() {
+    currentHusband = null;
+});
+document.getElementById('hIdNo').addEventListener('input', function() {
+    currentHusband = null;
+});
+document.getElementById('hIdNo').addEventListener('change', function() {
+    currentHusband = null;
+});
+document.getElementById('wIdType').addEventListener('change', function() {
+    currentWife = null;
+});
+document.getElementById('wIdNo').addEventListener('input', function() {
+    currentWife = null;
+});
+document.getElementById('wIdNo').addEventListener('change', function() {
+    currentWife = null;
+});
+
+// Frontend age verification on form submission
+let isSubmitting = false;
+
+document.getElementById('marriageForm').addEventListener('submit', async function(e) {
+    if (isSubmitting) return;
+    e.preventDefault();
+
+    const mDate = document.getElementById('marriageDate').value;
+    const hType = document.getElementById('hIdType').value;
+    const hIdNo = document.getElementById('hIdNo').value.trim();
+    const wType = document.getElementById('wIdType').value;
+    const wIdNo = document.getElementById('wIdNo').value.trim();
+
+    if (!mDate || !hIdNo || !wIdNo) {
+        isSubmitting = true;
+        this.submit();
+        return;
+    }
+
+    try {
+        if (!currentHusband || currentHusband.identity_no !== hIdNo) {
+            const hRes = await fetch(`../api/lookup_citizen.php?type=${encodeURIComponent(hType)}&identifier=${encodeURIComponent(hIdNo)}&marriage_date=${encodeURIComponent(mDate)}`);
+            const hData = await hRes.json();
+            if (hData.success) {
+                currentHusband = hData.citizen;
+            } else {
+                currentHusband = null;
+            }
+        }
+        if (!currentWife || currentWife.identity_no !== wIdNo) {
+            const wRes = await fetch(`../api/lookup_citizen.php?type=${encodeURIComponent(wType)}&identifier=${encodeURIComponent(wIdNo)}&marriage_date=${encodeURIComponent(mDate)}`);
+            const wData = await wRes.json();
+            if (wData.success) {
+                currentWife = wData.citizen;
+            } else {
+                currentWife = null;
+            }
+        }
+    } catch (err) {
+        // In case of network interruption, proceed to backend validation
+        isSubmitting = true;
+        this.submit();
+        return;
+    }
+
+    const hAge = currentHusband ? calculateAge(currentHusband.date_of_birth, mDate) : null;
+    const wAge = currentWife ? calculateAge(currentWife.date_of_birth, mDate) : null;
+
+    const isUnderageGroom = (currentHusband && (hAge === null || hAge < 21));
+    const isUnderageBride = (currentWife && (wAge === null || wAge < 18));
+
+    if (isUnderageGroom || isUnderageBride) {
+        alert("বয়স হয়নি");
+        return false;
+    }
+
+    isSubmitting = true;
+    this.submit();
+});
 
 // Initial calculation
 calculateFee();

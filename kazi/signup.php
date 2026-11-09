@@ -15,22 +15,22 @@ unset($_SESSION['kazi_signup_error'], $_SESSION['kazi_signup_old']);
 $divisions = get_divisions();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kazi Registration | Marriage Registration System</title>
+    <title>কাজী নিবন্ধন | বিবাহ নিবন্ধন ও যাচাইকরণ ব্যবস্থা</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Font: Hind Siliguri (Bengali) + Poppins (English) -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../Assets/css/theme.css">
     <link rel="stylesheet" href="../Assets/css/style.css">
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Hind Siliguri', 'Poppins', sans-serif;
             background: linear-gradient(135deg, #006A4E 0%, #0d1b2a 100%);
             min-height: 100vh;
             display: flex;
@@ -84,8 +84,8 @@ $divisions = get_divisions();
         <div class="mb-2" style="font-size: 2.2rem;">
             <i class="fa-solid fa-stamp"></i>
         </div>
-        <h4 class="fw-bold mb-1">Kazi Account Registration</h4>
-        <p class="small text-white-50 mb-0">Academic Prototype Registration Portal</p>
+        <h4 class="fw-bold mb-1">কাজী অ্যাকাউন্ট নিবন্ধন</h4>
+        <p class="small text-white-50 mb-0">একাডেমিক প্রোটোটাইপ নিবন্ধন পোর্টাল</p>
     </div>
 
     <div class="card-body-signup">
@@ -98,7 +98,7 @@ $divisions = get_divisions();
 
         <div class="alert alert-info py-2 small mb-4">
             <i class="fa-solid fa-wand-magic-sparkles me-1"></i>
-            <strong>Automatic License:</strong> A unique Kazi License will be automatically generated upon registration based on your district (e.g. <code>Dha_000001</code>).
+            <strong>স্বয়ংক্রিয় লাইসেন্স:</strong> নিবন্ধনের সাথে সাথে আপনার জেলার ভিত্তিতে স্বয়ংক্রিয়ভাবে অনন্য কাজী লাইসেন্স নম্বর তৈরি হবে (যেমন: <code>Dha_000001</code>)।
         </div>
 
         <form action="save_signup.php" method="POST">
@@ -106,18 +106,18 @@ $divisions = get_divisions();
 
             <!-- Full Name -->
             <div class="mb-3">
-                <label class="form-label small fw-semibold text-muted">Full Legal Name <span class="text-danger">*</span></label>
-                <input type="text" name="full_name" class="form-control" placeholder="e.g. Kazi Mohammad Rafiqul Islam" value="<?= e($old['full_name'] ?? '') ?>" required>
+                <label class="form-label small fw-semibold text-muted">পূর্ণ নাম <span class="text-danger">*</span></label>
+                <input type="text" name="full_name" class="form-control" placeholder="যেমন: কাজী মোহাম্মদ রফিকুল ইসলাম" value="<?= e($old['full_name'] ?? '') ?>" required>
             </div>
 
             <!-- Mobile & Email -->
             <div class="row g-2 mb-3">
                 <div class="col-md-6">
-                    <label class="form-label small fw-semibold text-muted">Mobile Number (11 Digits) <span class="text-danger">*</span></label>
-                    <input type="text" name="mobile_no" class="form-control font-monospace" placeholder="e.g. 01712345678" maxlength="11" value="<?= e($old['mobile_no'] ?? '') ?>" required>
+                    <label class="form-label small fw-semibold text-muted">মোবাইল নম্বর (১১ ডিজিট) <span class="text-danger">*</span></label>
+                    <input type="text" name="mobile_no" class="form-control font-monospace" placeholder="যেমন: 01712345678" maxlength="11" value="<?= e($old['mobile_no'] ?? '') ?>" required>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label small fw-semibold text-muted">Email Address <span class="text-danger">*</span></label>
+                    <label class="form-label small fw-semibold text-muted">ইমেইল ঠিকানা <span class="text-danger">*</span></label>
                     <input type="email" name="email" class="form-control" placeholder="kazi@example.com" value="<?= e($old['email'] ?? '') ?>" required>
                 </div>
             </div>
@@ -125,57 +125,57 @@ $divisions = get_divisions();
             <!-- Division, District, Upazila -->
             <div class="row g-2 mb-3">
                 <div class="col-md-4">
-                    <label class="form-label small fw-semibold text-muted">Division <span class="text-danger">*</span></label>
+                    <label class="form-label small fw-semibold text-muted">বিভাগ <span class="text-danger">*</span></label>
                     <select name="division" id="divisionSelect" class="form-select" required onchange="loadDistricts()">
-                        <option value="">Select Division</option>
+                        <option value="">বিভাগ নির্বাচন করুন</option>
                         <?php foreach ($divisions as $div): ?>
                             <option value="<?= e($div) ?>" <?= (isset($old['division']) && $old['division'] === $div) ? 'selected' : '' ?>><?= e($div) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label small fw-semibold text-muted">District <span class="text-danger">*</span></label>
+                    <label class="form-label small fw-semibold text-muted">জেলা <span class="text-danger">*</span></label>
                     <select name="district" id="districtSelect" class="form-select" required onchange="loadUpazilas()">
-                        <option value="">Select District</option>
+                        <option value="">জেলা নির্বাচন করুন</option>
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label small fw-semibold text-muted">Upazila <span class="text-danger">*</span></label>
+                    <label class="form-label small fw-semibold text-muted">উপজেলা <span class="text-danger">*</span></label>
                     <select name="upazila" id="upazilaSelect" class="form-select" required>
-                        <option value="">Select Upazila</option>
+                        <option value="">উপজেলা নির্বাচন করুন</option>
                     </select>
                 </div>
             </div>
 
             <!-- Address -->
             <div class="mb-3">
-                <label class="form-label small fw-semibold text-muted">Full Chamber / Office Address <span class="text-danger">*</span></label>
-                <textarea name="full_address" class="form-control" rows="2" placeholder="e.g. Holding 12, Ward 4, Main Road..." required><?= e($old['full_address'] ?? '') ?></textarea>
+                <label class="form-label small fw-semibold text-muted">চেম্বার / অফিসের পূর্ণ ঠিকানা <span class="text-danger">*</span></label>
+                <textarea name="full_address" class="form-control" rows="2" placeholder="যেমন: হোল্ডিং ১২, ওয়ার্ড ৪, প্রধান সড়ক..." required><?= e($old['full_address'] ?? '') ?></textarea>
             </div>
 
             <!-- Passwords -->
             <div class="row g-2 mb-4">
                 <div class="col-md-6">
-                    <label class="form-label small fw-semibold text-muted">Password <span class="text-danger">*</span></label>
-                    <input type="password" name="password" class="form-control" placeholder="At least 6 characters" minlength="6" required>
+                    <label class="form-label small fw-semibold text-muted">পাসওয়ার্ড <span class="text-danger">*</span></label>
+                    <input type="password" name="password" class="form-control" placeholder="কমপক্ষে ৬ অক্ষর" minlength="6" required>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label small fw-semibold text-muted">Confirm Password <span class="text-danger">*</span></label>
-                    <input type="password" name="confirm_password" class="form-control" placeholder="Re-enter password" minlength="6" required>
+                    <label class="form-label small fw-semibold text-muted">পাসওয়ার্ড নিশ্চিত করুন <span class="text-danger">*</span></label>
+                    <input type="password" name="confirm_password" class="form-control" placeholder="পুনরায় পাসওয়ার্ড লিখুন" minlength="6" required>
                 </div>
             </div>
 
             <button type="submit" class="btn btn-signup mb-3">
-                <i class="fa-solid fa-user-plus me-1"></i> Register Kazi &amp; Generate License
+                <i class="fa-solid fa-user-plus me-1"></i> কাজী নিবন্ধন ও লাইসেন্স তৈরি করুন
             </button>
         </form>
 
         <div class="d-flex justify-content-between pt-3 border-top small">
             <a href="login.php" class="text-decoration-none text-primary fw-semibold">
-                <i class="fa-solid fa-right-to-bracket me-1"></i> Already registered? Log In
+                <i class="fa-solid fa-right-to-bracket me-1"></i> ইতিমধ্যে নিবন্ধিত? লগইন করুন
             </a>
             <a href="../index.php" class="text-decoration-none text-muted">
-                <i class="fa-solid fa-house me-1"></i> Home
+                <i class="fa-solid fa-house me-1"></i> মূলপাতা
             </a>
         </div>
     </div>
@@ -187,8 +187,8 @@ function loadDistricts() {
     const districtSelect = document.getElementById('districtSelect');
     const upazilaSelect = document.getElementById('upazilaSelect');
     
-    districtSelect.innerHTML = '<option value="">Select District</option>';
-    upazilaSelect.innerHTML = '<option value="">Select Upazila</option>';
+    districtSelect.innerHTML = '<option value="">জেলা নির্বাচন করুন</option>';
+    upazilaSelect.innerHTML = '<option value="">উপজেলা নির্বাচন করুন</option>';
 
     if (!division) return;
 
@@ -210,7 +210,7 @@ function loadUpazilas() {
     const district = document.getElementById('districtSelect').value;
     const upazilaSelect = document.getElementById('upazilaSelect');
 
-    upazilaSelect.innerHTML = '<option value="">Select Upazila</option>';
+    upazilaSelect.innerHTML = '<option value="">উপজেলা নির্বাচন করুন</option>';
 
     if (!division || !district) return;
 

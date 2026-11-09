@@ -13,9 +13,11 @@ if (!isset($_SESSION['kazi_id'])) {
 }
 
 require_once "../Database/connection.php";
+require_once "../includes/security.php";
 
 $type = trim($_GET['type'] ?? 'NID'); // 'NID' or 'Passport'
 $query = trim($_GET['identifier'] ?? '');
+$marriage_date = trim($_GET['marriage_date'] ?? date('Y-m-d'));
 
 if (empty($query)) {
     echo json_encode(['success' => false, 'error' => 'Identifier required']);
@@ -33,10 +35,7 @@ mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
 if ($row = mysqli_fetch_assoc($result)) {
-    $dob = new DateTime($row['date_of_birth']);
-    $now = new DateTime();
-    $age = $now->diff($dob)->y;
-    $row['age'] = $age;
+    $row['age'] = calculate_age_on_date($row['date_of_birth'], $marriage_date);
 
     // Check if citizen has an active marriage
     $id_no = $row['identity_no'];

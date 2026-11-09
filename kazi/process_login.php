@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 $token = $_POST['csrf_token'] ?? '';
 if (!verify_csrf_token($token)) {
-    $_SESSION['kazi_login_error'] = "Security token mismatch or expired. Please retry.";
+    $_SESSION['kazi_login_error'] = "নিরাপত্তা টোকেন মেয়াদোত্তীর্ণ বা অমিল হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।";
     header("Location: login.php");
     exit();
 }
@@ -23,13 +23,13 @@ $_SESSION['kazi_login_mobile'] = $mobile_no;
 $_SESSION['kazi_login_license'] = $license_no;
 
 if (empty($mobile_no) || empty($license_no) || empty($password)) {
-    $_SESSION['kazi_login_error'] = "Please provide your Mobile Number, License Number, and Password.";
+    $_SESSION['kazi_login_error'] = "মোবাইল নম্বর, লাইসেন্স নম্বর এবং পাসওয়ার্ড প্রদান করুন।";
     header("Location: login.php");
     exit();
 }
 
 if (!validate_bd_mobile($mobile_no)) {
-    $_SESSION['kazi_login_error'] = "Mobile number must be exactly 11 digits.";
+    $_SESSION['kazi_login_error'] = "মোবাইল নম্বর অবশ্যই ১১ ডিজিটের হতে হবে।";
     header("Location: login.php");
     exit();
 }
@@ -38,7 +38,7 @@ if (!validate_bd_mobile($mobile_no)) {
 $sql = "SELECT kazi_id, full_name, mobile_no, email, password, division, district, upazila, license_no, status FROM `kazi_users` WHERE mobile_no = ? AND license_no = ? LIMIT 1";
 $stmt = mysqli_prepare($conn, $sql);
 if (!$stmt) {
-    $_SESSION['kazi_login_error'] = "System error: unable to verify credentials. Please contact the administrator.";
+    $_SESSION['kazi_login_error'] = "সিস্টেম ত্রুটি: তথ্য যাচাই করা সম্ভব হচ্ছে না। প্রশাসকের সাথে যোগাযোগ করুন।";
     header("Location: login.php");
     exit();
 }
@@ -48,7 +48,7 @@ $result = mysqli_stmt_get_result($stmt);
 
 if ($kazi = mysqli_fetch_assoc($result)) {
     if ($kazi['status'] !== 'Active') {
-        $_SESSION['kazi_login_error'] = "Your Kazi account is currently marked Inactive. Please contact the administrator.";
+        $_SESSION['kazi_login_error'] = "আপনার কাজী অ্যাকাউন্টটি নিষ্ক্রিয় অবস্থায় রয়েছে। প্রশাসকের সাথে যোগাযোগ করুন।";
         header("Location: login.php");
         exit();
     }
@@ -70,12 +70,12 @@ if ($kazi = mysqli_fetch_assoc($result)) {
         header("Location: dashboard.php");
         exit();
     } else {
-        $_SESSION['kazi_login_error'] = "Incorrect password entered.";
+        $_SESSION['kazi_login_error'] = "ভুল পাসওয়ার্ড দেওয়া হয়েছে।";
         header("Location: login.php");
         exit();
     }
 } else {
-    $_SESSION['kazi_login_error'] = "No Kazi account found with this Mobile Number and License Number combination.";
+    $_SESSION['kazi_login_error'] = "এই মোবাইল নম্বর ও লাইসেন্স নম্বরের কোনো কাজী অ্যাকাউন্ট পাওয়া যায়নি।";
     header("Location: login.php");
     exit();
 }

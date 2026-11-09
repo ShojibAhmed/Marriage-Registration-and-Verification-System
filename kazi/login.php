@@ -14,22 +14,22 @@ $old_license = $_SESSION['kazi_login_license'] ?? '';
 unset($_SESSION['kazi_login_error'], $_SESSION['kazi_login_mobile'], $_SESSION['kazi_login_license']);
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kazi Login | Marriage Registration System</title>
+    <title>কাজী লগইন | বিবাহ নিবন্ধন ও যাচাইকরণ ব্যবস্থা</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Font: Hind Siliguri (Bengali) + Poppins (English) -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../Assets/css/theme.css">
     <link rel="stylesheet" href="../Assets/css/style.css">
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Hind Siliguri', 'Poppins', sans-serif;
             background: linear-gradient(135deg, #006A4E 0%, #0d1b2a 100%);
             min-height: 100vh;
             display: flex;
@@ -83,8 +83,8 @@ unset($_SESSION['kazi_login_error'], $_SESSION['kazi_login_mobile'], $_SESSION['
         <div class="mb-2" style="font-size: 2.5rem;">
             <i class="fa-solid fa-stamp"></i>
         </div>
-        <h4 class="fw-bold mb-1">Kazi Portal Login</h4>
-        <p class="small text-white-50 mb-0">Marriage Registration &amp; Verification</p>
+        <h4 class="fw-bold mb-1">কাজী পোর্টাল লগইন</h4>
+        <p class="small text-white-50 mb-0">বিবাহ নিবন্ধন ও যাচাইকরণ ব্যবস্থা</p>
     </div>
 
     <div class="card-body-kazi">
@@ -100,43 +100,43 @@ unset($_SESSION['kazi_login_error'], $_SESSION['kazi_login_mobile'], $_SESSION['
 
             <!-- Mobile Number -->
             <div class="mb-3">
-                <label for="mobile_no" class="form-label small fw-semibold text-muted">Registered Mobile Number</label>
+                <label for="mobile_no" class="form-label small fw-semibold text-muted">নিবন্ধিত মোবাইল নম্বর</label>
                 <div class="input-group">
                     <span class="input-group-text bg-light"><i class="fa-solid fa-phone text-muted"></i></span>
-                    <input type="text" class="form-control font-monospace" id="mobile_no" name="mobile_no" placeholder="e.g. 01711000111" maxlength="11" value="<?= e($old_mobile) ?>" required autofocus>
+                    <input type="text" class="form-control font-monospace" id="mobile_no" name="mobile_no" placeholder="যেমন: 01711000111" maxlength="11" value="<?= e($old_mobile) ?>" required autofocus>
                 </div>
             </div>
 
             <!-- License Number -->
             <div class="mb-3">
-                <label for="license_no" class="form-label small fw-semibold text-muted">Kazi License Number</label>
+                <label for="license_no" class="form-label small fw-semibold text-muted">কাজী লাইসেন্স নম্বর</label>
                 <div class="input-group">
                     <span class="input-group-text bg-light"><i class="fa-solid fa-id-card text-muted"></i></span>
-                    <input type="text" class="form-control font-monospace" id="license_no" name="license_no" placeholder="e.g. Dha_000001" value="<?= e($old_license) ?>" required>
+                    <input type="text" class="form-control font-monospace" id="license_no" name="license_no" placeholder="যেমন: Dha_000001" value="<?= e($old_license) ?>" required>
                 </div>
-                <div class="form-text small">First 3 letters of district + 6-digit serial.</div>
+                <div class="form-text small">জেলার প্রথম ৩ অক্ষর + ৬ অঙ্কের ক্রমিক নম্বর।</div>
             </div>
 
             <!-- Password -->
             <div class="mb-4">
-                <label for="password" class="form-label small fw-semibold text-muted">Password</label>
+                <label for="password" class="form-label small fw-semibold text-muted">পাসওয়ার্ড</label>
                 <div class="input-group">
                     <span class="input-group-text bg-light"><i class="fa-solid fa-lock text-muted"></i></span>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="আপনার পাসওয়ার্ড লিখুন" required>
                 </div>
             </div>
 
             <button type="submit" class="btn btn-kazi mb-3">
-                <i class="fa-solid fa-right-to-bracket me-2"></i> Sign In to Kazi Dashboard
+                <i class="fa-solid fa-right-to-bracket me-2"></i> কাজী ড্যাশবোর্ডে প্রবেশ করুন
             </button>
         </form>
 
         <div class="d-flex justify-content-between pt-3 border-top small">
             <a href="signup.php" class="text-decoration-none text-primary fw-semibold">
-                <i class="fa-solid fa-user-plus me-1"></i> Register New Kazi
+                <i class="fa-solid fa-user-plus me-1"></i> নতুন কাজী নিবন্ধন
             </a>
             <a href="../index.php" class="text-decoration-none text-muted">
-                <i class="fa-solid fa-house me-1"></i> Homepage
+                <i class="fa-solid fa-house me-1"></i> মূলপাতা
             </a>
         </div>
     </div>

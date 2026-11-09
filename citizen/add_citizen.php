@@ -12,21 +12,21 @@ $divisions = get_divisions();
 $selected_type = $old['citizen_type'] ?? 'Bangladeshi';
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enroll Citizen | Kazi Portal</title>
+    <title>নাগরিক অন্তর্ভুক্তিকরণ | কাজী পোর্টাল</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Font: Hind Siliguri (Bengali) + Poppins (English) -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../Assets/css/theme.css">
     <link rel="stylesheet" href="../Assets/css/style.css">
     <style>
-        body { font-family: 'Poppins', sans-serif; background: #f4f7fc; color: #334155; min-height: 100vh; }
+        body { font-family: 'Hind Siliguri', 'Poppins', sans-serif; background: #f4f7fc; color: #334155; min-height: 100vh; }
         button, input[type="button"], input[type="submit"], .btn { cursor: pointer; }
         .kazi-navbar { background: #006A4E; color: #ffffff; padding: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
         .form-card { max-width: 860px; margin: 30px auto 50px auto; background: #ffffff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; overflow: hidden; }
@@ -45,17 +45,17 @@ $selected_type = $old['citizen_type'] ?? 'Bangladeshi';
         <a href="../kazi/dashboard.php" class="d-flex align-items-center text-white text-decoration-none">
             <i class="fa-solid fa-stamp fa-xl me-2 text-info"></i>
             <div>
-                <span class="fw-bold fs-5 d-block leading-tight">BD Marriage System</span>
-                <small class="text-white-50" style="font-size: 0.75rem;">Authorized Kazi Portal</small>
+                <span class="fw-bold fs-5 d-block leading-tight">বিবাহ নিবন্ধন ও যাচাইকরণ ব্যবস্থা</span>
+                <small class="text-white-50" style="font-size: 0.75rem;">অনুমোদিত কাজী পোর্টাল</small>
             </div>
         </a>
 
         <div>
             <a href="view_citizens.php" class="btn btn-sm btn-outline-info rounded-pill px-3 me-2">
-                <i class="fa-solid fa-address-book me-1"></i> Citizen Database
+                <i class="fa-solid fa-address-book me-1"></i> নাগরিক তালিকা
             </a>
             <a href="../kazi/dashboard.php" class="btn btn-sm btn-outline-light rounded-pill px-3">
-                <i class="fa-solid fa-house me-1"></i> Dashboard
+                <i class="fa-solid fa-house me-1"></i> ড্যাশবোর্ড
             </a>
         </div>
     </div>
@@ -65,10 +65,10 @@ $selected_type = $old['citizen_type'] ?? 'Bangladeshi';
     <div class="form-card">
         <div class="form-header d-flex justify-content-between align-items-center">
             <div>
-                <h4 class="fw-bold mb-1"><i class="fa-solid fa-user-plus text-primary me-2"></i>Enroll Citizen Record</h4>
-                <p class="text-white-50 small mb-0">Record identity details for marriage solemnization. Saved records are immutable.</p>
+                <h4 class="fw-bold mb-1"><i class="fa-solid fa-user-plus text-primary me-2"></i>নাগরিক তথ্য অন্তর্ভুক্তি ফরম</h4>
+                <p class="text-white-50 small mb-0">বিবাহ নিবন্ধনের জন্য নাগরিকের সঠিক তথ্য এন্ট্রি করুন। সংরক্ষিত তথ্য অপরিবর্তনযোগ্য।</p>
             </div>
-            <span class="badge bg-light text-dark font-monospace">Kazi: <?= e($_SESSION['license_no']) ?></span>
+            <span class="badge bg-light text-dark font-monospace">কাজী: <?= e($_SESSION['license_no']) ?></span>
         </div>
 
         <div class="form-body">
@@ -82,10 +82,10 @@ $selected_type = $old['citizen_type'] ?? 'Bangladeshi';
             <!-- Workflow Selector: Bangladeshi NID vs Foreign Passport -->
             <div class="type-toggle">
                 <button type="button" class="type-btn <?= ($selected_type === 'Bangladeshi') ? 'active' : '' ?>" id="btnTypeBd" onclick="switchCitizenType('Bangladeshi')">
-                    <i class="fa-solid fa-id-card me-2"></i>Bangladeshi Citizen (NID Workflow)
+                    <i class="fa-solid fa-id-card me-2"></i>বাংলাদেশী নাগরিক (এনআইডি প্রক্রিয়া)
                 </button>
                 <button type="button" class="type-btn <?= ($selected_type === 'Foreign') ? 'active' : '' ?>" id="btnTypeForeign" onclick="switchCitizenType('Foreign')">
-                    <i class="fa-solid fa-passport me-2"></i>Foreign National (Passport Workflow)
+                    <i class="fa-solid fa-passport me-2"></i>বিদেশী নাগরিক (পাসপোর্ট প্রক্রিয়া)
                 </button>
             </div>
 
@@ -96,28 +96,28 @@ $selected_type = $old['citizen_type'] ?? 'Bangladeshi';
                 <!-- Notice banner -->
                 <div id="bdNotice" class="alert alert-info py-2 small mb-4 <?= ($selected_type === 'Foreign') ? 'd-none' : '' ?>">
                     <i class="fa-solid fa-shield-halved me-1"></i>
-                    <strong>Bangladeshi Citizen Requirements:</strong> Mandatory 10/13/17 digit National ID (NID), exactly 11-digit mobile number, and administrative division/district/upazila.
+                    <strong>বাংলাদেশী নাগরিকের প্রয়োজনীয়তা:</strong> বাধ্যতামূলক ১০ ডিজিটের জাতীয় পরিচয়পত্র (NID), ঠিক ১১ ডিজিটের মোবাইল নম্বর এবং প্রশাসনিক বিভাগ/জেলা/উপজেলা।
                 </div>
 
                 <div id="foreignNotice" class="alert alert-warning py-2 small mb-4 <?= ($selected_type === 'Bangladeshi') ? 'd-none' : '' ?>">
                     <i class="fa-solid fa-circle-info me-1"></i>
-                    <strong>Foreign Citizen Requirements:</strong> Valid Passport Number and Nationality are required. No Bangladeshi NID required. <em>(Academic demonstration - not checked against external immigration databases)</em>.
+                    <strong>বিদেশী নাগরিকের প্রয়োজনীয়তা:</strong> বৈধ পাসপোর্ট নম্বর এবং জাতীয়তা আবশ্যক। বাংলাদেশী এনআইডির প্রয়োজন নেই।
                 </div>
 
                 <!-- Row 1: Full Name & Religion -->
                 <div class="row g-3 mb-3">
                     <div class="col-md-7">
-                        <label class="form-label small fw-semibold text-dark">Full Legal Name <span class="text-danger">*</span></label>
-                        <input type="text" name="full_name" class="form-control" placeholder="Enter full name (English or Bengali)" value="<?= e($old['full_name'] ?? '') ?>" required>
+                        <label class="form-label small fw-semibold text-dark">পূর্ণ নাম <span class="text-danger">*</span></label>
+                        <input type="text" name="full_name" class="form-control" placeholder="পূর্ণ নাম লিখুন (বাংলা বা ইংরেজি)" value="<?= e($old['full_name'] ?? '') ?>" required>
                     </div>
                     <div class="col-md-5">
-                        <label class="form-label small fw-semibold text-dark">Religion <span class="text-danger">*</span></label>
+                        <label class="form-label small fw-semibold text-dark">ধর্ম <span class="text-danger">*</span></label>
                         <select name="religion" class="form-select" required>
-                            <option value="Muslim" <?= (isset($old['religion']) && $old['religion'] === 'Muslim') ? 'selected' : '' ?>>Muslim</option>
-                            <option value="Hindu" <?= (isset($old['religion']) && $old['religion'] === 'Hindu') ? 'selected' : '' ?>>Hindu</option>
-                            <option value="Christian" <?= (isset($old['religion']) && $old['religion'] === 'Christian') ? 'selected' : '' ?>>Christian</option>
-                            <option value="Buddhist" <?= (isset($old['religion']) && $old['religion'] === 'Buddhist') ? 'selected' : '' ?>>Buddhist</option>
-                            <option value="Other" <?= (isset($old['religion']) && $old['religion'] === 'Other') ? 'selected' : '' ?>>Other / Special</option>
+                            <option value="Muslim" <?= (isset($old['religion']) && $old['religion'] === 'Muslim') ? 'selected' : '' ?>>মুসলিম</option>
+                            <option value="Hindu" <?= (isset($old['religion']) && $old['religion'] === 'Hindu') ? 'selected' : '' ?>>হিন্দু</option>
+                            <option value="Christian" <?= (isset($old['religion']) && $old['religion'] === 'Christian') ? 'selected' : '' ?>>খ্রিস্টান</option>
+                            <option value="Buddhist" <?= (isset($old['religion']) && $old['religion'] === 'Buddhist') ? 'selected' : '' ?>>বৌদ্ধ</option>
+                            <option value="Other" <?= (isset($old['religion']) && $old['religion'] === 'Other') ? 'selected' : '' ?>>অন্যান্য / বিশেষ</option>
                         </select>
                     </div>
                 </div>
@@ -125,21 +125,21 @@ $selected_type = $old['citizen_type'] ?? 'Bangladeshi';
                 <!-- Identity Row: NID (for BD) or Passport + Nationality (for Foreign) -->
                 <div id="bdIdentityRow" class="<?= ($selected_type === 'Foreign') ? 'd-none' : '' ?>">
                     <div class="mb-3">
-                        <label class="form-label small fw-semibold text-dark">National ID (NID) Number <span class="text-danger">*</span></label>
-                        <input type="text" name="national_id" id="nationalIdInput" class="form-control font-monospace" placeholder="e.g. 19982690011223344" value="<?= e($old['national_id'] ?? '') ?>">
-                        <div class="form-text small">Unique identity number. Duplicate NIDs are rejected.</div>
+                        <label class="form-label small fw-semibold text-dark">জাতীয় পরিচয়পত্র (NID) নম্বর <span class="text-danger">*</span></label>
+                        <input type="text" name="national_id" id="nationalIdInput" class="form-control font-monospace" placeholder="যেমন: 1234567890" value="<?= e($old['national_id'] ?? '') ?>" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" <?= ($selected_type === 'Bangladeshi') ? 'required' : '' ?>>
+                        <div class="form-text small">অনন্য পরিচয় নম্বর। ডুপ্লিকেট এনআইডি গ্রহণযোগ্য নয়।</div>
                     </div>
                 </div>
 
                 <div id="foreignIdentityRow" class="<?= ($selected_type === 'Bangladeshi') ? 'd-none' : '' ?>">
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label class="form-label small fw-semibold text-dark">Passport Number <span class="text-danger">*</span></label>
-                            <input type="text" name="passport_no" id="passportNoInput" class="form-control font-monospace text-uppercase" placeholder="e.g. A12345678" value="<?= e($old['passport_no'] ?? '') ?>">
+                            <label class="form-label small fw-semibold text-dark">পাসপোর্ট নম্বর <span class="text-danger">*</span></label>
+                            <input type="text" name="passport_no" id="passportNoInput" class="form-control font-monospace text-uppercase" placeholder="যেমন: A12345678" value="<?= e($old['passport_no'] ?? '') ?>">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-semibold text-dark">Nationality <span class="text-danger">*</span></label>
-                            <input type="text" name="nationality" id="nationalityInput" class="form-control" placeholder="e.g. British, American, Canadian, Malaysian" value="<?= e($old['nationality'] ?? '') ?>">
+                            <label class="form-label small fw-semibold text-dark">জাতীয়তা <span class="text-danger">*</span></label>
+                            <input type="text" name="nationality" id="nationalityInput" class="form-control" placeholder="যেমন: ব্রিটিশ, আমেরিকান, কানাডিয়ান, মালয়েশিয়ান" value="<?= e($old['nationality'] ?? '') ?>">
                         </div>
                     </div>
                 </div>
@@ -147,60 +147,60 @@ $selected_type = $old['citizen_type'] ?? 'Bangladeshi';
                 <!-- Row 2: Parents -->
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">Father's Name</label>
-                        <input type="text" name="father_name" class="form-control" placeholder="Enter father's name" value="<?= e($old['father_name'] ?? '') ?>">
+                        <label class="form-label small fw-semibold text-dark">পিতার নাম</label>
+                        <input type="text" name="father_name" class="form-control" placeholder="পিতার নাম লিখুন" value="<?= e($old['father_name'] ?? '') ?>">
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">Mother's Name</label>
-                        <input type="text" name="mother_name" class="form-control" placeholder="Enter mother's name" value="<?= e($old['mother_name'] ?? '') ?>">
+                        <label class="form-label small fw-semibold text-dark">মাতার নাম</label>
+                        <input type="text" name="mother_name" class="form-control" placeholder="মাতার নাম লিখুন" value="<?= e($old['mother_name'] ?? '') ?>">
                     </div>
                 </div>
 
                 <!-- Row 3: DOB & Gender -->
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">Date of Birth <span class="text-danger">*</span></label>
+                        <label class="form-label small fw-semibold text-dark">জন্ম তারিখ <span class="text-danger">*</span></label>
                         <input type="date" name="date_of_birth" class="form-control" value="<?= e($old['date_of_birth'] ?? '') ?>" required>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">Gender <span class="text-danger">*</span></label>
+                        <label class="form-label small fw-semibold text-dark">লিঙ্গ <span class="text-danger">*</span></label>
                         <select name="gender" class="form-select" required>
-                            <option value="">Select Gender</option>
-                            <option value="Male" <?= (isset($old['gender']) && $old['gender'] === 'Male') ? 'selected' : '' ?>>Male</option>
-                            <option value="Female" <?= (isset($old['gender']) && $old['gender'] === 'Female') ? 'selected' : '' ?>>Female</option>
+                            <option value="">লিঙ্গ নির্বাচন করুন</option>
+                            <option value="Male" <?= (isset($old['gender']) && $old['gender'] === 'Male') ? 'selected' : '' ?>>পুরুষ</option>
+                            <option value="Female" <?= (isset($old['gender']) && $old['gender'] === 'Female') ? 'selected' : '' ?>>নারী</option>
                         </select>
                     </div>
                 </div>
 
                 <!-- Row 4: Mobile Number -->
                 <div class="mb-3">
-                    <label class="form-label small fw-semibold text-dark">Mobile Number <span class="text-danger">*</span></label>
-                    <input type="text" name="mobile_no" class="form-control font-monospace" placeholder="e.g. 01712345678 (11 digits)" maxlength="15" value="<?= e($old['mobile_no'] ?? '') ?>" required>
-                    <div class="form-text small" id="mobileHelpText">Must be exactly 11 digits under the project's prototype validation rule.</div>
+                    <label class="form-label small fw-semibold text-dark">মোবাইল নম্বর <span class="text-danger">*</span></label>
+                    <input type="text" name="mobile_no" class="form-control font-monospace" placeholder="যেমন: 01712345678 (১১ ডিজিট)" maxlength="15" value="<?= e($old['mobile_no'] ?? '') ?>" required>
+                    <div class="form-text small" id="mobileHelpText">প্রোটোটাইপ নিয়মানুযায়ী মোবাইল নম্বর ঠিক ১১ ডিজিটের হতে হবে।</div>
                 </div>
 
                 <!-- Row 5: Administrative Location (Bangladeshi only) -->
                 <div id="bdLocationSection" class="<?= ($selected_type === 'Foreign') ? 'd-none' : '' ?>">
                     <div class="row g-2 mb-3">
                         <div class="col-md-4">
-                            <label class="form-label small fw-semibold text-dark">Division <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-semibold text-dark">বিভাগ <span class="text-danger">*</span></label>
                             <select name="division" id="divSelect" class="form-select" onchange="loadDistricts()">
-                                <option value="">Select Division</option>
+                                <option value="">বিভাগ নির্বাচন করুন</option>
                                 <?php foreach ($divisions as $div): ?>
                                     <option value="<?= e($div) ?>" <?= (isset($old['division']) && $old['division'] === $div) ? 'selected' : '' ?>><?= e($div) ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label small fw-semibold text-dark">District <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-semibold text-dark">জেলা <span class="text-danger">*</span></label>
                             <select name="district" id="distSelect" class="form-select" onchange="loadUpazilas()">
-                                <option value="">Select District</option>
+                                <option value="">জেলা নির্বাচন করুন</option>
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label small fw-semibold text-dark">Upazila <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-semibold text-dark">উপজেলা <span class="text-danger">*</span></label>
                             <select name="upazila" id="upazilaSelect" class="form-select">
-                                <option value="">Select Upazila</option>
+                                <option value="">উপজেলা নির্বাচন করুন</option>
                             </select>
                         </div>
                     </div>
@@ -208,28 +208,28 @@ $selected_type = $old['citizen_type'] ?? 'Bangladeshi';
 
                 <!-- Row 6: Full Address -->
                 <div class="mb-3">
-                    <label class="form-label small fw-semibold text-dark">Full Residential Address <span class="text-danger">*</span></label>
-                    <textarea name="full_address" class="form-control" rows="2" placeholder="Holding/Village, Road, Area..." required><?= e($old['full_address'] ?? '') ?></textarea>
+                    <label class="form-label small fw-semibold text-dark">পূর্ণ বর্তমান ঠিকানা <span class="text-danger">*</span></label>
+                    <textarea name="full_address" class="form-control" rows="2" placeholder="হোল্ডিং/গ্রাম, রাস্তা, এলাকা..." required><?= e($old['full_address'] ?? '') ?></textarea>
                 </div>
 
                 <!-- Row 7: Optional Photo Upload -->
                 <div class="mb-4">
-                    <label class="form-label small fw-semibold text-dark">Optional Citizen Photograph</label>
+                    <label class="form-label small fw-semibold text-dark">নাগরিকের ছবি (ঐচ্ছিক)</label>
                     <input type="file" name="photo" class="form-control" accept="image/jpeg,image/png,image/webp">
-                    <div class="form-text small">Accepted formats: JPG, PNG, WEBP (Max 2MB). Filenames are sanitized and randomized.</div>
+                    <div class="form-text small">অনুমোদিত ফরম্যাট: JPG, PNG, WEBP (সর্বোচ্চ ২ মেগাবাইট)।</div>
                 </div>
 
                 <div class="alert alert-secondary py-2 small mb-4">
                     <i class="fa-solid fa-lock me-1"></i>
-                    <strong>Immutability Notice:</strong> Under project regulatory rules, citizen records cannot be edited or deleted after saving. Please double check all details before submitting.
+                    <strong>স্থায়িত্বের বিজ্ঞপ্তি:</strong> প্রজেক্টের বিধি মোতাবেক সংরক্ষণের পর নাগরিকের তথ্য সাধারণ কাজী কর্তৃক সংশোধন বা মুছে ফেলা যাবে না। জমা দেওয়ার পূর্বে সকল তথ্য পুনরায় পরীক্ষা করুন।
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center pt-3 border-top">
                     <a href="../kazi/dashboard.php" class="btn btn-outline-secondary px-4">
-                        <i class="fa-solid fa-arrow-left me-1"></i> Back
+                        <i class="fa-solid fa-arrow-left me-1"></i> ফিরে যান
                     </a>
                     <button type="submit" class="btn btn-primary px-5 fw-bold">
-                        <i class="fa-solid fa-check me-1"></i> Save Citizen Record
+                        <i class="fa-solid fa-check me-1"></i> নাগরিক তথ্য সংরক্ষণ করুন
                     </button>
                 </div>
             </form>
@@ -261,9 +261,10 @@ function switchCitizenType(type) {
         bdNotice.classList.add('d-none');
         foreignNotice.classList.remove('d-none');
         nidInput.removeAttribute('required');
+        nidInput.setCustomValidity('');
         passportInput.setAttribute('required', 'required');
         nationalityInput.setAttribute('required', 'required');
-        mobileHelpText.textContent = "Contact telephone or mobile number with country code.";
+        mobileHelpText.textContent = "যোগাযোগের ফোন বা মোবাইল নম্বর (কান্ট্রি কোডসহ)।";
     } else {
         btnBd.classList.add('active');
         btnForeign.classList.remove('active');
@@ -275,7 +276,7 @@ function switchCitizenType(type) {
         nidInput.setAttribute('required', 'required');
         passportInput.removeAttribute('required');
         nationalityInput.removeAttribute('required');
-        mobileHelpText.textContent = "Must be exactly 11 digits under the project's prototype validation rule.";
+        mobileHelpText.textContent = "প্রোটোটাইপ নিয়মানুযায়ী মোবাইল নম্বর ঠিক ১১ ডিজিটের হতে হবে।";
     }
 }
 
@@ -284,8 +285,8 @@ function loadDistricts() {
     const districtSelect = document.getElementById('distSelect');
     const upazilaSelect = document.getElementById('upazilaSelect');
     
-    districtSelect.innerHTML = '<option value="">Select District</option>';
-    upazilaSelect.innerHTML = '<option value="">Select Upazila</option>';
+    districtSelect.innerHTML = '<option value="">জেলা নির্বাচন করুন</option>';
+    upazilaSelect.innerHTML = '<option value="">উপজেলা নির্বাচন করুন</option>';
 
     if (!division) return;
 
@@ -306,7 +307,7 @@ function loadUpazilas() {
     const district = document.getElementById('distSelect').value;
     const upazilaSelect = document.getElementById('upazilaSelect');
 
-    upazilaSelect.innerHTML = '<option value="">Select Upazila</option>';
+    upazilaSelect.innerHTML = '<option value="">উপজেলা নির্বাচন করুন</option>';
 
     if (!division || !district) return;
 
