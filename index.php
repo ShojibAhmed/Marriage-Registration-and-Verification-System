@@ -42,19 +42,6 @@ session_start();
         }
 
         /* ==========================================
-           TOP INFO BAR
-        ========================================== */
-        .top-bar {
-            background: var(--navy);
-            color: rgba(255,255,255,0.75);
-            font-size: 0.78rem;
-            padding: 5px 0;
-            font-family: 'Poppins', sans-serif;
-        }
-        .top-bar a { color: rgba(255,255,255,0.75); text-decoration: none; }
-        .top-bar a:hover { color: #fff; }
-
-        /* ==========================================
            MAIN NAVBAR
         ========================================== */
         .main-navbar {
@@ -409,20 +396,6 @@ session_start();
 <body>
 
 <!-- =======================================
-     TOP INFO BAR
-======================================= -->
-<div class="top-bar">
-    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-1">
-        <span><i class="fa-solid fa-graduation-cap text-warning me-1"></i> একাডেমিক প্রোটোটাইপ | চূড়ান্ত বর্ষ প্রকল্প — CSE</span>
-        <div class="d-flex gap-3">
-            <a href="#">মূলপাতা</a>
-            <a href="#">সিটিজেনশিপ</a>
-            <a href="#">ডিজিটাল বাংলাদেশ</a>
-        </div>
-    </div>
-</div>
-
-<!-- =======================================
      MAIN NAVBAR
 ======================================= -->
 <nav class="main-navbar navbar navbar-expand-lg">
@@ -743,18 +716,15 @@ session_start();
                     </div>
                     <div class="footer-contact-item">
                         <i class="fa-solid fa-envelope"></i>
-                        <span>info@marriage.gov.bd</span>
+                        <a href="mailto:mdshojibahmed9706@gmail.com" class="text-white text-decoration-none">mdshojibahmed9706@gmail.com</a>
                     </div>
                     <div class="footer-contact-item">
                         <i class="fa-solid fa-phone"></i>
-                        <span>+880 2 0000000</span>
+                        <a href="tel:01619598233" class="text-white text-decoration-none">01619598233</a>
                     </div>
                     <div class="footer-contact-item">
                         <i class="fa-solid fa-clock"></i>
                         <span>সকাল ৯টা – বিকাল ৫টা</span>
-                    </div>
-                    <div style="font-size:0.72rem; color:rgba(255,255,255,0.4); margin-top:6px;">
-                        * উপরের তথ্য কাল্পনিক (একাডেমিক প্রকল্প)
                     </div>
                 </div>
             </div>
