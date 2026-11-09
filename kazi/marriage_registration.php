@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // 1. Verify CSRF
     $token = $_POST['csrf_token'] ?? '';
     if (!verify_csrf_token($token)) {
-        $message = "Security token mismatch or expired. Please retry.";
+        $message = "নিরাপত্তা টোকেনটি মেলেনি অথবা মেয়াদ শেষ হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।";
         $message_type = "danger";
     } else {
         // 2. Collect inputs
@@ -44,16 +44,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         // 3. Validation
         if (empty($marriage_date) || empty($husband_id_no) || empty($wife_id_no) || empty($witness1_name) || empty($witness1_id_no) || empty($witness2_name) || empty($witness2_id_no)) {
-            $message = "Please fill in all mandatory marriage registration fields.";
+            $message = "বিবাহ নিবন্ধনের আবশ্যক তথ্যগুলো পূরণ করুন।";
             $message_type = "danger";
         } elseif ($husband_id_no === $wife_id_no) {
-            $message = "Husband and Wife cannot have the same identity number.";
+            $message = "বর ও কনের পরিচয় নম্বর একই হতে পারবে না।";
             $message_type = "danger";
         } elseif ($witness1_id_no === $witness2_id_no) {
-            $message = "Witness 1 and Witness 2 must be different individuals.";
+            $message = "প্রথম ও দ্বিতীয় সাক্ষী আলাদা ব্যক্তি হতে হবে।";
             $message_type = "danger";
         } elseif ($witness1_id_no === $husband_id_no || $witness1_id_no === $wife_id_no || $witness2_id_no === $husband_id_no || $witness2_id_no === $wife_id_no) {
-            $message = "Neither the Husband nor the Wife may act as a witness to their own marriage.";
+            $message = "বর বা কনে নিজেদের বিবাহের সাক্ষী হতে পারবেন না।";
             $message_type = "danger";
         } elseif ($husband_id_type === 'NID' && !preg_match('/^[0-9]{10}$/', $husband_id_no)) {
             $message = "বরের জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।";
@@ -87,10 +87,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $w_res = mysqli_stmt_get_result($w_stmt);
 
             if (mysqli_num_rows($h_res) !== 1) {
-                $message = "Husband record ($husband_id_no) was not found in the Citizen Database. Please enroll the citizen first.";
+                $message = "নাগরিক ডাটাবেজে বরের তথ্য ($husband_id_no) পাওয়া যায়নি। প্রথমে তাঁকে নাগরিক হিসেবে অন্তর্ভুক্ত করুন।";
                 $message_type = "danger";
             } elseif (mysqli_num_rows($w_res) !== 1) {
-                $message = "Wife record ($wife_id_no) was not found in the Citizen Database. Please enroll the citizen first.";
+                $message = "নাগরিক ডাটাবেজে কনের তথ্য ($wife_id_no) পাওয়া যায়নি। প্রথমে তাঁকে নাগরিক হিসেবে অন্তর্ভুক্ত করুন।";
                 $message_type = "danger";
             } else {
                 $husband = mysqli_fetch_assoc($h_res);
@@ -98,10 +98,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 // Gender Validation
                 if ($husband['gender'] !== 'Male') {
-                    $message = "Gender validation error: The selected Husband is registered as {$husband['gender']} (expected Male).";
+                    $message = "নির্বাচিত বরের লিঙ্গের তথ্য সঠিক নয়। নাগরিক রেকর্ডে পুরুষ হিসেবে নিবন্ধিত থাকতে হবে।";
                     $message_type = "danger";
                 } elseif ($wife['gender'] !== 'Female') {
-                    $message = "Gender validation error: The selected Wife is registered as {$wife['gender']} (expected Female).";
+                    $message = "নির্বাচিত কনের লিঙ্গের তথ্য সঠিক নয়। নাগরিক রেকর্ডে নারী হিসেবে নিবন্ধিত থাকতে হবে।";
                     $message_type = "danger";
                 } else {
                     // Backend Age Validation (Groom >= 21, Bride >= 18 on solemnization date)
@@ -109,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $wife_age = calculate_age_on_date($wife['date_of_birth'], $marriage_date);
 
                     if ($husband_age === null || $husband_age < 21 || $wife_age === null || $wife_age < 18) {
-                        $message = "বয়স হয়নি";
+                        $message = "বিবাহের তারিখে বরের বয়স কমপক্ষে ২১ বছর এবং কনের বয়স কমপক্ষে ১৮ বছর হতে হবে।";
                         $message_type = "danger";
                     } else {
                         // Check conflicting active marriages
@@ -124,10 +124,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         $chk_w_res = mysqli_stmt_get_result($chk_w);
 
                         if ($h_row = mysqli_fetch_assoc($chk_h_res)) {
-                            $message = "Registration blocked: Husband already has an existing Active marriage registration (#{$h_row['registration_number']}).";
+                            $message = "নিবন্ধন করা যাচ্ছে না: বরের ইতিমধ্যে একটি সক্রিয় বিবাহ নিবন্ধন রয়েছে (নিবন্ধন নম্বর: #{$h_row['registration_number']})।";
                             $message_type = "danger";
                         } elseif ($w_row = mysqli_fetch_assoc($chk_w_res)) {
-                            $message = "Registration blocked: Wife already has an existing Active marriage registration (#{$w_row['registration_number']}).";
+                            $message = "নিবন্ধন করা যাচ্ছে না: কনের ইতিমধ্যে একটি সক্রিয় বিবাহ নিবন্ধন রয়েছে (নিবন্ধন নম্বর: #{$w_row['registration_number']})।";
                             $message_type = "danger";
                         } else {
                             // 6. Calculate Proposed Fee
@@ -194,12 +194,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                                 mysqli_commit($conn);
                                 $generated_reg_no = $registration_number;
-                                $message = "Marriage successfully registered and recorded as Active! Receipt #{$receipt_no} generated.";
+                                $message = "বিবাহ সফলভাবে নিবন্ধিত হয়েছে এবং সক্রিয় হিসেবে সংরক্ষণ করা হয়েছে! রসিদ নম্বর #{$receipt_no}।";
                                 $message_type = "success";
 
                             } catch (Exception $e) {
                                 mysqli_rollback($conn);
-                                $message = "Database transaction failed: " . $e->getMessage();
+                                $message = "ডাটাবেজে বিবাহ নিবন্ধন সংরক্ষণ করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।";
                                 $message_type = "danger";
                             }
                         }
@@ -211,21 +211,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marriage Registration | Kazi Portal</title>
+    <title>বিবাহ নিবন্ধন | কাজী পোর্টাল</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../Assets/css/theme.css">
     <link rel="stylesheet" href="../Assets/css/style.css">
     <style>
-        body { font-family: 'Poppins', sans-serif; background: #f4f7fc; color: #334155; min-height: 100vh; }
+        body { font-family: 'Hind Siliguri', 'Poppins', sans-serif; background: #f4f7fc; color: #334155; min-height: 100vh; }
         button, input[type="button"], input[type="submit"], .btn { cursor: pointer; }
         .kazi-navbar { background: #006A4E; color: #ffffff; padding: 15px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
         .form-card { max-width: 900px; margin: 30px auto 50px auto; background: #ffffff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; overflow: hidden; }
@@ -243,17 +243,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <a href="dashboard.php" class="d-flex align-items-center text-white text-decoration-none">
             <i class="fa-solid fa-stamp fa-xl me-2 text-info"></i>
             <div>
-                <span class="fw-bold fs-5 d-block leading-tight">BD Marriage System</span>
-                <small class="text-white-50" style="font-size: 0.75rem;">Authorized Kazi Portal</small>
+                <span class="fw-bold fs-5 d-block leading-tight">বিবাহ নিবন্ধন ব্যবস্থা</span>
+                <small class="text-white-50" style="font-size: 0.75rem;">অনুমোদিত কাজী পোর্টাল</small>
             </div>
         </a>
 
         <div>
             <a href="dashboard.php" class="btn btn-sm btn-outline-light rounded-pill px-3 me-2">
-                <i class="fa-solid fa-house me-1"></i> Dashboard
+                <i class="fa-solid fa-house me-1"></i> ড্যাশবোর্ড
             </a>
             <a href="logout.php" class="btn btn-sm btn-outline-danger text-white rounded-pill px-3">
-                <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+                <i class="fa-solid fa-right-from-bracket me-1"></i> লগ আউট
             </a>
         </div>
     </div>
@@ -263,19 +263,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <div class="form-card">
         <div class="form-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <div>
-                <h4 class="fw-bold mb-1"><i class="fa-solid fa-ring text-warning me-2"></i>Marriage Registration Form</h4>
-                <p class="text-white-50 small mb-0">Solemnizing Kazi: <?= e($_SESSION['kazi_name']) ?> (License: <?= e($_SESSION['license_no']) ?>)</p>
+                <h4 class="fw-bold mb-1"><i class="fa-solid fa-ring text-warning me-2"></i>বিবাহ নিবন্ধন ফরম</h4>
+                <p class="text-white-50 small mb-0">বিবাহ সম্পাদনকারী কাজী: <?= e($_SESSION['kazi_name']) ?> (লাইসেন্স: <?= e($_SESSION['license_no']) ?>)</p>
             </div>
             <a href="../citizen/add_citizen.php" class="btn btn-sm btn-outline-info rounded-pill" target="_blank">
-                <i class="fa-solid fa-user-plus me-1"></i> Enroll Citizen
+                <i class="fa-solid fa-user-plus me-1"></i> নাগরিক অন্তর্ভুক্ত করুন
             </a>
         </div>
 
         <div class="form-body">
             <?php if (!empty($message)): ?>
-                <?php if ($message === 'বয়স হয়নি'): ?>
+                <?php if ($message === 'বিবাহের তারিখে বরের বয়স কমপক্ষে ২১ বছর এবং কনের বয়স কমপক্ষে ১৮ বছর হতে হবে।'): ?>
                     <script>
-                        alert("বয়স হয়নি");
+                        alert("বিবাহের তারিখে বরের বয়স কমপক্ষে ২১ বছর এবং কনের বয়স কমপক্ষে ১৮ বছর হতে হবে।");
                     </script>
                 <?php else: ?>
                     <div class="alert alert-<?= $message_type ?> p-4 rounded-3 mb-4">
@@ -285,9 +285,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         </h5>
                         <?php if ($message_type === 'success' && !empty($generated_reg_no)): ?>
                             <div class="mt-3 pt-3 border-top border-success-subtle">
-                                <p class="mb-2">Official Marriage Registration Number: <strong class="font-monospace text-primary"><?= htmlspecialchars($generated_reg_no) ?></strong></p>
+                                <p class="mb-2">সরকারি বিবাহ নিবন্ধন নম্বর: <strong class="font-monospace text-primary"><?= htmlspecialchars($generated_reg_no) ?></strong></p>
                                 <a href="../Certificate/view_certificate.php?reg=<?= urlencode($generated_reg_no) ?>" target="_blank" class="btn btn-success fw-bold">
-                                    <i class="fa-solid fa-certificate me-1"></i> View &amp; Print Official Marriage Certificate
+                                    <i class="fa-solid fa-certificate me-1"></i> সরকারি বিবাহ সনদ দেখুন ও প্রিন্ট করুন
                                 </a>
                             </div>
                         <?php endif; ?>
@@ -301,35 +301,35 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <!-- Basic Meta -->
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">Solemnization Date <span class="text-danger">*</span></label>
+                        <label class="form-label small fw-semibold text-dark">বিবাহ সম্পাদনের তারিখ <span class="text-danger">*</span></label>
                         <input type="date" name="marriage_date" id="marriageDate" class="form-control" value="<?= date('Y-m-d') ?>" required>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">Religion / Marriage Type <span class="text-danger">*</span></label>
+                        <label class="form-label small fw-semibold text-dark">ধর্ম / বিবাহের ধরন <span class="text-danger">*</span></label>
                         <select name="religion" id="religionSelect" class="form-select" required onchange="calculateFee()">
-                            <option value="Muslim">Muslim (Nikah Nama)</option>
-                            <option value="Hindu">Hindu Marriage</option>
-                            <option value="Christian">Christian Marriage</option>
-                            <option value="Other">Other / Special Marriage</option>
+                            <option value="Muslim">মুসলিম (নিকাহনামা)</option>
+                            <option value="Hindu">হিন্দু বিবাহ</option>
+                            <option value="Christian">খ্রিষ্টান বিবাহ</option>
+                            <option value="Other">অন্যান্য / বিশেষ বিবাহ</option>
                         </select>
                     </div>
                 </div>
 
                 <!-- Section 1: Husband -->
-                <div class="section-tag"><i class="fa-solid fa-mars me-2 text-primary"></i>Husband (Groom) Identity</div>
+                <div class="section-tag"><i class="fa-solid fa-mars me-2 text-primary"></i>বরের পরিচিতি</div>
                 <div class="row g-2 mb-2">
                     <div class="col-md-4">
-                        <label class="form-label small fw-semibold text-muted">Identity Type</label>
+                        <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের ধরন</label>
                         <select name="husband_identity_type" id="hIdType" class="form-select" onchange="updateIdValidation('husband'); lookupHusband();">
-                            <option value="NID">Bangladeshi NID</option>
-                            <option value="Passport">Foreign Passport</option>
+                            <option value="NID">বাংলাদেশি জাতীয় পরিচয়পত্র (NID)</option>
+                            <option value="Passport">বিদেশি পাসপোর্ট</option>
                         </select>
                     </div>
                     <div class="col-md-8">
-                        <label class="form-label small fw-semibold text-muted">Identity Number <span class="text-danger">*</span></label>
+                        <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের নম্বর <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="text" name="husband_identity_no" id="hIdNo" class="form-control font-monospace" placeholder="Enter NID or Passport number..." required>
-                            <button type="button" class="btn btn-outline-primary" onclick="lookupHusband()"><i class="fa-solid fa-magnifying-glass me-1"></i> Retrieve</button>
+                            <input type="text" name="husband_identity_no" id="hIdNo" class="form-control font-monospace" placeholder="NID বা পাসপোর্ট নম্বর লিখুন..." required>
+                            <button type="button" class="btn btn-outline-primary" onclick="lookupHusband()"><i class="fa-solid fa-magnifying-glass me-1"></i> তথ্য খুঁজুন</button>
                         </div>
                     </div>
                 </div>
@@ -340,25 +340,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             <strong id="hName" class="text-dark d-block"></strong>
                             <small id="hDetails" class="text-muted"></small>
                         </div>
-                        <span id="hBadge" class="badge bg-success-subtle text-success">Verified in Registry</span>
+                        <span id="hBadge" class="badge bg-success-subtle text-success">রেজিস্ট্রিতে যাচাইকৃত</span>
                     </div>
                 </div>
 
                 <!-- Section 2: Wife -->
-                <div class="section-tag"><i class="fa-solid fa-venus me-2 text-danger"></i>Wife (Bride) Identity</div>
+                <div class="section-tag"><i class="fa-solid fa-venus me-2 text-danger"></i>কনের পরিচিতি</div>
                 <div class="row g-2 mb-2">
                     <div class="col-md-4">
-                        <label class="form-label small fw-semibold text-muted">Identity Type</label>
+                        <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের ধরন</label>
                         <select name="wife_identity_type" id="wIdType" class="form-select" onchange="updateIdValidation('wife'); lookupWife();">
-                            <option value="NID">Bangladeshi NID</option>
-                            <option value="Passport">Foreign Passport</option>
+                            <option value="NID">বাংলাদেশি জাতীয় পরিচয়পত্র (NID)</option>
+                            <option value="Passport">বিদেশি পাসপোর্ট</option>
                         </select>
                     </div>
                     <div class="col-md-8">
-                        <label class="form-label small fw-semibold text-muted">Identity Number <span class="text-danger">*</span></label>
+                        <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের নম্বর <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="text" name="wife_identity_no" id="wIdNo" class="form-control font-monospace" placeholder="Enter NID or Passport number..." required>
-                            <button type="button" class="btn btn-outline-primary" onclick="lookupWife()"><i class="fa-solid fa-magnifying-glass me-1"></i> Retrieve</button>
+                            <input type="text" name="wife_identity_no" id="wIdNo" class="form-control font-monospace" placeholder="NID বা পাসপোর্ট নম্বর লিখুন..." required>
+                            <button type="button" class="btn btn-outline-primary" onclick="lookupWife()"><i class="fa-solid fa-magnifying-glass me-1"></i> তথ্য খুঁজুন</button>
                         </div>
                     </div>
                 </div>
@@ -369,36 +369,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             <strong id="wName" class="text-dark d-block"></strong>
                             <small id="wDetails" class="text-muted"></small>
                         </div>
-                        <span id="wBadge" class="badge bg-success-subtle text-success">Verified in Registry</span>
+                        <span id="wBadge" class="badge bg-success-subtle text-success">রেজিস্ট্রিতে যাচাইকৃত</span>
                     </div>
                 </div>
 
                 <!-- Section 3: Witnesses -->
-                <div class="section-tag"><i class="fa-solid fa-users me-2 text-info"></i>Witnesses</div>
+                <div class="section-tag"><i class="fa-solid fa-users me-2 text-info"></i>সাক্ষীগণ</div>
                 <div class="row g-3 mb-3">
                     <!-- Witness 1 -->
                     <div class="col-md-6">
                         <div class="p-3 bg-light rounded-3 border">
-                            <h6 class="fw-bold text-dark mb-2">Witness 1 <span class="text-danger">*</span></h6>
+                            <h6 class="fw-bold text-dark mb-2">প্রথম সাক্ষী <span class="text-danger">*</span></h6>
                             <div class="mb-2">
-                                <label class="form-label small fw-semibold text-muted">Full Name</label>
-                                <input type="text" name="witness1_name" class="form-control form-control-sm" placeholder="Witness 1 Name" required>
+                                <label class="form-label small fw-semibold text-muted">পূর্ণ নাম</label>
+                                <input type="text" name="witness1_name" class="form-control form-control-sm" placeholder="প্রথম সাক্ষীর নাম" required>
                             </div>
                             <div class="row g-2 mb-2">
                                 <div class="col-5">
-                                    <label class="form-label small fw-semibold text-muted">ID Type</label>
+                                    <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের ধরন</label>
                                     <select name="witness1_identity_type" class="form-select form-select-sm">
-                                        <option value="NID">NID</option>
+                                        <option value="NID">জাতীয় পরিচয়পত্র (NID)</option>
                                     </select>
                                 </div>
                                 <div class="col-7">
-                                    <label class="form-label small fw-semibold text-muted">ID Number <span class="text-danger">*</span></label>
-                                    <input type="text" name="witness1_identity_no" class="form-control form-control-sm font-monospace" placeholder="e.g. 1234567890" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('প্রথম সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" required>
+                                    <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের নম্বর <span class="text-danger">*</span></label>
+                                    <input type="text" name="witness1_identity_no" class="form-control form-control-sm font-monospace" placeholder="যেমন: 1234567890" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('প্রথম সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" required>
                                 </div>
                             </div>
                             <div>
-                                <label class="form-label small fw-semibold text-muted">Mobile Number</label>
-                                <input type="text" name="witness1_mobile" class="form-control form-control-sm font-monospace" placeholder="e.g. 01712345678">
+                                <label class="form-label small fw-semibold text-muted">মোবাইল নম্বর</label>
+                                <input type="text" name="witness1_mobile" class="form-control form-control-sm font-monospace" placeholder="যেমন: 01712345678">
                             </div>
                         </div>
                     </div>
@@ -406,65 +406,65 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <!-- Witness 2 -->
                     <div class="col-md-6">
                         <div class="p-3 bg-light rounded-3 border">
-                            <h6 class="fw-bold text-dark mb-2">Witness 2 <span class="text-danger">*</span></h6>
+                            <h6 class="fw-bold text-dark mb-2">দ্বিতীয় সাক্ষী <span class="text-danger">*</span></h6>
                             <div class="mb-2">
-                                <label class="form-label small fw-semibold text-muted">Full Name</label>
-                                <input type="text" name="witness2_name" class="form-control form-control-sm" placeholder="Witness 2 Name" required>
+                                <label class="form-label small fw-semibold text-muted">পূর্ণ নাম</label>
+                                <input type="text" name="witness2_name" class="form-control form-control-sm" placeholder="দ্বিতীয় সাক্ষীর নাম" required>
                             </div>
                             <div class="row g-2 mb-2">
                                 <div class="col-5">
-                                    <label class="form-label small fw-semibold text-muted">ID Type</label>
+                                    <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের ধরন</label>
                                     <select name="witness2_identity_type" class="form-select form-select-sm">
-                                        <option value="NID">NID</option>
+                                        <option value="NID">জাতীয় পরিচয়পত্র (NID)</option>
                                     </select>
                                 </div>
                                 <div class="col-7">
-                                    <label class="form-label small fw-semibold text-muted">ID Number <span class="text-danger">*</span></label>
-                                    <input type="text" name="witness2_identity_no" class="form-control form-control-sm font-monospace" placeholder="e.g. 1234567890" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('দ্বিতীয় সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" required>
+                                    <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের নম্বর <span class="text-danger">*</span></label>
+                                    <input type="text" name="witness2_identity_no" class="form-control form-control-sm font-monospace" placeholder="যেমন: 1234567890" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('দ্বিতীয় সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" required>
                                 </div>
                             </div>
                             <div>
-                                <label class="form-label small fw-semibold text-muted">Mobile Number</label>
-                                <input type="text" name="witness2_mobile" class="form-control form-control-sm font-monospace" placeholder="e.g. 01812345678">
+                                <label class="form-label small fw-semibold text-muted">মোবাইল নম্বর</label>
+                                <input type="text" name="witness2_mobile" class="form-control form-control-sm font-monospace" placeholder="যেমন: 01812345678">
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Section 4: Denmohor & Payment Breakdown -->
-                <div class="section-tag"><i class="fa-solid fa-coins me-2 text-warning"></i>Dower (Denmohor) &amp; Fee Breakdown</div>
+                <div class="section-tag"><i class="fa-solid fa-coins me-2 text-warning"></i>দেনমোহর ও ফি-এর হিসাব</div>
                 <div class="row g-3 mb-4">
                     <div class="col-md-6" id="denmohorCol">
-                        <label class="form-label small fw-semibold text-dark">Agreed Denmohor Amount (BDT ৳)</label>
-                        <input type="number" step="1000" name="denmohor_amount" id="denmohorInput" class="form-control" placeholder="e.g. 500000" value="0" oninput="calculateFee()">
-                        <div class="form-text small">Proposed rate: ৳14 per ৳1,000 of Denmohor.</div>
+                        <label class="form-label small fw-semibold text-dark">সম্মত দেনমোহরের পরিমাণ (টাকা ৳)</label>
+                        <input type="number" step="1000" name="denmohor_amount" id="denmohorInput" class="form-control" placeholder="যেমন: 500000" value="0" oninput="calculateFee()">
+                        <div class="form-text small">প্রস্তাবিত হার: প্রতি ৳১,০০০ দেনমোহরে ৳১৪।</div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="p-3 bg-light rounded-3 border">
                             <div class="d-flex justify-content-between mb-1">
-                                <span class="small text-muted">Statutory Fee:</span>
+                                <span class="small text-muted">নির্ধারিত ফি:</span>
                                 <strong id="feeDisplay" class="text-dark">৳1,000.00</strong>
                             </div>
                             <div class="d-flex justify-content-between mb-1">
-                                <span class="small text-muted">Applicable Tax:</span>
+                                <span class="small text-muted">প্রযোজ্য কর:</span>
                                 <span class="small text-muted">৳0.00 (0.00%)</span>
                             </div>
                             <div class="d-flex justify-content-between border-top pt-1 mt-1">
-                                <span class="fw-bold text-dark">Total Amount Due:</span>
+                                <span class="fw-bold text-dark">সর্বমোট প্রদেয়:</span>
                                 <strong id="totalDisplay" class="text-success fs-5">৳1,000.00</strong>
                             </div>
-                            <small id="feeNote" class="text-muted d-block mt-2" style="font-size: 0.72rem;">Proposed academic fee schedule.</small>
+                            <small id="feeNote" class="text-muted d-block mt-2" style="font-size: 0.72rem;">প্রস্তাবিত একাডেমিক ফি-এর তালিকা।</small>
                         </div>
                     </div>
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center pt-3 border-top">
                     <a href="dashboard.php" class="btn btn-outline-secondary px-4">
-                        <i class="fa-solid fa-arrow-left me-1"></i> Dashboard
+                        <i class="fa-solid fa-arrow-left me-1"></i> ড্যাশবোর্ড
                     </a>
                     <button type="submit" class="btn btn-primary btn-lg px-5 fw-bold">
-                        <i class="fa-solid fa-stamp me-1"></i> Solemnize &amp; Register Marriage
+                        <i class="fa-solid fa-stamp me-1"></i> বিবাহ সম্পাদন ও নিবন্ধন করুন
                     </button>
                 </div>
             </form>
@@ -481,23 +481,23 @@ function calculateFee() {
     const feeNote = document.getElementById('feeNote');
 
     let fee = 1000.00;
-    let note = "Proposed fixed academic fee.";
+    let note = "প্রস্তাবিত নির্ধারিত একাডেমিক ফি।";
 
     if (religion === 'Muslim') {
         if (denmohor <= 0) {
             fee = 200.00;
-            note = "Minimum proposed filing fee.";
+            note = "প্রস্তাবিত সর্বনিম্ন নিবন্ধন ফি।";
         } else {
             const units = Math.ceil(denmohor / 1000.0);
             fee = Math.max(200.00, units * 14.00);
-            note = `Calculated at proposed rate of ৳14 per ৳1,000 of Denmohor (${units} units).`;
+            note = `প্রস্তাবিত হার অনুযায়ী প্রতি ৳১,০০০ দেনমোহরে ৳১৪ (${units} একক)।`;
         }
     } else if (religion === 'Hindu') {
         fee = 1000.00;
-        note = "Proposed fixed Hindu marriage registration fee.";
+        note = "হিন্দু বিবাহ নিবন্ধনের প্রস্তাবিত নির্ধারিত ফি।";
     } else {
         fee = 1000.00;
-        note = "Proposed fixed Special/Other marriage fee.";
+        note = "অন্যান্য / বিশেষ বিবাহের প্রস্তাবিত নির্ধারিত ফি।";
     }
 
     feeDisplay.textContent = '৳' + fee.toFixed(2);
@@ -524,6 +524,27 @@ function calculateAge(dobStr, marriageDateStr) {
     return age;
 }
 
+function localizedCitizenValue(value) {
+    const translations = {
+        Male: 'পুরুষ',
+        Female: 'নারী',
+        Muslim: 'মুসলিম',
+        Hindu: 'হিন্দু',
+        Christian: 'খ্রিষ্টান',
+        Other: 'অন্যান্য'
+    };
+    return translations[value] || value;
+}
+
+function localizedCitizenLookupError(error) {
+    const errors = {
+        Unauthorized: 'এই তথ্য দেখার অনুমতি নেই। অনুগ্রহ করে পৃষ্ঠাটি পুনরায় খুলুন।',
+        'Identifier required': 'পরিচয়পত্রের নম্বর লিখুন।',
+        'Citizen record not found in database.': 'এই পরিচয়পত্র নম্বরে কোনো নাগরিকের তথ্য পাওয়া যায়নি।'
+    };
+    return errors[error] || 'নাগরিকের তথ্য পাওয়া যায়নি।';
+}
+
 function lookupHusband() {
     const type = document.getElementById('hIdType').value;
     const idNo = document.getElementById('hIdNo').value.trim();
@@ -546,23 +567,23 @@ function lookupHusband() {
                 currentHusband = data.citizen;
                 const c = data.citizen;
                 nameEl.textContent = c.full_name;
-                detEl.textContent = `Gender: ${c.gender} • Age: ${c.age} yrs • Religion: ${c.religion}`;
+                detEl.textContent = `লিঙ্গ: ${localizedCitizenValue(c.gender)} • বয়স: ${c.age} বছর • ধর্ম: ${localizedCitizenValue(c.religion)}`;
                 if (c.gender !== 'Male') {
                     badge.className = 'badge bg-danger';
-                    badge.textContent = 'Invalid: Registered as ' + c.gender;
+                    badge.textContent = `অযোগ্য: নাগরিক রেকর্ডে লিঙ্গ ${localizedCitizenValue(c.gender)} হিসেবে নিবন্ধিত`;
                 } else if (data.has_active_marriage) {
                     badge.className = 'badge bg-danger';
-                    badge.textContent = 'Blocked: Active Marriage #' + data.active_reg_no;
+                    badge.textContent = 'নিবন্ধন স্থগিত: সক্রিয় বিবাহ রয়েছে (নিবন্ধন নম্বর: #' + data.active_reg_no + ')';
                 } else {
                     badge.className = 'badge bg-success';
-                    badge.textContent = 'Eligible for Marriage';
+                    badge.textContent = 'বিবাহ নিবন্ধনের জন্য উপযুক্ত';
                 }
             } else {
                 currentHusband = null;
-                nameEl.textContent = 'Citizen Not Found';
-                detEl.textContent = data.error;
+                nameEl.textContent = 'নাগরিকের তথ্য পাওয়া যায়নি';
+                detEl.textContent = localizedCitizenLookupError(data.error);
                 badge.className = 'badge bg-warning text-dark';
-                badge.textContent = 'Unregistered';
+                badge.textContent = 'নিবন্ধিত নন';
             }
         });
 }
@@ -589,23 +610,23 @@ function lookupWife() {
                 currentWife = data.citizen;
                 const c = data.citizen;
                 nameEl.textContent = c.full_name;
-                detEl.textContent = `Gender: ${c.gender} • Age: ${c.age} yrs • Religion: ${c.religion}`;
+                detEl.textContent = `লিঙ্গ: ${localizedCitizenValue(c.gender)} • বয়স: ${c.age} বছর • ধর্ম: ${localizedCitizenValue(c.religion)}`;
                 if (c.gender !== 'Female') {
                     badge.className = 'badge bg-danger';
-                    badge.textContent = 'Invalid: Registered as ' + c.gender;
+                    badge.textContent = `অযোগ্য: নাগরিক রেকর্ডে লিঙ্গ ${localizedCitizenValue(c.gender)} হিসেবে নিবন্ধিত`;
                 } else if (data.has_active_marriage) {
                     badge.className = 'badge bg-danger';
-                    badge.textContent = 'Blocked: Active Marriage #' + data.active_reg_no;
+                    badge.textContent = 'নিবন্ধন স্থগিত: সক্রিয় বিবাহ রয়েছে (নিবন্ধন নম্বর: #' + data.active_reg_no + ')';
                 } else {
                     badge.className = 'badge bg-success';
-                    badge.textContent = 'Eligible for Marriage';
+                    badge.textContent = 'বিবাহ নিবন্ধনের জন্য উপযুক্ত';
                 }
             } else {
                 currentWife = null;
-                nameEl.textContent = 'Citizen Not Found';
-                detEl.textContent = data.error;
+                nameEl.textContent = 'নাগরিকের তথ্য পাওয়া যায়নি';
+                detEl.textContent = localizedCitizenLookupError(data.error);
                 badge.className = 'badge bg-warning text-dark';
-                badge.textContent = 'Unregistered';
+                badge.textContent = 'নিবন্ধিত নন';
             }
         });
 }
@@ -682,7 +703,7 @@ document.getElementById('marriageForm').addEventListener('submit', async functio
     const isUnderageBride = (currentWife && (wAge === null || wAge < 18));
 
     if (isUnderageGroom || isUnderageBride) {
-        alert("বয়স হয়নি");
+        alert("বিবাহের তারিখে বরের বয়স কমপক্ষে ২১ বছর এবং কনের বয়স কমপক্ষে ১৮ বছর হতে হবে।");
         return false;
     }
 
@@ -707,7 +728,7 @@ function updateIdValidation(role) {
         idInput.setAttribute('minlength', '10');
         idInput.setAttribute('maxlength', '10');
         idInput.setAttribute('inputmode', 'numeric');
-        idInput.setAttribute('placeholder', 'e.g. 1234567890 (১০ ডিজিট NID)');
+        idInput.setAttribute('placeholder', 'যেমন: 1234567890 (১০ ডিজিটের NID)');
         idInput.oninvalid = function() {
             this.setCustomValidity(errorMsg);
         };
@@ -719,7 +740,7 @@ function updateIdValidation(role) {
         idInput.removeAttribute('minlength');
         idInput.removeAttribute('maxlength');
         idInput.removeAttribute('inputmode');
-        idInput.setAttribute('placeholder', 'e.g. A12345678 (Passport number)');
+        idInput.setAttribute('placeholder', 'যেমন: A12345678 (পাসপোর্ট নম্বর)');
         idInput.setCustomValidity('');
         idInput.oninvalid = null;
         idInput.oninput = null;
