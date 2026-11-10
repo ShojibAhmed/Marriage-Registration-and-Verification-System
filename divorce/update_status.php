@@ -120,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <input type="hidden" name="case_reference" value="<?= htmlspecialchars($record['case_reference']) ?>">
 
             <div class="mb-3">
-                <label class="form-label small fw-semibold text-dark">New Procedural Status <span class="text-danger">*</span></label>
+                <label for="statusSelect" class="form-label small fw-semibold text-dark">New Procedural Status <span class="text-danger">*</span></label>
                 <select name="process_status" id="statusSelect" class="form-select" required onchange="toggleEffDate()">
                     <option value="Notice Recorded" <?= ($record['process_status'] === 'Notice Recorded') ? 'selected' : '' ?>>Notice Recorded (Initial Filing)</option>
                     <option value="In Reconciliation" <?= ($record['process_status'] === 'In Reconciliation') ? 'selected' : '' ?>>In Reconciliation / Arbitration Stage</option>
@@ -130,8 +130,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
 
             <div class="mb-3 <?= ($record['process_status'] === 'Completed / Effective') ? '' : 'd-none' ?>" id="effDateGroup">
-                <label class="form-label small fw-semibold text-dark">Effective Date of Dissolution</label>
-                <input type="date" name="effective_date" class="form-control" value="<?= $record['effective_date'] ?: date('Y-m-d') ?>">
+                <label for="effectiveDateInput" class="form-label small fw-semibold text-dark">Effective Date of Dissolution</label>
+                <input type="date" id="effectiveDateInput" name="effective_date" class="form-control" value="<?= $record['effective_date'] ?: date('Y-m-d') ?>">
             </div>
 
             <div class="mb-4">

@@ -206,16 +206,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <!-- Applicant Party & Process Category -->
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">Initiating / Applicant Party <span class="text-danger">*</span></label>
-                        <select name="applicant_party" class="form-select" required>
+                        <label for="applicantPartySelect" class="form-label small fw-semibold text-dark">Initiating / Applicant Party <span class="text-danger">*</span></label>
+                        <select id="applicantPartySelect" name="applicant_party" class="form-select" required>
                             <option value="Husband">Husband</option>
                             <option value="Wife">Wife (Delegated Talaq / Khula)</option>
                             <option value="Both (Mutual)">Both Parties (Mutual Agreement)</option>
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">Divorce / Legal Process Category <span class="text-danger">*</span></label>
-                        <select name="process_category" class="form-select" required>
+                        <label for="processCategorySelect" class="form-label small fw-semibold text-dark">Divorce / Legal Process Category <span class="text-danger">*</span></label>
+                        <select id="processCategorySelect" name="process_category" class="form-select" required>
                             <option value="Muslim Talaq Notice (Section 7 MFLO)">Muslim Talaq Notice (Section 7 MFLO 1961)</option>
                             <option value="Mutual Consent (Khula / Mubarat)">Mutual Consent (Khula / Mubarat)</option>
                             <option value="Family Court Dissolution Decree">Family Court Dissolution Decree</option>
@@ -227,12 +227,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <!-- Date & Process Status -->
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">Notice / Submission Date <span class="text-danger">*</span></label>
-                        <input type="date" name="notice_date" class="form-control" value="<?= date('Y-m-d') ?>" required>
+                        <label for="noticeDateInput" class="form-label small fw-semibold text-dark">Notice / Submission Date <span class="text-danger">*</span></label>
+                        <input type="date" id="noticeDateInput" name="notice_date" class="form-control" value="<?= date('Y-m-d') ?>" required>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">Current Procedural Status <span class="text-danger">*</span></label>
-                        <select name="process_status" class="form-select" required>
+                        <label for="processStatusSelect" class="form-label small fw-semibold text-dark">Current Procedural Status <span class="text-danger">*</span></label>
+                        <select id="processStatusSelect" name="process_status" class="form-select" required>
                             <option value="Notice Recorded">Notice Recorded (Initial Filing)</option>
                             <option value="In Reconciliation">In Reconciliation / Arbitration Stage</option>
                             <option value="Completed / Effective">Completed / Formally Effective Decree</option>
@@ -249,8 +249,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 <!-- Supporting Document Upload -->
                 <div class="mb-4">
-                    <label class="form-label small fw-semibold text-dark">Supporting Legal Document (Optional)</label>
-                    <input type="file" name="supporting_document" class="form-control" accept="application/pdf,image/jpeg,image/png">
+                    <label for="supportingDocInput" class="form-label small fw-semibold text-dark">Supporting Legal Document (Optional)</label>
+                    <input type="file" id="supportingDocInput" name="supporting_document" class="form-control" accept="application/pdf,image/jpeg,image/png">
                     <div class="form-text small">Upload certified notice copy, court decree, or agreement. Formats: PDF, JPG, PNG (Max 5MB).</div>
                 </div>
 

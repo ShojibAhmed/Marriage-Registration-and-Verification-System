@@ -301,11 +301,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <!-- Basic Meta -->
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">বিবাহ সম্পাদনের তারিখ <span class="text-danger">*</span></label>
+                        <label for="marriageDate" class="form-label small fw-semibold text-dark">বিবাহ সম্পাদনের তারিখ <span class="text-danger">*</span></label>
                         <input type="date" name="marriage_date" id="marriageDate" class="form-control" value="<?= date('Y-m-d') ?>" required>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-dark">ধর্ম / বিবাহের ধরন <span class="text-danger">*</span></label>
+                        <label for="religionSelect" class="form-label small fw-semibold text-dark">ধর্ম / বিবাহের ধরন <span class="text-danger">*</span></label>
                         <select name="religion" id="religionSelect" class="form-select" required onchange="calculateFee()">
                             <option value="Muslim">মুসলিম (নিকাহনামা)</option>
                             <option value="Hindu">হিন্দু বিবাহ</option>
@@ -319,14 +319,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="section-tag"><i class="fa-solid fa-mars me-2 text-primary"></i>বরের পরিচিতি</div>
                 <div class="row g-2 mb-2">
                     <div class="col-md-4">
-                        <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের ধরন</label>
+                        <label for="hIdType" class="form-label small fw-semibold text-muted">পরিচয়পত্রের ধরন</label>
                         <select name="husband_identity_type" id="hIdType" class="form-select" onchange="updateIdValidation('husband'); lookupHusband();">
                             <option value="NID">বাংলাদেশি জাতীয় পরিচয়পত্র (NID)</option>
                             <option value="Passport">বিদেশি পাসপোর্ট</option>
                         </select>
                     </div>
                     <div class="col-md-8">
-                        <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের নম্বর <span class="text-danger">*</span></label>
+                        <label for="hIdNo" class="form-label small fw-semibold text-muted">পরিচয়পত্রের নম্বর <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <input type="text" name="husband_identity_no" id="hIdNo" class="form-control font-monospace" required>
                             <button type="button" class="btn btn-outline-primary" onclick="lookupHusband()"><i class="fa-solid fa-magnifying-glass me-1"></i> তথ্য খুঁজুন</button>
@@ -348,14 +348,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="section-tag"><i class="fa-solid fa-venus me-2 text-danger"></i>কনের পরিচিতি</div>
                 <div class="row g-2 mb-2">
                     <div class="col-md-4">
-                        <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের ধরন</label>
+                        <label for="wIdType" class="form-label small fw-semibold text-muted">পরিচয়পত্রের ধরন</label>
                         <select name="wife_identity_type" id="wIdType" class="form-select" onchange="updateIdValidation('wife'); lookupWife();">
                             <option value="NID">বাংলাদেশি জাতীয় পরিচয়পত্র (NID)</option>
                             <option value="Passport">বিদেশি পাসপোর্ট</option>
                         </select>
                     </div>
                     <div class="col-md-8">
-                        <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের নম্বর <span class="text-danger">*</span></label>
+                        <label for="wIdNo" class="form-label small fw-semibold text-muted">পরিচয়পত্রের নম্বর <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <input type="text" name="wife_identity_no" id="wIdNo" class="form-control font-monospace" required>
                             <button type="button" class="btn btn-outline-primary" onclick="lookupWife()"><i class="fa-solid fa-magnifying-glass me-1"></i> তথ্য খুঁজুন</button>
@@ -381,24 +381,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <div class="p-3 bg-light rounded-3 border">
                             <h6 class="fw-bold text-dark mb-2">প্রথম সাক্ষী <span class="text-danger">*</span></h6>
                             <div class="mb-2">
-                                <label class="form-label small fw-semibold text-muted">পূর্ণ নাম</label>
-                                <input type="text" name="witness1_name" class="form-control form-control-sm" required>
+                                <label for="witness1NameInput" class="form-label small fw-semibold text-muted">পূর্ণ নাম</label>
+                                <input type="text" id="witness1NameInput" name="witness1_name" class="form-control form-control-sm" required>
                             </div>
                             <div class="row g-2 mb-2">
                                 <div class="col-5">
-                                    <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের ধরন</label>
-                                    <select name="witness1_identity_type" class="form-select form-select-sm">
+                                    <label for="witness1IdTypeSelect" class="form-label small fw-semibold text-muted">পরিচয়পত্রের ধরন</label>
+                                    <select id="witness1IdTypeSelect" name="witness1_identity_type" class="form-select form-select-sm">
                                         <option value="NID">জাতীয় পরিচয়পত্র (NID)</option>
                                     </select>
                                 </div>
                                 <div class="col-7">
-                                    <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের নম্বর <span class="text-danger">*</span></label>
-                                    <input type="text" name="witness1_identity_no" class="form-control form-control-sm font-monospace" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('প্রথম সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" required>
+                                    <label for="witness1IdNoInput" class="form-label small fw-semibold text-muted">পরিচয়পত্রের নম্বর <span class="text-danger">*</span></label>
+                                    <input type="text" id="witness1IdNoInput" name="witness1_identity_no" class="form-control form-control-sm font-monospace" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('প্রথম সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" required>
                                 </div>
                             </div>
                             <div>
-                                <label class="form-label small fw-semibold text-muted">মোবাইল নম্বর</label>
-                                <input type="text" name="witness1_mobile" class="form-control form-control-sm font-monospace">
+                                <label for="witness1MobileInput" class="form-label small fw-semibold text-muted">মোবাইল নম্বর</label>
+                                <input type="text" id="witness1MobileInput" name="witness1_mobile" class="form-control form-control-sm font-monospace">
                             </div>
                         </div>
                     </div>
@@ -408,24 +408,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <div class="p-3 bg-light rounded-3 border">
                             <h6 class="fw-bold text-dark mb-2">দ্বিতীয় সাক্ষী <span class="text-danger">*</span></h6>
                             <div class="mb-2">
-                                <label class="form-label small fw-semibold text-muted">পূর্ণ নাম</label>
-                                <input type="text" name="witness2_name" class="form-control form-control-sm" required>
+                                <label for="witness2NameInput" class="form-label small fw-semibold text-muted">পূর্ণ নাম</label>
+                                <input type="text" id="witness2NameInput" name="witness2_name" class="form-control form-control-sm" required>
                             </div>
                             <div class="row g-2 mb-2">
                                 <div class="col-5">
-                                    <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের ধরন</label>
-                                    <select name="witness2_identity_type" class="form-select form-select-sm">
+                                    <label for="witness2IdTypeSelect" class="form-label small fw-semibold text-muted">পরিচয়পত্রের ধরন</label>
+                                    <select id="witness2IdTypeSelect" name="witness2_identity_type" class="form-select form-select-sm">
                                         <option value="NID">জাতীয় পরিচয়পত্র (NID)</option>
                                     </select>
                                 </div>
                                 <div class="col-7">
-                                    <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের নম্বর <span class="text-danger">*</span></label>
-                                    <input type="text" name="witness2_identity_no" class="form-control form-control-sm font-monospace" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('দ্বিতীয় সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" required>
+                                    <label for="witness2IdNoInput" class="form-label small fw-semibold text-muted">পরিচয়পত্রের নম্বর <span class="text-danger">*</span></label>
+                                    <input type="text" id="witness2IdNoInput" name="witness2_identity_no" class="form-control form-control-sm font-monospace" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('দ্বিতীয় সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" required>
                                 </div>
                             </div>
                             <div>
-                                <label class="form-label small fw-semibold text-muted">মোবাইল নম্বর</label>
-                                <input type="text" name="witness2_mobile" class="form-control form-control-sm font-monospace">
+                                <label for="witness2MobileInput" class="form-label small fw-semibold text-muted">মোবাইল নম্বর</label>
+                                <input type="text" id="witness2MobileInput" name="witness2_mobile" class="form-control form-control-sm font-monospace">
                             </div>
                         </div>
                     </div>
@@ -435,7 +435,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="section-tag"><i class="fa-solid fa-coins me-2 text-warning"></i>দেনমোহর ও ফি-এর হিসাব</div>
                 <div class="row g-3 mb-4">
                     <div class="col-md-6" id="denmohorCol">
-                        <label class="form-label small fw-semibold text-dark">সম্মত দেনমোহরের পরিমাণ (টাকা ৳)</label>
+                        <label for="denmohorInput" class="form-label small fw-semibold text-dark">সম্মত দেনমোহরের পরিমাণ (টাকা ৳)</label>
                         <input type="number" step="1000" name="denmohor_amount" id="denmohorInput" class="form-control" value="0" oninput="calculateFee()">
                         <div class="form-text small">প্রস্তাবিত হার: প্রতি ৳১,০০০ দেনমোহরে ৳১৪।</div>
                     </div>
