@@ -328,7 +328,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <div class="col-md-8">
                         <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের নম্বর <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="text" name="husband_identity_no" id="hIdNo" class="form-control font-monospace" placeholder="NID বা পাসপোর্ট নম্বর লিখুন..." required>
+                            <input type="text" name="husband_identity_no" id="hIdNo" class="form-control font-monospace" required>
                             <button type="button" class="btn btn-outline-primary" onclick="lookupHusband()"><i class="fa-solid fa-magnifying-glass me-1"></i> তথ্য খুঁজুন</button>
                         </div>
                     </div>
@@ -357,7 +357,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <div class="col-md-8">
                         <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের নম্বর <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="text" name="wife_identity_no" id="wIdNo" class="form-control font-monospace" placeholder="NID বা পাসপোর্ট নম্বর লিখুন..." required>
+                            <input type="text" name="wife_identity_no" id="wIdNo" class="form-control font-monospace" required>
                             <button type="button" class="btn btn-outline-primary" onclick="lookupWife()"><i class="fa-solid fa-magnifying-glass me-1"></i> তথ্য খুঁজুন</button>
                         </div>
                     </div>
@@ -382,7 +382,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             <h6 class="fw-bold text-dark mb-2">প্রথম সাক্ষী <span class="text-danger">*</span></h6>
                             <div class="mb-2">
                                 <label class="form-label small fw-semibold text-muted">পূর্ণ নাম</label>
-                                <input type="text" name="witness1_name" class="form-control form-control-sm" placeholder="প্রথম সাক্ষীর নাম" required>
+                                <input type="text" name="witness1_name" class="form-control form-control-sm" required>
                             </div>
                             <div class="row g-2 mb-2">
                                 <div class="col-5">
@@ -393,12 +393,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 </div>
                                 <div class="col-7">
                                     <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের নম্বর <span class="text-danger">*</span></label>
-                                    <input type="text" name="witness1_identity_no" class="form-control form-control-sm font-monospace" placeholder="যেমন: 1234567890" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('প্রথম সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" required>
+                                    <input type="text" name="witness1_identity_no" class="form-control form-control-sm font-monospace" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('প্রথম সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" required>
                                 </div>
                             </div>
                             <div>
                                 <label class="form-label small fw-semibold text-muted">মোবাইল নম্বর</label>
-                                <input type="text" name="witness1_mobile" class="form-control form-control-sm font-monospace" placeholder="যেমন: 01712345678">
+                                <input type="text" name="witness1_mobile" class="form-control form-control-sm font-monospace">
                             </div>
                         </div>
                     </div>
@@ -409,7 +409,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             <h6 class="fw-bold text-dark mb-2">দ্বিতীয় সাক্ষী <span class="text-danger">*</span></h6>
                             <div class="mb-2">
                                 <label class="form-label small fw-semibold text-muted">পূর্ণ নাম</label>
-                                <input type="text" name="witness2_name" class="form-control form-control-sm" placeholder="দ্বিতীয় সাক্ষীর নাম" required>
+                                <input type="text" name="witness2_name" class="form-control form-control-sm" required>
                             </div>
                             <div class="row g-2 mb-2">
                                 <div class="col-5">
@@ -420,12 +420,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 </div>
                                 <div class="col-7">
                                     <label class="form-label small fw-semibold text-muted">পরিচয়পত্রের নম্বর <span class="text-danger">*</span></label>
-                                    <input type="text" name="witness2_identity_no" class="form-control form-control-sm font-monospace" placeholder="যেমন: 1234567890" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('দ্বিতীয় সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" required>
+                                    <input type="text" name="witness2_identity_no" class="form-control form-control-sm font-monospace" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('দ্বিতীয় সাক্ষীর জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" required>
                                 </div>
                             </div>
                             <div>
                                 <label class="form-label small fw-semibold text-muted">মোবাইল নম্বর</label>
-                                <input type="text" name="witness2_mobile" class="form-control form-control-sm font-monospace" placeholder="যেমন: 01812345678">
+                                <input type="text" name="witness2_mobile" class="form-control form-control-sm font-monospace">
                             </div>
                         </div>
                     </div>
@@ -436,7 +436,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="row g-3 mb-4">
                     <div class="col-md-6" id="denmohorCol">
                         <label class="form-label small fw-semibold text-dark">সম্মত দেনমোহরের পরিমাণ (টাকা ৳)</label>
-                        <input type="number" step="1000" name="denmohor_amount" id="denmohorInput" class="form-control" placeholder="যেমন: 500000" value="0" oninput="calculateFee()">
+                        <input type="number" step="1000" name="denmohor_amount" id="denmohorInput" class="form-control" value="0" oninput="calculateFee()">
                         <div class="form-text small">প্রস্তাবিত হার: প্রতি ৳১,০০০ দেনমোহরে ৳১৪।</div>
                     </div>
 

@@ -74,11 +74,14 @@ function mask_identity($id) {
         </p>
 
         <form method="POST" action="search_marriage.php">
-            <div class="input-group input-group-lg">
-                <input type="text" name="search_query" class="form-control font-monospace" placeholder="বরের বা কনের ১০ ডিজিটের এনআইডি লিখুন..." value="<?= e($search_query) ?>" required autofocus>
-                <button type="submit" class="btn btn-primary px-4 fw-bold">
-                    <i class="fa-solid fa-search me-1"></i> রেকর্ড যাচাই করুন
-                </button>
+            <div class="mb-2">
+                <label for="kaziSearchNid" class="form-label small fw-semibold text-dark">বরের বা কনের জাতীয় পরিচয়পত্র (NID) নম্বর <span class="text-danger">*</span></label>
+                <div class="input-group input-group-lg">
+                    <input type="text" id="kaziSearchNid" name="search_query" class="form-control font-monospace" value="<?= e($search_query) ?>" required autofocus>
+                    <button type="submit" class="btn btn-primary px-4 fw-bold">
+                        <i class="fa-solid fa-search me-1"></i> রেকর্ড যাচাই করুন
+                    </button>
+                </div>
             </div>
             <div class="form-text small mt-2 text-muted">
                 <i class="fa-solid fa-shield-halved me-1"></i> কাজী পোর্টাল থেকে অনুসন্ধানের জন্য বরের বা কনের জাতীয় পরিচয়পত্র নম্বর প্রয়োজন।

@@ -41,4 +41,35 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     });
+
+    // Password visibility toggle handler
+    document.addEventListener('click', function (e) {
+        const toggleBtn = e.target.closest('[data-toggle-password]');
+        if (!toggleBtn) return;
+
+        const targetSelector = toggleBtn.getAttribute('data-toggle-password');
+        const targetInput = document.querySelector(targetSelector);
+        if (!targetInput) return;
+
+        const icon = toggleBtn.querySelector('i');
+        const isHidden = targetInput.type === 'password';
+
+        if (isHidden) {
+            targetInput.type = 'text';
+            toggleBtn.setAttribute('aria-label', 'পাসওয়ার্ড লুকান');
+            toggleBtn.setAttribute('title', 'পাসওয়ার্ড লুকান');
+            if (icon) {
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        } else {
+            targetInput.type = 'password';
+            toggleBtn.setAttribute('aria-label', 'পাসওয়ার্ড দেখুন');
+            toggleBtn.setAttribute('title', 'পাসওয়ার্ড দেখুন');
+            if (icon) {
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    });
 });

@@ -86,10 +86,11 @@ $result = mysqli_stmt_get_result($stmt);
                 <small class="text-muted">Structured registry of recorded notices, reconciliation stages, and outcomes</small>
             </div>
 
-            <div class="d-flex gap-2">
-                <form method="GET" class="d-flex" style="max-width: 280px;">
+            <div class="d-flex gap-2 align-items-center">
+                <form method="GET" class="d-flex align-items-center gap-2" style="max-width: 380px;">
+                    <label for="divorceSearchInput" class="form-label small fw-semibold text-muted mb-0 text-nowrap">রেকর্ড অনুসন্ধান:</label>
                     <div class="input-group input-group-sm">
-                        <input type="text" name="search" class="form-control" placeholder="Search case, reg no, name..." value="<?= e($search) ?>">
+                        <input type="text" id="divorceSearchInput" name="search" class="form-control" aria-label="তালাক রেকর্ড অনুসন্ধান" value="<?= e($search) ?>">
                         <button class="btn btn-outline-secondary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                         <?php if (!empty($search)): ?>
                             <a href="index.php" class="btn btn-outline-danger"><i class="fa-solid fa-xmark"></i></a>

@@ -106,26 +106,26 @@ $divisions = get_divisions();
 
             <!-- Full Name -->
             <div class="mb-3">
-                <label class="form-label small fw-semibold text-muted">পূর্ণ নাম <span class="text-danger">*</span></label>
-                <input type="text" name="full_name" class="form-control" placeholder="যেমন: কাজী মোহাম্মদ রফিকুল ইসলাম" value="<?= e($old['full_name'] ?? '') ?>" required>
+                <label for="fullNameInput" class="form-label small fw-semibold text-muted">পূর্ণ নাম <span class="text-danger">*</span></label>
+                <input type="text" id="fullNameInput" name="full_name" class="form-control" value="<?= e($old['full_name'] ?? '') ?>" required>
             </div>
 
             <!-- Mobile & Email -->
             <div class="row g-2 mb-3">
                 <div class="col-md-6">
-                    <label class="form-label small fw-semibold text-muted">মোবাইল নম্বর (১১ ডিজিট) <span class="text-danger">*</span></label>
-                    <input type="text" name="mobile_no" class="form-control font-monospace" placeholder="যেমন: 01712345678" maxlength="11" value="<?= e($old['mobile_no'] ?? '') ?>" required>
+                    <label for="mobileNoInput" class="form-label small fw-semibold text-muted">মোবাইল নম্বর (১১ ডিজিট) <span class="text-danger">*</span></label>
+                    <input type="text" id="mobileNoInput" name="mobile_no" class="form-control font-monospace" maxlength="11" value="<?= e($old['mobile_no'] ?? '') ?>" required>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label small fw-semibold text-muted">ইমেইল ঠিকানা <span class="text-danger">*</span></label>
-                    <input type="email" name="email" class="form-control" placeholder="kazi@example.com" value="<?= e($old['email'] ?? '') ?>" required>
+                    <label for="emailInput" class="form-label small fw-semibold text-muted">ইমেইল ঠিকানা <span class="text-danger">*</span></label>
+                    <input type="email" id="emailInput" name="email" class="form-control" value="<?= e($old['email'] ?? '') ?>" required>
                 </div>
             </div>
 
             <!-- Division, District, Upazila -->
             <div class="row g-2 mb-3">
                 <div class="col-md-4">
-                    <label class="form-label small fw-semibold text-muted">বিভাগ <span class="text-danger">*</span></label>
+                    <label for="divisionSelect" class="form-label small fw-semibold text-muted">বিভাগ <span class="text-danger">*</span></label>
                     <select name="division" id="divisionSelect" class="form-select" required onchange="loadDistricts()">
                         <option value="">বিভাগ নির্বাচন করুন</option>
                         <?php foreach ($divisions as $div): ?>
@@ -134,13 +134,13 @@ $divisions = get_divisions();
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label small fw-semibold text-muted">জেলা <span class="text-danger">*</span></label>
+                    <label for="districtSelect" class="form-label small fw-semibold text-muted">জেলা <span class="text-danger">*</span></label>
                     <select name="district" id="districtSelect" class="form-select" required onchange="loadUpazilas()">
                         <option value="">জেলা নির্বাচন করুন</option>
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label small fw-semibold text-muted">উপজেলা <span class="text-danger">*</span></label>
+                    <label for="upazilaSelect" class="form-label small fw-semibold text-muted">উপজেলা <span class="text-danger">*</span></label>
                     <select name="upazila" id="upazilaSelect" class="form-select" required>
                         <option value="">উপজেলা নির্বাচন করুন</option>
                     </select>
@@ -149,19 +149,29 @@ $divisions = get_divisions();
 
             <!-- Address -->
             <div class="mb-3">
-                <label class="form-label small fw-semibold text-muted">চেম্বার / অফিসের পূর্ণ ঠিকানা <span class="text-danger">*</span></label>
-                <textarea name="full_address" class="form-control" rows="2" placeholder="যেমন: হোল্ডিং ১২, ওয়ার্ড ৪, প্রধান সড়ক..." required><?= e($old['full_address'] ?? '') ?></textarea>
+                <label for="fullAddressInput" class="form-label small fw-semibold text-muted">চেম্বার / অফিসের পূর্ণ ঠিকানা <span class="text-danger">*</span></label>
+                <textarea id="fullAddressInput" name="full_address" class="form-control" rows="2" required><?= e($old['full_address'] ?? '') ?></textarea>
             </div>
 
             <!-- Passwords -->
             <div class="row g-2 mb-4">
                 <div class="col-md-6">
-                    <label class="form-label small fw-semibold text-muted">পাসওয়ার্ড <span class="text-danger">*</span></label>
-                    <input type="password" name="password" class="form-control" placeholder="কমপক্ষে ৬ অক্ষর" minlength="6" required>
+                    <label for="signupPassword" class="form-label small fw-semibold text-muted">পাসওয়ার্ড <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <input type="password" id="signupPassword" name="password" class="form-control" minlength="6" required>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle-password="#signupPassword" aria-label="পাসওয়ার্ড দেখুন" title="পাসওয়ার্ড দেখুন">
+                            <i class="fa-solid fa-eye text-muted"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label small fw-semibold text-muted">পাসওয়ার্ড নিশ্চিত করুন <span class="text-danger">*</span></label>
-                    <input type="password" name="confirm_password" class="form-control" placeholder="পুনরায় পাসওয়ার্ড লিখুন" minlength="6" required>
+                    <label for="signupConfirmPassword" class="form-label small fw-semibold text-muted">পাসওয়ার্ড নিশ্চিত করুন <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <input type="password" id="signupConfirmPassword" name="confirm_password" class="form-control" minlength="6" required>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle-password="#signupConfirmPassword" aria-label="পাসওয়ার্ড দেখুন" title="পাসওয়ার্ড দেখুন">
+                            <i class="fa-solid fa-eye text-muted"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -228,5 +238,6 @@ function loadUpazilas() {
 }
 </script>
 
+<script src="../Assets/js/app.js"></script>
 </body>
 </html>

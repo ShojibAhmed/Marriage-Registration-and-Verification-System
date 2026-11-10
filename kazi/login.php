@@ -103,7 +103,7 @@ unset($_SESSION['kazi_login_error'], $_SESSION['kazi_login_mobile'], $_SESSION['
                 <label for="mobile_no" class="form-label small fw-semibold text-muted">নিবন্ধিত মোবাইল নম্বর</label>
                 <div class="input-group">
                     <span class="input-group-text bg-light"><i class="fa-solid fa-phone text-muted"></i></span>
-                    <input type="text" class="form-control font-monospace" id="mobile_no" name="mobile_no" placeholder="যেমন: 01711000111" maxlength="11" value="<?= e($old_mobile) ?>" required autofocus>
+                    <input type="text" class="form-control font-monospace" id="mobile_no" name="mobile_no" maxlength="11" value="<?= e($old_mobile) ?>" required autofocus>
                 </div>
             </div>
 
@@ -112,7 +112,7 @@ unset($_SESSION['kazi_login_error'], $_SESSION['kazi_login_mobile'], $_SESSION['
                 <label for="license_no" class="form-label small fw-semibold text-muted">কাজী লাইসেন্স নম্বর</label>
                 <div class="input-group">
                     <span class="input-group-text bg-light"><i class="fa-solid fa-id-card text-muted"></i></span>
-                    <input type="text" class="form-control font-monospace" id="license_no" name="license_no" placeholder="যেমন: Dha_000001" value="<?= e($old_license) ?>" required>
+                    <input type="text" class="form-control font-monospace" id="license_no" name="license_no" value="<?= e($old_license) ?>" required>
                 </div>
                 <div class="form-text small">জেলার প্রথম ৩ অক্ষর + ৬ অঙ্কের ক্রমিক নম্বর।</div>
             </div>
@@ -122,7 +122,10 @@ unset($_SESSION['kazi_login_error'], $_SESSION['kazi_login_mobile'], $_SESSION['
                 <label for="password" class="form-label small fw-semibold text-muted">পাসওয়ার্ড</label>
                 <div class="input-group">
                     <span class="input-group-text bg-light"><i class="fa-solid fa-lock text-muted"></i></span>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="আপনার পাসওয়ার্ড লিখুন" required>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                    <button type="button" class="btn btn-outline-secondary border-start-0" data-toggle-password="#password" aria-label="পাসওয়ার্ড দেখুন" title="পাসওয়ার্ড দেখুন">
+                        <i class="fa-solid fa-eye text-muted"></i>
+                    </button>
                 </div>
             </div>
 
@@ -142,5 +145,6 @@ unset($_SESSION['kazi_login_error'], $_SESSION['kazi_login_mobile'], $_SESSION['
     </div>
 </div>
 
+<script src="../Assets/js/app.js"></script>
 </body>
 </html>

@@ -135,8 +135,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
 
             <div class="mb-4">
-                <label class="form-label small fw-semibold text-dark">Add Mediation Note / Comment</label>
-                <textarea name="new_comment" class="form-control" rows="3" placeholder="Enter notes regarding arbitration outcome, court decree reference, or reconciliation meeting..."></textarea>
+                <label for="newComment" class="form-label small fw-semibold text-dark">Add Mediation Note / Comment</label>
+                <textarea id="newComment" name="new_comment" class="form-control" rows="3"></textarea>
             </div>
 
             <div class="d-flex justify-content-between pt-3 border-top">

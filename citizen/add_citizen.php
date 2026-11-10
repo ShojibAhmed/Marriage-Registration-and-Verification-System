@@ -108,7 +108,7 @@ $selected_type = $old['citizen_type'] ?? 'Bangladeshi';
                 <div class="row g-3 mb-3">
                     <div class="col-md-7">
                         <label class="form-label small fw-semibold text-dark">পূর্ণ নাম <span class="text-danger">*</span></label>
-                        <input type="text" name="full_name" class="form-control" placeholder="পূর্ণ নাম লিখুন (বাংলা বা ইংরেজি)" value="<?= e($old['full_name'] ?? '') ?>" required>
+                        <input type="text" name="full_name" class="form-control" value="<?= e($old['full_name'] ?? '') ?>" required>
                     </div>
                     <div class="col-md-5">
                         <label class="form-label small fw-semibold text-dark">ধর্ম <span class="text-danger">*</span></label>
@@ -126,7 +126,7 @@ $selected_type = $old['citizen_type'] ?? 'Bangladeshi';
                 <div id="bdIdentityRow" class="<?= ($selected_type === 'Foreign') ? 'd-none' : '' ?>">
                     <div class="mb-3">
                         <label class="form-label small fw-semibold text-dark">জাতীয় পরিচয়পত্র (NID) নম্বর <span class="text-danger">*</span></label>
-                        <input type="text" name="national_id" id="nationalIdInput" class="form-control font-monospace" placeholder="যেমন: 1234567890" value="<?= e($old['national_id'] ?? '') ?>" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" <?= ($selected_type === 'Bangladeshi') ? 'required' : '' ?>>
+                        <input type="text" name="national_id" id="nationalIdInput" class="form-control font-monospace" value="<?= e($old['national_id'] ?? '') ?>" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninvalid="this.setCustomValidity('জাতীয় পরিচয়পত্র নম্বর অবশ্যই ১০ ডিজিটের (ইংরেজি সংখ্যা) হতে হবে।')" oninput="this.setCustomValidity('')" <?= ($selected_type === 'Bangladeshi') ? 'required' : '' ?>>
                         <div class="form-text small">অনন্য পরিচয় নম্বর। ডুপ্লিকেট এনআইডি গ্রহণযোগ্য নয়।</div>
                     </div>
                 </div>
@@ -135,11 +135,11 @@ $selected_type = $old['citizen_type'] ?? 'Bangladeshi';
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
                             <label class="form-label small fw-semibold text-dark">পাসপোর্ট নম্বর <span class="text-danger">*</span></label>
-                            <input type="text" name="passport_no" id="passportNoInput" class="form-control font-monospace text-uppercase" placeholder="যেমন: A12345678" value="<?= e($old['passport_no'] ?? '') ?>">
+                            <input type="text" name="passport_no" id="passportNoInput" class="form-control font-monospace text-uppercase" value="<?= e($old['passport_no'] ?? '') ?>">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-semibold text-dark">জাতীয়তা <span class="text-danger">*</span></label>
-                            <input type="text" name="nationality" id="nationalityInput" class="form-control" placeholder="যেমন: ব্রিটিশ, আমেরিকান, কানাডিয়ান, মালয়েশিয়ান" value="<?= e($old['nationality'] ?? '') ?>">
+                            <input type="text" name="nationality" id="nationalityInput" class="form-control" value="<?= e($old['nationality'] ?? '') ?>">
                         </div>
                     </div>
                 </div>
@@ -148,11 +148,11 @@ $selected_type = $old['citizen_type'] ?? 'Bangladeshi';
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
                         <label class="form-label small fw-semibold text-dark">পিতার নাম</label>
-                        <input type="text" name="father_name" class="form-control" placeholder="পিতার নাম লিখুন" value="<?= e($old['father_name'] ?? '') ?>">
+                        <input type="text" name="father_name" class="form-control" value="<?= e($old['father_name'] ?? '') ?>">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label small fw-semibold text-dark">মাতার নাম</label>
-                        <input type="text" name="mother_name" class="form-control" placeholder="মাতার নাম লিখুন" value="<?= e($old['mother_name'] ?? '') ?>">
+                        <input type="text" name="mother_name" class="form-control" value="<?= e($old['mother_name'] ?? '') ?>">
                     </div>
                 </div>
 
@@ -175,7 +175,7 @@ $selected_type = $old['citizen_type'] ?? 'Bangladeshi';
                 <!-- Row 4: Mobile Number -->
                 <div class="mb-3">
                     <label class="form-label small fw-semibold text-dark">মোবাইল নম্বর <span class="text-danger">*</span></label>
-                    <input type="text" name="mobile_no" class="form-control font-monospace" placeholder="যেমন: 01712345678 (১১ ডিজিট)" maxlength="15" value="<?= e($old['mobile_no'] ?? '') ?>" required>
+                    <input type="text" name="mobile_no" class="form-control font-monospace" maxlength="15" value="<?= e($old['mobile_no'] ?? '') ?>" required>
                     <div class="form-text small" id="mobileHelpText">প্রোটোটাইপ নিয়মানুযায়ী মোবাইল নম্বর ঠিক ১১ ডিজিটের হতে হবে।</div>
                 </div>
 
@@ -209,7 +209,7 @@ $selected_type = $old['citizen_type'] ?? 'Bangladeshi';
                 <!-- Row 6: Full Address -->
                 <div class="mb-3">
                     <label class="form-label small fw-semibold text-dark">পূর্ণ বর্তমান ঠিকানা <span class="text-danger">*</span></label>
-                    <textarea name="full_address" class="form-control" rows="2" placeholder="হোল্ডিং/গ্রাম, রাস্তা, এলাকা..." required><?= e($old['full_address'] ?? '') ?></textarea>
+                    <textarea name="full_address" class="form-control" rows="2" required><?= e($old['full_address'] ?? '') ?></textarea>
                 </div>
 
                 <!-- Row 7: Optional Photo Upload -->

@@ -106,9 +106,10 @@ $result = mysqli_stmt_get_result($stmt);
 
             <!-- Search Form -->
             <form method="GET" class="d-flex flex-wrap gap-2 align-items-center">
+                <label for="searchQueryCitizen" class="form-label small fw-semibold text-muted mb-0">নাগরিক অনুসন্ধান:</label>
                 <div class="input-group input-group-sm" style="max-width: 280px;">
                     <span class="input-group-text bg-light"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
-                    <input type="text" name="q" class="form-control" placeholder="এনআইডি, পাসপোর্ট, নাম লিখুন..." value="<?= e($search_query) ?>">
+                    <input type="text" id="searchQueryCitizen" name="q" class="form-control" aria-label="নাগরিক অনুসন্ধান" value="<?= e($search_query) ?>">
                 </div>
 
                 <button class="btn btn-sm btn-primary" type="submit">অনুসন্ধান</button>

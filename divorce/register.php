@@ -190,9 +190,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 <!-- Linked Marriage Registration Number -->
                 <div class="mb-3">
-                    <label class="form-label small fw-semibold text-dark">Related Marriage Registration Number <span class="text-danger">*</span></label>
+                    <label for="regNoInput" class="form-label small fw-semibold text-dark">Related Marriage Registration Number <span class="text-danger">*</span></label>
                     <div class="input-group">
-                        <input type="text" name="marriage_registration_number" id="regNoInput" class="form-control font-monospace" placeholder="e.g. MR-2026-000001" value="<?= e($prefill_reg) ?>" required>
+                        <input type="text" name="marriage_registration_number" id="regNoInput" class="form-control font-monospace" value="<?= e($prefill_reg) ?>" required>
                         <button type="button" class="btn btn-outline-primary" onclick="lookupMarriage()"><i class="fa-solid fa-magnifying-glass me-1"></i> Verify Marriage</button>
                     </div>
                 </div>
@@ -243,8 +243,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 <!-- Comments & Mediation Notes -->
                 <div class="mb-3">
-                    <label class="form-label small fw-semibold text-dark">Arbitration / Case Comments &amp; Notes</label>
-                    <textarea name="comments" class="form-control" rows="3" placeholder="Enter details of notice served, arbitration meeting dates, or court case decree numbers..."></textarea>
+                    <label for="caseComments" class="form-label small fw-semibold text-dark">Arbitration / Case Comments &amp; Notes</label>
+                    <textarea id="caseComments" name="comments" class="form-control" rows="3"></textarea>
                 </div>
 
                 <!-- Supporting Document Upload -->
